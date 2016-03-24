@@ -1,1 +1,0 @@
-$dbCurrent.data | ? { ($_.UserRating -band -bnot 64) -le 3 } | ? { $_.FilePath -match 'cc365' } | ? { !($_.FilePath -match 'csr049') } | % { remove-item -verbose "E:\$($_.FilePath)$($_.FileName)" }
