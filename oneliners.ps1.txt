@@ -1,0 +1,31 @@
+select @{n='x';e={$_*$_}}
+$localCred = (get-credential "$env:USERDOMAIN\$env:USERNAME").GetNetworkCredential()
+$after[1].get_Attributes() | select @{n='Name';e={$_.get_LocalName()}},@{n='Value';e={$_."#text"}}
+(get-item "hklm:software\microsoft\shared tools\web server extensions\15.0").getvalue("version")
+$os = gwmi Win32_OperatingSystem; ((Get-Date)-$os.converttodatetime($os.lastbootuptime))
+http://www.youtube.com/v/{}&amp;hl=en&amp;fs=1&amp;  http://www.youtube.com/watch?v=pwbA4f1O93s
+(get-history -count ([Int16]::MaxValue-1)) | ... CommandLine | out-file x.ps1
+gwmi Win32_LogicalDisk -Filter "Size >= 0" | select DeviceID,@{n='FreeSpace';e={$_.FreeSpace.ToString("N0")}},@{n='Size';e={$_.Size.ToString("N0")}},{$_.VolumeName}
+$host.UI.RawUI.WindowTitle = "Windows PowerShell ($([Environment]::MachineName))"
+if ( (New-Object System.Security.Principal.WindowsPrincipal([System.Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([System.Security.Principal.WindowsBuiltInRole]::Administrator) ) {
+dir | %{ $_.Attributes = $_.Attributes -band -bnot [System.IO.FileAttributes]::ReadOnly }
+[Enum]::GetValues([Environment+SpecialFolder]) | select @{n='Name';e={$_}},@{n='Path';e={[Environment]::GetFolderPath($_)}} | ft -auto -wrap
+$pubweb = [Microsoft.SharePoint.Publishing.PublishingWeb]::GetPublishingWeb($web)
+[System.Reflection.Assembly]::LoadWithPartialName("Microsoft.SharePoint.Publishing")
+$wc.DownloadString("http://spdev25:7000/_layouts/15/ScriptResx.ashx?name=CMSClientResources&culture=en-US")
+
+[Environment]::CurrentDirectory=$pwd
+[System.Reflection.Assembly]::LoadFrom("C:\app\ScraperService\HtmlAgilityPack.dll"); $hd = New-Object HtmlAgilityPack.HtmlDocument
+(Get-Clipboard).Split("`n`r", [StringSplitOptions]::RemoveEmptyEntries) | % { dir "\\relemeas17\ScraperService\RequestsOut\*$_*" }
+
+(gp HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters).SearchList
+([adsisearcher]"(&(objectCategory=computer)(name=*erich*))").findAll() | % {([adsi]$_.path)} | select cn,operatingsystem
+([adsisearcher]"(&(objectCategory=user)(sAMAccountName=erich.stehr))").findOne() | select @{n='PwdLastSet';e={[DateTime]::FromFileTime($_.properties.pwdlastset[0])}}
+Get-Clipboard | % { $_.Split("`n") } | % { if ($_ -match '\d*[.:] (.*$)') { $matches[1] } } # remove /d*[:.]/ leader from clipboard lines
+[appdomain]::currentdomain.GetAssemblies() | Foreach-Object {$_.gettypes()} | sort BaseType
+[appdomain]::currentdomain.GetAssemblies() | where {!($_.globalassemblycache)}
+Get-WmiObject win32_groupuser | ? { $_.partcomponent -match 'name="erich"'} | % {[wmi]$_.groupcomponent} # 2012/12/16 technet heyscriptingguy
+Get-wmiobject win32_service -Filter "startmode = 'auto' AND state != 'running' AND Exitcode !=0 " -ComputerName . | select name, startname, exitcode # 2012/12/18 technet heyscriptingguy
+gwmi Win32_Process -Filter "Name='powershell.exe'" | ft -auto -wrap __PATH,CommandLine #2015/06/18
+# merge lines from console Select All, Copy at 120 column output
+( (Get-Clipboard).Split([Environment]::NewLine[1]) | & { begin { $s = "" } process { if ($_.Length -eq 121) { $s += $_ } elseif ($_.Length -eq 120) { $s += $_ + ' ' } else { "$s$_"; $s = "" } } end { if ($s -ne "") { $s } } } )

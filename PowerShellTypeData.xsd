@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- http://keithhill.spaces.live.com/Blog/cns!5A8D2641E0963A97!722.entry 2007/03/31 -->
+<xs:schema 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:vs="http://schemas.microsoft.com/Visual-Studio-Intellisense" 
+  xmlns:pstd="http://schemas.microsoft.com/PowerShell/TypeData/2007/04"
+  targetNamespace="http://schemas.microsoft.com/PowerShell/TypeData/2007/04" 
+  elementFormDefault="qualified" 
+  attributeFormDefault="unqualified" 
+  vs:friendlyname="PowerShell Type Data" 
+  vs:ishtmlschema="false"> 
+
+  <xs:element name="Name" type="xs:string" /> 
+  <xs:complexType name="NoteProperty"> 
+      <xs:all> 
+        <xs:element ref="pstd:Name" /> 
+        <xs:element name="Value" type="xs:string" /> 
+      </xs:all> 
+    </xs:complexType> 
+  <xs:complexType name="AliasProperty"> 
+      <xs:all> 
+        <xs:element ref="pstd:Name" /> 
+        <xs:element name="ReferencedMemberName" type="xs:string" /> 
+      </xs:all> 
+    </xs:complexType> 
+  <xs:complexType name="ScriptMethod"> 
+      <xs:all> 
+        <xs:element ref="pstd:Name" /> 
+        <xs:element name="Script" type="xs:string" /> 
+      </xs:all> 
+    </xs:complexType> 
+  <xs:complexType name="ScriptProperty"> 
+      <xs:sequence> 
+        <xs:element ref="pstd:Name" minOccurs="1" maxOccurs="1" /> 
+        <xs:element name="GetScriptBlock" type="xs:string" minOccurs="0" maxOccurs="1" /> 
+        <xs:element name="SetScriptBlock" type="xs:string" minOccurs="0" maxOccurs="1" /> 
+      </xs:sequence> 
+    </xs:complexType> 
+  <xs:complexType name="CodeReference"> 
+      <xs:all> 
+        <xs:element name="TypeName"/> 
+        <xs:element name="MethodName"/> 
+      </xs:all> 
+    </xs:complexType> 
+  <xs:complexType name="CodeMethod"> 
+      <xs:sequence> 
+        <xs:element name="Name" type="xs:string"/> 
+        <xs:element name="CodeReference" type="pstd:CodeReference"/> 
+      </xs:sequence> 
+    </xs:complexType> 
+  <xs:complexType name="CodeProperty"> 
+      <xs:all> 
+        <xs:element name="Name" type="xs:string" /> 
+        <xs:element name="GetCodeReference" type="pstd:CodeReference" minOccurs="0" maxOccurs="1" /> 
+        <xs:element name="SetCodeReference" type="pstd:CodeReference" minOccurs="0" maxOccurs="1" /> 
+      </xs:all> 
+    </xs:complexType> 
+  <xs:complexType name="PropertySet"> 
+    <xs:sequence> 
+      <xs:element ref="pstd:Name" /> 
+      <xs:element name="ReferencedProperties" /> 
+      </xs:sequence> 
+    </xs:complexType> 
+  <xs:complexType name="Members"> 
+    <xs:sequence> 
+      <xs:choice maxOccurs="unbounded"> 
+      <xs:element name="NoteProperty" type="pstd:NoteProperty" /> 
+      <xs:element name="AliasProperty" type="pstd:AliasProperty" /> 
+      <xs:element name="ScriptProperty" type="pstd:ScriptProperty" /> 
+      <xs:element name="CodeProperty" type="pstd:CodeProperty" /> 
+      <xs:element name="ScriptMethod" type="pstd:ScriptMethod" /> 
+      <xs:element name="CodeMethod" type="pstd:CodeMethod" /> 
+      <xs:element name="MemberSet" type="pstd:MemberSet" /> 
+      <xs:element name="PropertySet" type="pstd:PropertySet" /> 
+      </xs:choice> 
+    </xs:sequence> 
+  </xs:complexType> 
+  <xs:complexType name="MemberSet"> 
+      <xs:all> 
+        <xs:element name="Name" type="xs:string"/> 
+        <xs:element name="Members" type="pstd:Members" /> 
+      </xs:all> 
+  </xs:complexType> 
+  
+  <xs:element name="Types"> 
+    <xs:complexType> 
+      <xs:sequence> 
+        <xs:element name="Type" maxOccurs="unbounded"> 
+          <xs:complexType> 
+            <xs:sequence> 
+              <xs:element name="Name" type="xs:string" /> 
+              <xs:element name="Members" type="pstd:Members" /> 
+            </xs:sequence> 
+          </xs:complexType> 
+        </xs:element> 
+      </xs:sequence> 
+    </xs:complexType> 
+  </xs:element> 
+</xs:schema>

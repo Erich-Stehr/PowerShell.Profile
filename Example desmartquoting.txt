@@ -1,0 +1,1 @@
+gc x.txt | % { $_ -replace [char]252,'"' -replace [char]8230,'...' -replace [char]224,' ' -replace [char]8226,'*' -replace [char]8221,'"' -replace [char]8220,'"' -replace [char]8217,'''' -replace [char]8216,'''' -replace [char]8212,'-' } | set-content -enc utf8 x2.txt

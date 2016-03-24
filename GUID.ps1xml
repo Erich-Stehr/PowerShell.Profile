@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<!-- http://thepowershellguy.com/blogs/posh/archive/2009/07/24/powershell-display-a-guid-as-string-by-default.aspx -->
+<Types>  
+    <Type>  
+        <Name>System.Guid</Name>  
+        <Members>  
+            <ScriptProperty> 
+                <Name>GUID</Name> 
+                 <GetScriptBlock> 
+                    $this.Tostring()
+                </GetScriptBlock> 
+            </ScriptProperty>  
+        </Members>  
+    </Type>  
+</Types>
+

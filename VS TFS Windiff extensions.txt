@@ -1,0 +1,1 @@
+.bat,.c,.cmd,.config,.cpp,.cs,.csproj,.h,.resx,.sln,.sql,.txt,.vbproj,.vdproj,.xml,.xsd,.ps1,.dwp,.webpart,.xslt,.xsl

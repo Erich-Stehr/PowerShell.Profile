@@ -1,0 +1,52 @@
+# uses adb.exe -d to get object directory listing from connected Android device
+
+# 2012/04/03 edited from http://get-spscripts.com/2011/02/finding-site-template-names-and-ids-in.html
+# example: $ht = @{"foo"="bar", "baz"="quuz"}; New-PSObjectFromHashtable $ht
+# 2012/04/25: reedited as filter
+filter New-PSObjectFromHashtable([Parameter(Mandatory=$true,ValueFromPipeline=$true,Position=0)]$templateValues, $keys=$(@($templateValues.Keys)))
+{
+	New-Object PSObject -Property $templateValues | Select @($keys)
+}
+
+$androidPlatformTools = "h:\users\erichs\Development\Android\android-sdk-windows\platform-tools"
+start-process -wait -WindowStyle Hidden "$androidPlatformTools\adb.exe" start-server # keeps daemon from hanging script
+& "$androidPlatformTools\adb.exe" -d shell ls -l $args[0] |
+% {
+	$x = $_ 
+	if (![string]::IsNullOrEmpty($x)) {
+		if (($x.Length -lt 56) -or ($x.StartsWith("/"))) {
+			write-warning $x
+		} else {
+			$y = @{}
+			$y.Add("modeUnix",$x.Substring(0,10))
+			$y.Add("Owner",$x.Substring(11,8))
+			$y.Add("Group",$x.Substring(20,10))
+			#$l = 0; try { $l = [int]$x.Substring(29,10) } catch { }
+			$rest = $x.Substring(30).Split(" ", 4, [StringSplitOptions]::RemoveEmptyEntries)
+			$missingCount = 0
+			$l = $null; 
+			if ($x.Substring(29,9).Trim() -eq "") {
+				$missingCount++
+			} else {
+				try { $l = [int]$rest[0] } catch { }
+			}
+			$y.Add("Length",$l)
+			if ($x.Substring(39,16).Trim() -eq "") {
+				$missingCount = $missingCount + 2
+			} else {
+				#$t = $null; try { $t = [DateTime]$x.Substring(39,16) } catch { }
+				$t = $null; try { $t = [DateTime]"$($rest[1-$missingCount]) $($rest[2-$missingCount])" } catch { }
+				$y.Add("LastWriteTime",$t)
+			}
+			if ($x.Length -le 55) { Write-Warning "Short line:$x"}
+			$off = 55
+			while ($x[$off] -eq ' ') { ++$off }
+			$y.Add("Name",$x.Substring($off))
+			New-Object PSObject -Property $y  # New-PSObjectFromHashtable
+		}
+	}
+}
+
+# adbls.ps1 /mnt/sdcard/Download/Judas* | ? { !(New-Object IO.FileInfo "C:\Multimedia Files\MP3\Judas Priest\The Essential Judas Priest\$($_.Name)").Exists }
+# $artist="BonnieRaitt"; $subpath="Bonnie Raitt\Slipstream" ; adbls.ps1 "/mnt/sdcard/Download/$artist*" | ? { !(New-Object IO.FileInfo "C:\Multimedia Files\MP3\$subpath\$($_.Name)").Exists } | % { $_; h:\users\erichs\Development\android\android-sdk-windows\platform-tools\adb.exe pull ("/mnt/sdcard/Download/$($_.Name)") "C:\Multimedia Files\MP3\$subpath" }
+# dir 'H:\users\erichs\stuff\inept epubs\*.epub','H:\users\erichs\stuff\inept epubs\*.pdf' | WrittenDuringLastSpan -span 3.0:0 | ? { !((adbls.ps1 "/mnt/sdcard/Books/$($_.Name)").LastWriteTime) } | % { $_.Name ; H:\users\erichs\Development\android\android-sdk-windows\platform-tools\adb.exe push "$($_.FullName)" /mnt/sdcard/Books }

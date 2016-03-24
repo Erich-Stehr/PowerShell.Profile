@@ -1,0 +1,1 @@
+dir *.css | % { $hide = $false ; $($_.Name),(gc $_) | % { if ($hide) { if ($_.Contains("font") -or $_.Contains([char]125)) { $_ } ; $hide = !($_.Contains([char]125)) } else { $_ ; $hide = $_.Contains([char]123) -and !($_.Contains([char]125))} } } | out-file -encoding ASCII override.csss

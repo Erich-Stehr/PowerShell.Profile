@@ -1,0 +1,10 @@
+get-wmiobject -query "Select * from CIM_DataFile Where Extension = 'pst'" -ComputerName (Get-Content C:\powershell\computers.txt) #http://thepowershellguy.com/blogs/posh/archive/2008/12/16/powershell-ctp3-teaser-list-pst-files-on-a-list-of-computers-using-background-jobs.aspx 
+
+get-wmiobject -query "Select IPAddress from Win32_NetworkAdapterConfiguration where IPEnabled=TRUE" | ? { $_.IPAddress -match '^192.168.2' } | %{ $_.IPAddress } # 20090131 derivation from http://msdn.microsoft.com/en-us/library/aa394595.aspx
+
+(get-item "hklm:software\microsoft\shared tools\web server extensions\12.0").getvalue("version")
+
+(Get-WmiObject Win32_OperatingSystem).
+
+(Get-WmiObject Win32_Battery)
+

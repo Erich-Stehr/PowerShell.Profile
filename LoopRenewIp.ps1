@@ -1,0 +1,1 @@
+while ( ipconfig /renew "Local Area Connection" | select-string "An error occurred while renewing interface" -quiet ) {write-host ('Failed at ' + [DateTime]::Now.ToString()) } ; write-host ( "Succeeded at " + [DateTime]::Now.ToString() ) ; ipconfig

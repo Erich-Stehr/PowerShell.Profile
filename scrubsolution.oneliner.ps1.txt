@@ -1,0 +1,1 @@
+Get-SPSolution | % { $_; if ($_.Deployed) { Uninstall-SPSolution -Identity $_ -AllWebApplications -Confirm:$false ; if ($?) { do { sleep 15 ; $_ } while ($_.Deployed) } } ; Remove-SPSolution $_ -confirm:$false }

@@ -1,0 +1,49 @@
+<!--
+   PowerShell types extension to make it easier to work
+   COM objects when there is no type wrapper.
+
+From Windows PowerShell In Action by Bruce Payette
+-->
+<Types>
+ <Type>
+  <Name>System.__ComObject</Name>
+   <Members>
+    <ScriptMethod>
+     <Name>GetProperty</Name> 
+     <Script>
+       [System.__ComObject].invokeMember($args[0],
+          [System.Reflection.BindingFlags]::GetProperty,
+          $null, $this, $null)
+     </Script>
+     </ScriptMethod>
+     <ScriptMethod>
+     <Name>SetProperty</Name> 
+     <Script>
+       $name, $propArgs = $args  
+       [System.__ComObject].invokeMember($name,
+         [System.Reflection.BindingFlags]::GetProperty,
+         $null, $this, @($propArgs))
+     </Script>
+     </ScriptMethod>
+     <ScriptMethod>
+     <Name>InvokeParamProperty</Name>
+     <Script>
+       $name, $methodargs=$args
+       [System.__ComObject].invokeMember($args[0],
+         [System.Reflection.BindingFlags]::GetProperty,
+         $null, $this, @($methodargs))
+     </Script>
+     </ScriptMethod>
+     <ScriptMethod>
+     <Name>InvokeMethod</Name>
+     <Script>
+        $name, $methodargs=$args
+        [System.__ComObject].invokeMember($name,
+          [System.Reflection.BindingFlags]::InvokeMethod,
+          $null, $this, @($methodargs))
+     </Script>
+     </ScriptMethod>
+    </Members>
+  </Type>
+</Types>   
+        
