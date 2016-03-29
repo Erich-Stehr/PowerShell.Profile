@@ -5,7 +5,7 @@ $counts = $tables | % { Invoke-SqlCommandCe.ps1 -dataSource $datasource -databas
 
 $tables | %{
 	if ($verbose) { Write-Verbose $_ }
-	bcp "$database.dbo.$_" format nul -S $datasource -T -w -x -f "$_.format.xml"
-	bcp "$database.dbo.$_" out "$_.dat" -S $datasource -T -f "$_.format.xml" 
+	bcp "$database.dbo.$_" format nul -S $datasource -T -E -w -x -f "$_.format.xml"
+	bcp "$database.dbo.$_" out "$_.dat" -S $datasource -T -E -f "$_.format.xml" 
 }
-# import with # % { bcp "$database.dbo.$_" in $_.dat -S $datadestination -T -f "$_.format.xml" }
+# import with # % { bcp "$database.dbo.$_" in $_.dat -S $datadestination -T -E -f "$_.format.xml" }
