@@ -8,4 +8,4 @@ $tables | %{
 	bcp "$database.dbo.$_" format nul -S $datasource -T -E -w -x -f "$_.format.xml"
 	bcp "$database.dbo.$_" out "$_.dat" -S $datasource -T -E -f "$_.format.xml" 
 }
-# import with # % { bcp "$database.dbo.$_" in $_.dat -S $datadestination -T -E -f "$_.format.xml" }
+# assuming all the tables are set up, import with #  dir *.dat | % { $_.BaseName } | % { $_; bcp "$database.dbo.$_" in "$_.dat" -S "$datadestination" -T -E -f "$_.format.xml" }
