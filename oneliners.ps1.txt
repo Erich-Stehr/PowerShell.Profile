@@ -23,6 +23,8 @@ $pubweb = [Microsoft.SharePoint.Publishing.PublishingWeb]::GetPublishingWeb($web
 (gp HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters).SearchList
 ([adsisearcher]"(&(objectCategory=computer)(name=*erich*))").findAll() | % {([adsi]$_.path)} | select cn,operatingsystem
 ([adsisearcher]"(&(objectCategory=user)(sAMAccountName=erich.stehr))").findOne() | select @{n='PwdLastSet';e={[DateTime]::FromFileTime($_.properties.pwdlastset[0])}}
+([ADSISEARCHER]"samaccountname=$($env:USERNAME)").Findone().Properties.memberof | #2016/04/05 what groups is $env:USERNAME a member of # also `whoami /groups /fo csv | ConvertFrom-csv` or `net user $env:USERNAME /domain`
+
 Get-Clipboard | % { $_.Split("`n") } | % { if ($_ -match '\d*[.:] (.*$)') { $matches[1] } } # remove /d*[:.]/ leader from clipboard lines
 [appdomain]::currentdomain.GetAssemblies() | Foreach-Object {$_.gettypes()} | sort BaseType
 [appdomain]::currentdomain.GetAssemblies() | where {!($_.globalassemblycache)}
