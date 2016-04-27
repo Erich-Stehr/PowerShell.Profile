@@ -1,8 +1,8 @@
 param (
 	[Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-	[string] 
+	[string[]] 
 	# Path to file to replace within
-	$path=$(throw "Requires file to replace within"),
+	$path,
 	[System.Collections.Hashtable]
 	# key,value = exact match, replacement
 	$exact=@{},
