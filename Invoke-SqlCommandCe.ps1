@@ -43,6 +43,8 @@
 ##		Note: no schema if xls* file not found
 ##	 "C:\Users\erich Stehr\Documents\Supportmetadata-Cleaned.xlsx" -sql 'select * from [Trimmed2$]' -tableNames
 ##	 LOUT "" -provider 'OraOLEDB.Oracle' -credential $oraCred -sql 'SELECT * FROM MAC_ITEM_CATEGORIES_V WHERE CATEGORY_SET_ID = 10 AND CATEGORY_SEGMENT2 != ''UNASSIGNED'' AND ORGANIZATION_ID = 9' #xxxlousp@//db90.coresys.com:45001/LOUT 
+## 20160520: note re: LocalDb use
+##	Invoke-SqlCommandCe.ps1 -provider SQLNCLI11 -dataSource '(localdb)\mssqllocaldb' -database master
 
 param(
     [string] $dataSource = ".\SQLEXPRESS",
