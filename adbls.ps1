@@ -13,11 +13,12 @@ filter New-PSObjectFromHashtable([Parameter(Mandatory=$true,ValueFromPipeline=$t
 # name in field 7 may have whitespace, but (assumption) not leading whitespace
 $script:re = [regex]"^(\S+)\s+(\S+)\s+(\S+)\s{1,8}(\d*)\s+(\S+)\s+(\S+)\s+(.*)$"
 $androidPlatformTools = "h:\users\erichs\Development\Android\android-sdk-windows\platform-tools"
-if ($args[0] -notcontains ' ') {
+if ($args[0].Contains(' ')) {
 	$a = $args[0]
 } else {
-	$a = ([string]::Concat('"""',$args[0],'"""')) # double double-quote for space passing
+	$a = ([regex]"([ ()])").Replace($args[0], '\$0') # mksh takes "\ " to quote space
 }
+
 start-process -wait -WindowStyle Hidden "$androidPlatformTools\adb.exe" start-server # keeps daemon from hanging script
 & "$androidPlatformTools\adb.exe" -d shell ls -l $a |
 % {
