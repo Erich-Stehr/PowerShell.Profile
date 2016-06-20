@@ -24,7 +24,9 @@ Import-PSModuleConditionally PSCX
 $ScriptDirBlock = { Split-Path $MyInvocation.ScriptName -Parent }
 #"PARENT:  Before dot-sourcing libary ScriptDir is $(&$ScriptDirBlock)"
 # or from later comment 
-function ScriptRoot { Split-Path $MyInvocation.ScriptName }
+function ScriptRoot { if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path $MyInvocation.ScriptName } }
+# PSSCriptRoot in modules for PoSH 2.0, all for 3.0+
+
 
 function prompt
 {
