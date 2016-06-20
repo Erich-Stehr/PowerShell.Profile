@@ -216,7 +216,7 @@ function Get-Hash
 	}
 }
 # 2007/01/05: http://keithhill.spaces.live.com/Blog/cns!5A8D2641E0963A97!675.entry
-if (!(Get-Command -CommandType Alias gtn)) { # conditional to prevent error when PSCX already loaded
+if (!(Get-Command -CommandType Alias gtn -ea SilentlyContinue)) { # conditional to prevent error when PSCX already loaded
 set-alias gtn Get-TypeName
 function Get-TypeName([switch]$FullName=$false) {
     begin {
