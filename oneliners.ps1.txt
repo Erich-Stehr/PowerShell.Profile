@@ -34,3 +34,8 @@ gwmi Win32_Process -Filter "Name='powershell.exe'" | ft -auto -wrap __PATH,Comma
 
 # merge lines from console Select All, Copy at 120 column output
 ( (Get-Clipboard).Split([Environment]::NewLine[1]) | & { begin { $s = "" } process { if ($_.Length -eq 121) { $s += $_ } elseif ($_.Length -eq 120) { $s += $_ + ' ' } else { "$s$_"; $s = "" } } end { if ($s -ne "") { $s } } } )
+
+$passparts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`~!@#$%^&*()_+-={}|[]\:";''<>?,./' # from Windows Live ID and Account Mangement Help
+$r = new-object Random ([Int32]([DateTime]::Now.Ticks -band 0x7fffffff)); 0..15 | % { write-host -NoNewline $passparts.Chars($r.Next(0,$passparts.Length)) } ; write-host ""
+# $r = $r = [Security.Cryptography.RNGCryptoServiceProvider]::Create(); # need to filter from $r.GetBytes(Byte[])
+
