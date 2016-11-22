@@ -782,9 +782,9 @@ function Pseudolocalize ([string]$s)
 	$sb.ToString()
 }
 
-# 2013/04/18: 'fix' MS IT powersaving mode
-if ((gwmi Win32_OperatingSystem).Version -gt "5.3") {
-	if (powercfg /getactivescheme | ? { $_.Split(' ',6)[5].StartsWith('(Microsoft IT Customized')}) {
+# 2013/04/18: 'fix' MS IT powersaving mode : 2016/11/22 W10 Software Center settings can switch off IT power settings
+if ([version]((gwmi Win32_OperatingSystem).Version) -gt [version]"5.3") {
+	if (powercfg /getactivescheme | ? { !($_.Split(' ',6)[5].StartsWith('(High performance')) }) {
 		$g = (powercfg /l | ? { $_.Split(' ',6)[5] -eq '(High performance)'} | % { $_.Split(' ',6)[3]}) 
 		if ($null -ne $g) {
 			"Resetting powercfg" | fl
