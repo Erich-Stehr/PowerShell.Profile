@@ -41,3 +41,51 @@ function global:ScrubBlankLines
 	$selection.MoveToPoint($s, $false)
 	$selection.MoveToPoint($f, $true)	
 }
+
+function global:CollapseToDefinitions
+{
+	function DefinitionCollapsar([EnvDTE.CodeElement]$ceRoot)
+	{
+	    if ($ceRoot.Kind -eq [EnvDTE.vscmElement]::vsCMElementNamespace) {
+                (Get-Interface $ceRoot [EnvDTE.CodeNamespace]).Members | % {
+		    DefinitionCollapsar($_)
+		}
+            } ElseIf ($ceRoot.Kind -eq [EnvDTE.vscmElement]::vsCMElementClass) {
+                (Get-Interface $ceRoot [EnvDTE.CodeClass]).Members | % {
+                    DefinitionCollapsar($_)
+                }
+            } ElseIf ($ceRoot.Kind -eq [EnvDTE.vscmElement]::vsCMElementStruct) {
+                (Get-Interface $ceRoot [EnvDTE.CodeStruct]).Members | % {
+                    DefinitionCollapsar($_)
+                }
+            } ElseIf ($ceRoot.Kind -eq [EnvDTE.vscmElement]::vsCMElementFunction) {
+                $DTE.ActiveDocument.Selection.MoveToPoint($ceRoot.GetStartPoint([EnvDTE.vsCMPart]::vsCMPartNavigate))
+                $DTE.ExecuteCommand("Edit.ToggleOutliningExpansion")
+	    } ElseIf ($ceRoot.Kind -eq [EnvDTE.vscmElement]::vsCMElementProperty) {
+                $cp = $null
+                Try {
+                    $cp = (get-interface $ceRoot [EnvDTE.CodeProperty])
+                } Catch [System.Exception] {
+                }
+                If ($cp.Getter -ne $null) {
+                    DefinitionCollapsar($cp.Getter)
+                }
+                If ($cp.Setter -ne $null) {
+                    DefinitionCollapsar($cp.Setter)
+                }
+                $DTE.ActiveDocument.Selection.MoveToPoint($ceRoot.GetStartPoint([EnvDTE.vsCMPart]::vsCMPartWholeWithAttributes))
+                $DTE.ExecuteCommand("Edit.ToggleOutliningExpansion")
+            }
+        }
+	
+        $cp = $DTE.ActiveDocument.Selection.ActivePoint.CreateEditPoint()
+	
+        $DTE.ExecuteCommand("Edit.StopOutlining")
+        $DTE.ExecuteCommand("Edit.StartAutomaticOutlining")
+        $DTE.ActiveDocument.ProjectItem.FileCodeModel.CodeElements | % {
+            DefinitionCollapsar($_)
+        }
+	
+        $DTE.ActiveDocument.Selection.MoveToPoint($cp)
+        $cp.TryToShow([EnvDTE.vsPaneShowHow]::vsPaneShowCentered)
+}
