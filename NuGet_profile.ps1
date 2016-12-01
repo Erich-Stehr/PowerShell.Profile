@@ -64,8 +64,14 @@ function global:CollapseToDefinitions
                 DefinitionCollapsar($_)
             }
         } ElseIf ($ceRoot.Kind -eq [EnvDTE.vscmElement]::vsCMElementFunction) {
-            $DTE.ActiveDocument.Selection.MoveToPoint($ceRoot.GetStartPoint([EnvDTE.vsCMPart]::vsCMPartNavigate))
-            $DTE.ExecuteCommand("Edit.ToggleOutliningExpansion")
+            Write-Debug ("DefinitionCollapsar: Kind=vsCMElementFunction: {0}" -f $ceRoot.Name)
+            try {
+                $sp = $ceRoot.GetStartPoint([EnvDTE.vsCMPart]::vsCMPartNavigate)
+                $DTE.ActiveDocument.Selection.MoveToPoint($sp)
+                $DTE.ExecuteCommand("Edit.ToggleOutliningExpansion")
+            } catch {
+                # skip, as implicit property accessors don't have a start point to navigate to, e.g. `bool Success { get; set; }`
+            }
         } ElseIf ($ceRoot.Kind -eq [EnvDTE.vscmElement]::vsCMElementProperty) {
             $cp = $null
             Try {
