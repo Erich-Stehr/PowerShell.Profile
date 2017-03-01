@@ -1,7 +1,8 @@
 [CmdletBinding(ConfirmImpact=[System.Management.Automation.ConfirmImpact]::Medium,SupportsShouldProcess=$true)]
 param (
-	[Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-	[string] 
+	[Parameter(Mandatory=$true,ValueFromPipeline=$true,ValueFromPipelineByPropertyName=$true)]
+	[Alias('Page','URL')]
+	[string[]] 
 	# (local) site url to work with
 	$siteUrl=$(throw "Requires (local) site URL to work with"),
 	[switch]
