@@ -8,7 +8,10 @@ param (
 	# certificate store to import to
 	$CertStoreLocation="Cert:\LocalMachine\My",
 	[switch]
-	$passThru=$false
+	$passThru=$false,
+	[switch]
+	# create fresh .cer file next to source .pfx files
+	$CerFromPfx=$false
 	)
 Begin {
 	function ScriptRoot { if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path $MyInvocation.ScriptName } }
@@ -77,6 +80,9 @@ Begin {
 						$certStore.Open([System.Security.Cryptography.X509Certificates.OpenFlags]::MaxAllowed)
 						$certStore.Add($cert)
 						$certStore.Close()
+					}
+					if ($CerFromPfx) {
+						Set-Content -Path ([IO.Path]::ChangeExtension($certFile, '.cer')) -Value ($cert.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::SerializedCert)) -Encoding Byte -Force
 					}
 				} else {
 					$cert = Import-Certificate -Confirm:$false -FilePath $certFile -CertStoreLocation $CertStoreLocation
