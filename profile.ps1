@@ -823,4 +823,11 @@ function CDSpecial([Environment+SpecialFolder]$specialFolder='Startup')
 	cd ([Environment]::GetFolderPath($specialFolder))
 }
 
+# 2017/03/27 Convert hex string '7B00220056006500' into (Unicode) string '{"Ve'
+# uses RegExp substitution $0 to simulate BitConverter output, then splits and makes byte[] to pull from
+function ConvertFrom-HexString([string]$s, [System.Text.Encoding]$encoding=[System.Text.Encoding]::Unicode)
+{
+	$encoding.GetString([Byte[]]@(($s -replace '(..)','0x$0-').Trim('-').Split('-')))
+}
+
 #
