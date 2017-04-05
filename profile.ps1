@@ -805,7 +805,8 @@ if ($null -ne $spVersion) {
 	    $global:sphive = [Microsoft.SharePoint.Utilities.SPUtility]::GetGenericSetupPath("").Trim('\') #2012/03/27
     }
 }
-if (!(Test-Path $HOME) -or ($PWD -ne $HOME)) { Set-Location $env:USERPROFILE ; (get-psprovider 'FileSystem').Home = $PWD }
+# only cd to userprofile if we're in system directory (as admin launch, determine from ComSpec) 2017/04/05
+if ($PWD.Path -eq (split-path ${env:ComSpec} -parent)) { Set-Location $env:USERPROFILE ; (get-psprovider 'FileSystem').Home = $env:USERPROFILE }
 [Environment]::CurrentDirectory = $PWD
 #
 
