@@ -42,5 +42,8 @@ $r = new-object Random ([Int32]([DateTime]::Now.Ticks -band 0x7fffffff)); 0..15 
 # $r = $r = [Security.Cryptography.RNGCryptoServiceProvider]::Create(); # need to filter from $r.GetBytes(Byte[])
 
 Write-Debug ((New-Object System.Management.Automation.PSCredential ('x', $result)).GetNetworkCredential().Password) # dump Security.SecureString $result to debug stream 2017/01/23
+$cert = dir Cert:\LocalMachine\My\4e* ; Set-Content -Path "($cert.Subject).cer" -Value ($cert.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::SerializedCert)) -Encoding Byte -Force
+dir Cert:\LocalMachine\My\4e* | % { Set-Content -Path ([IO.Path]::ChangeExtension($_.Subject, ".$($password).pfx")) -Value ($_.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx), $password) -Encoding Byte -Force
+dir *.*.pfx | % { New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($_, ([IO.Path]::GetExtension([IO.Path]::GetFileNameWithoutExtension($_)).Substring(1)), "Exportable,MachineKeySet,PersistKeySet") } | % { Set-Content -Path ([IO.Path]::ChangeExtension($_.Subject, ".pfx")) -Value ($_.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx, $password)) -Encoding Byte -Force
 
 #
