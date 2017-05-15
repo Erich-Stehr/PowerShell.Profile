@@ -46,4 +46,9 @@ $cert = dir Cert:\LocalMachine\My\4e* ; Set-Content -Path "($cert.Subject).cer" 
 dir Cert:\LocalMachine\My\4e* | % { Set-Content -Path ([IO.Path]::ChangeExtension($_.Subject, ".$($password).pfx")) -Value ($_.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx), $password) -Encoding Byte -Force
 dir *.*.pfx | % { New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($_, ([IO.Path]::GetExtension([IO.Path]::GetFileNameWithoutExtension($_)).Substring(1)), "Exportable,MachineKeySet,PersistKeySet") } | % { Set-Content -Path ([IO.Path]::ChangeExtension($_.Subject, ".pfx")) -Value ($_.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx, $password)) -Encoding Byte -Force
 
+$warnings = Get-OutlookInBox.ps1 | ? { $_.Subject.StartsWith('Azure Security Advisory') } # SenderName is 'friendly'
+$warnings | 
+	select @{n='SubscriptionId';e={[regex]::Match($_.Body, 'SubscriptionId: *([0-9a-f-]{36})').Groups[1].Value}}, @{n='Deployment';e={[regex]::Match($_.Body, 'Deployments: (.*)').Groups[1].Value}} | 
+	Export-Csv -Path SecAdvisory.csv
+
 #

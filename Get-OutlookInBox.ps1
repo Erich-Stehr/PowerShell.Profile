@@ -56,11 +56,12 @@ try {
  $outlook = new-object -comobject outlook.application -ErrorAction Stop
 } catch [System.Runtime.InteropServices.COMException] { 
  write-warning "Is your PoSH at the same elevation as your Outlook?"
- throw 
-}
+ throw
+} 
  $namespace = $outlook.GetNameSpace("MAPI")
  $folder = $namespace.getDefaultFolder($olFolders::olFolderInBox)
  $folder.items #| 
  #Select-Object -Property Subject, ReceivedTime, Importance, SenderName
- # removed select filter, wrapped $outlook in try-catch for warning and stop
+ # removed select filter, wrapped $outlook in try-catch for warning and stop, later added call to function!
 } #end function Get-OutlookInbox
+Get-OutlookInbox
