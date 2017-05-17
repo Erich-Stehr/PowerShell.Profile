@@ -19,7 +19,10 @@ param (
 	$force=$false
 	)
 Begin {
-	$PIPELINEINPUT = (-not $PSBOUNDPARAMETERS.ContainsKey("siteUrl")) #https://social.technet.microsoft.com/Forums/scriptcenter/en-US/f07fd26a-ec59-44a4-8143-dea182ffae70/powershell-mandatory-parameters-lose-pipeline-input?forum=ITCG
+	$script:cdir = [Environment]::CurrentDirectory
+	[Environment]::CurrentDirectory = $PWD
+
+	$PIPELINEINPUT = (-not $PSBOUNDPARAMETERS.ContainsKey("path")) #https://social.technet.microsoft.com/Forums/scriptcenter/en-US/f07fd26a-ec59-44a4-8143-dea182ffae70/powershell-mandatory-parameters-lose-pipeline-input?forum=ITCG
 
 	function DoIt($thisOne) {
 		$operating = $true
@@ -50,6 +53,7 @@ Process {
     }
 }
 End {
+    [Environment]::CurrentDirectory = $script:cdir
 }
 
 <#
