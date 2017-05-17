@@ -27,7 +27,7 @@ Begin {
 			$res = @(Get-Content -Path $thisOne | %{
 				$line = $_
 				$exact.GetEnumerator() | %{ $line = $line -replace $_.Key,$_.Value}
-				$regex.GetEnumerator() | %{ $line = ([Regex]$_.Key).Replace($line,$_.Value)}
+				$regex.GetEnumerator() | %{ $line = ([Regex]($_.Key)).Replace($line,$_.Value)}
 				$line
 			})
 		} catch {
@@ -59,7 +59,9 @@ End {
 	For each line in each source file, replace the keys of $exact with the
 	appropriate value using the -replace operator, then replace the keys of 
 	$regexp with that appropriate value using [Regex]::Replace. Write the 
-	file back out over itself unless -whatif specified
+	file back out over itself unless -whatif specified.
+
+	Remember that regex's are case-sensitive without the inline option '(?i)'!
 .INPUTS
 	FileInfo
 .OUTPUTS
@@ -73,7 +75,7 @@ End {
 	foo foo
 .EXAMPLE
 	PS> "bar","bear","bar bell" | out-file testfile.txt
-	PS> Update-StringContents -path testfile.txt -regex @{'b.*?r'='1';'b.*?l'='2'}
+	PS> Update-StringContents -path testfile.txt -regex @{'b.*?r'='1';'b.*?l'='2';'(?is)x.*l'='x'}
 	PS> gc testfile.txt
 	1
 	1
