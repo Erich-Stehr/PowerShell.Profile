@@ -52,3 +52,17 @@ $warnings |
 	Export-Csv -Path SecAdvisory.csv
 
 #
+$updateSearcher = new-object -com "Microsoft.Update.Searcher"; 
+$updateCount= $updateSearcher.GetTotalHistoryCount(); 
+if ($updateCount -eq 0) { 0 } else {
+	@($updateSearcher.QueryHistory(0,$updateCount) | 
+	? { $_.UpdateIdentity.UpdateId -eq 'df31c69c-1f04-4e07-8e1e-9faef2fe7a1b' -or # 2008R2 update 
+		$_.UpdateIdentity.UpdateId -eq 'd2281849-7314-4da5-bed1-9e8e4d74b4ed' # 2012R2 update
+		}
+	).Count
+}
+# force Windows Update (pre-Win10) to automatically update on schedule
+$au = new-object -com "Microsoft.Update.AutoUpdate"; $auset = $au.Settings; $auset.NotificationLevel=4; $auset.Save()
+
+
+#
