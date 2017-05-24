@@ -831,4 +831,18 @@ function ConvertFrom-HexString([string]$s, [System.Text.Encoding]$encoding=[Syst
 	$encoding.GetString([Byte[]]@(($s -replace '(..)','0x$0-').Trim('-').Split('-')))
 }
 
+# 2017/05/24 AwaitRdpConnection
+if (gcm Test-NetConnection -ea SilentlyContinue) {
+	function AwaitRdpConnection($server)
+	{ 
+		while (Test-NetConnection -ComputerName $server -CommonTCPPort RDP -InformationLevel Quiet) { 
+			"$(get-date -F o) Waiting for drop"; sleep 30 
+		}
+		while (!(Test-NetConnection -ComputerName $server -CommonTCPPort RDP -InformationLevel Quiet)) {
+			"$(get-date -f o) Waiting for restart"; sleep 30
+		}
+		"$(get-date -f o) Responding"
+	}
+}
+
 #
