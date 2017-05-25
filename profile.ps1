@@ -832,15 +832,17 @@ function ConvertFrom-HexString([string]$s, [System.Text.Encoding]$encoding=[Syst
 }
 
 # 2017/05/24 AwaitRdpConnection
-function AwaitRdpConnection($server, [switch]$noclient)
+function AwaitRdpConnection($server, [switch]$nodrop, [switch]$noclient)
 {
 	if (gcm Test-NetConnection -ea SilentlyContinue) {
 		$RdpCheck = {Test-NetConnection -ComputerName $server -CommonTCPPort RDP -InformationLevel Quiet}
 	} else {
 		$RdpCheck = {$(try {$socket = New-Object Net.Sockets.TcpClient($server, 3389);if ($socket.Connected) {$true}; $socket.Close()} catch {})}
 	}
-	while (&$RdpCheck) {
-		"$(get-date -F o) Waiting for drop"; sleep 30
+	if (!$nodrop) {
+		while (&$RdpCheck) {
+			"$(get-date -F o) Waiting for drop"; sleep 30
+		}
 	}
 	while (!(&$RdpCheck)) {
 		"$(get-date -f o) Waiting for restart"; sleep 30
