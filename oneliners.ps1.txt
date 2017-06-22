@@ -64,5 +64,9 @@ if ($updateCount -eq 0) { 0 } else {
 # force Windows Update (pre-Win10) to automatically update on schedule
 $au = new-object -com "Microsoft.Update.AutoUpdate"; $auset = $au.Settings; $auset.NotificationLevel=4; $auset.Save()
 
+# mstsc <https://stackoverflow.com/questions/11296819/run-mstsc-exe-with-specified-username-and-password>
+Set-ItemProperty 'HKCU:\Software\Microsoft\Terminal Server Client\' AuthenticationLevelOverride -Value 0 # removes cert warnings on connect
+.\Get-AllNovaVMs.ps1 -dbCred $prodCred | ? {$_.Name.StartsWith('ORGID') -and $_.TopologyID -gt 71} | % { $_ ; $cn=$_.Name -replace 'vm1','.cloudapp.net'; cmdkey "/generic:$cn" /user:Administrator "/pass:$($_.Password)" ; AwaitRdpConnection $cn -nodrop ; Read-Host ; cmdkey "/delete:$cn" }
+start-process -wait -filepath "$env:windir\system32\mstsc.exe" -argumentlist "/v:$cn","/w:1440","/h:900"
 
 #
