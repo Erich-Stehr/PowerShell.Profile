@@ -45,6 +45,8 @@ Write-Debug ((New-Object System.Management.Automation.PSCredential ('x', $result
 $cert = dir Cert:\LocalMachine\My\4e* ; Set-Content -Path "($cert.Subject).cer" -Value ($cert.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::SerializedCert)) -Encoding Byte -Force
 dir Cert:\LocalMachine\My\4e* | % { Set-Content -Path ([IO.Path]::ChangeExtension($_.Subject, ".$($password).pfx")) -Value ($_.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx), $password) -Encoding Byte -Force
 dir *.*.pfx | % { New-Object System.Security.Cryptography.X509Certificates.X509Certificate2($_, ([IO.Path]::GetExtension([IO.Path]::GetFileNameWithoutExtension($_)).Substring(1)), "Exportable,MachineKeySet,PersistKeySet") } | % { Set-Content -Path ([IO.Path]::ChangeExtension($_.Subject, ".pfx")) -Value ($_.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pfx, $password)) -Encoding Byte -Force
+$stscert = new-object System.Security.Cryptography.X509Certificates.X509Certificate2; $stscert.Import($stsCertPath, $pfxCred.Password, [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]"Exportable")
+$cred3 = (New-Object 'System.Management.Automation.PSCredential' @('\Administrator', (ConvertTo-SecureString -force -AsPlainText 'NovaFMXN!@'))); Invoke-Command -comp 10.3.0.53 -cred $cred3 -ScriptBlock { $env:computername } # must be '\Administrator', new-object not inline with command
 
 $warnings = Get-OutlookInBox.ps1 | ? { $_.Subject.StartsWith('Azure Security Advisory') } # SenderName is 'friendly'
 $warnings | 

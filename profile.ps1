@@ -832,7 +832,7 @@ function ConvertFrom-HexString([string]$s, [System.Text.Encoding]$encoding=[Syst
 }
 
 # 2017/05/24 AwaitRdpConnection
-function AwaitRdpConnection($server, [switch]$nodrop, [switch]$noclient)
+function AwaitRdpConnection($server, [switch]$nodrop, [switch]$noclient, [switch]$wait)
 {
 	if (gcm Test-NetConnection -ea SilentlyContinue) {
 		$RdpCheck = {Test-NetConnection -ComputerName $server -CommonTCPPort RDP -InformationLevel Quiet}
@@ -848,7 +848,7 @@ function AwaitRdpConnection($server, [switch]$nodrop, [switch]$noclient)
 		"$(get-date -f o) Waiting for restart"; sleep 30
 	}
 	"$(get-date -f o) Responding`n`n"
-	if (!$noClient) { mstsc.exe /v:$server }
+	if (!$noClient) { start-process -wait:$wait -filepath "$env:windir\system32\mstsc.exe" -argumentlist "/v:$server","/w:1400","/h:900" }
 }
 
 #
