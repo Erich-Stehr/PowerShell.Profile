@@ -5,6 +5,13 @@
     - `git config --local --add user.name "Erich Stehr"`
 - [StudioShell](http://studioshell.codeplex.com/) - DTE: access in VS (alt: `Install-Package StudioShell.Provider`)
 - [Dependency Walker](http://www.dependencywalker.com/) - PE dependency scanner
+- [ILSpy](http://ilspy.net) - .NET assembly browser and decompiler
 - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
     - `Set-itemproperty -path 'HKCU:\Software\Microsoft\VisualStudio\9.0\Text Editor' -name Guides -type string -value 'RGB(128,0,0) 72, 80, 120, 132'`
+- [LinqPad](http://www.linqpad.net) - .NET code scratchpad
+
+- Refactoring Essentials
+- CodeMaid
+- SqlCeVsToolbox
+- IndentGuide
 
