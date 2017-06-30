@@ -15,7 +15,7 @@ SELECT DISTINCT machine.Name, machine.DeploymentID, machine.TopologyID, machine.
 FROM dbo.AzureMachines as machine JOIN
 	dbo.Topologies as topology ON (machine.TopologyID = topology.ID) JOIN
 	dbo.Reservations as res ON (topology.ID = res.TopologyID)
-WHERE topology.Enabled <> 0 AND topology.TopologyStateID >= 5
+WHERE topology.Enabled <> AND machine.Enabled <> 0 AND topology.TopologyStateID >= 5
 ORDER BY machine.topologyID
 "@
 

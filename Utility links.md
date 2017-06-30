@@ -8,6 +8,7 @@
 - [ILSpy](http://ilspy.net) - .NET assembly browser and decompiler
 - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
     - `Set-itemproperty -path 'HKCU:\Software\Microsoft\VisualStudio\9.0\Text Editor' -name Guides -type string -value 'RGB(128,0,0) 72, 80, 120, 132'`
+- [Papercut](http://papercut.codeplex.com/) - simplified SMTP server with WPF UI <https://github.com/changemakerstudios/papercut>
 - [LinqPad](http://www.linqpad.net) - .NET code scratchpad
 
 - Refactoring Essentials
