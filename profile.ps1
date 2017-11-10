@@ -752,6 +752,12 @@ function New-GenericList ($type="System.String")
 	New-Object "System.Collections.Generic.List``1[$type]"
 }
 
+# 2017/09/19: returns generic
+function New-GenericOf ($base="HashSet", $type="System.Int32")
+{
+	New-Object "System.Collections.Generic.$base``1[$type]"
+}
+
 # 2013/03/25: Pseudolocalize (from 2006 VB.NET macro for VS)
 function Pseudolocalize ([string]$s)
 {
