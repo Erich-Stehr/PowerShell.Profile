@@ -15,4 +15,8 @@
 - CodeMaid
 - SqlCeVsToolbox
 - IndentGuide
-
+- ? T4Toolbox
+- ~~Web Essentials~~ Web Extension Pack
+    - NPM Task Runner
+    - Sidewaffle Template Pack
+    - Trailing Whitespace Visualizer
