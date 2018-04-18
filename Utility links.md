@@ -23,3 +23,4 @@
     - NPM Task Runner
     - Sidewaffle Template Pack
     - Trailing Whitespace Visualizer
+- .NET Portability Analyzer [Analyzers](https://docs.microsoft.com/en-us/dotnet/standard/analyzers/)
