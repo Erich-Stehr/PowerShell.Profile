@@ -35,7 +35,7 @@ start-process -wait -WindowStyle Hidden "$androidPlatformTools\adb.exe" start-se
 				$y.Add("modeUnix",$m.Groups[1].Value)
 				$y.Add("Owner",$m.Groups[2].Value)
 				$y.Add("Group",$m.Groups[3].Value)
-				$y.Add("Length",$m.Groups[4].Value)
+				$y.Add("Length",[int]$m.Groups[4].Value)
 				$t = $null; try { $t = [DateTime]"$($m.Groups[5].Value) $($m.Groups[6].Value)" } catch { }
 				$y.Add("LastWriteTime",$t)
 				if ($x.Length -le 55) { Write-Warning "Short line:$x"}
