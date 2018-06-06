@@ -93,12 +93,17 @@ function global:CollapseToDefinitions
     $DTE.ActiveDocument.Activate()
     $cp = $DTE.ActiveDocument.Selection.ActivePoint.CreateEditPoint()
 
-    $DTE.ExecuteCommand("Edit.StopOutlining")
-    $DTE.ExecuteCommand("Edit.StartAutomaticOutlining")
     (Get-Interface $DTE.ActiveDocument.ProjectItem.FileCodeModel ([EnvDTE.FileCodeModel])).CodeElements | % {
         DefinitionCollapsar($_)
     }
 
     $DTE.ActiveDocument.Selection.MoveToPoint($cp)
     $cp.TryToShow([EnvDTE.vsPaneShowHow]::vsPaneShowCentered)
+}
+
+function global:ResetOutlining()
+{
+    $DTE.ActiveDocument.Activate()
+    $DTE.ExecuteCommand("Edit.StopOutlining")
+    $DTE.ExecuteCommand("Edit.StartAutomaticOutlining")
 }
