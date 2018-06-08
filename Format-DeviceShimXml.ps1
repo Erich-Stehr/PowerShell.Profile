@@ -18,6 +18,20 @@ function Send($item) {
 		$item.get_OuterXml()
 	}
 }
+
+function SetAttributeIfNotNull($node, $name, $value) {
+	if ($value -ne $null) {
+		$node.SetAttribute($name, $value)
+	}
+}
+
+function SetAttributeEmptyIfNull($node, $name, $value) {
+	if ($value -eq $null) {
+		$value = [String]::Empty
+	}
+	$node.SetAttribute($name, $value)
+}
+
 function Operate($reader=[System.Xml.XmlReader]::Create($source)) {
 	$item = $null # state held from Reader switch code
 	$doc = [xml]"<root/>" # empty-ish document to create XmlElement's from
@@ -32,11 +46,8 @@ function Operate($reader=[System.Xml.XmlReader]::Create($source)) {
 						Send $item
 					}
 					$item = $doc.CreateElement($reader.Name)
-					$item.SetAttribute("id", (?? {$reader["id"]} {[String]::Empty}))
-					$parent = $reader["parentID"]
-					if ($parent -ne $null) {
-						$item.SetAttribute("parentID", $parent)
-					}
+					SetAttributeEmptyIfNull $item "id" $reader["id"]
+					SetAttributeIfNotNull $item "parentID" $reader["parentID"]
 				} elseif ($reader.Name -eq "capability" -and ($reader["name"] -match "UniqueID")) {
 					$item.SetAttribute($reader["name"], $reader["value"])
 				}
