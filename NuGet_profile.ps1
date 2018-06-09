@@ -93,6 +93,8 @@ function global:CollapseToDefinitions
     $DTE.ActiveDocument.Activate()
     $cp = $DTE.ActiveDocument.Selection.ActivePoint.CreateEditPoint()
 
+    $DTE.ExecuteCommand("Edit.StopOutlining")
+    $DTE.ExecuteCommand("Edit.StartAutomaticOutlining")
     (Get-Interface $DTE.ActiveDocument.ProjectItem.FileCodeModel ([EnvDTE.FileCodeModel])).CodeElements | % {
         DefinitionCollapsar($_)
     }
