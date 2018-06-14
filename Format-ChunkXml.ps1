@@ -16,6 +16,20 @@ param (
 
 [void][System.Reflection.Assembly]::LoadWithPartialName("System.Xml.LINQ")
 
+function WriteAttribute($writer, $a)
+{
+	if ($a.Prefix -ne [string]::Empty) {
+		if ($a.Prefix -eq "xmlns") {
+			$nsuri = $null
+		} else {
+			$nsuri = $a.NamespaceUri
+		}
+		$writer.WriteAttributeString($a.Prefix, $a.LocalName, $nsuri, $a.Value) 
+	} else {
+		$writer.WriteAttributeString($a.Name, $a.Value)
+	}
+}
+
 function Operate($reader=[System.Xml.XmlReader]::Create($source), $writer=[System.Xml.XmlWriter]::Create($DestinationTemplate)) {
 	try {
 		$item = $null # state held from Reader switch code
@@ -30,17 +44,21 @@ function Operate($reader=[System.Xml.XmlReader]::Create($source), $writer=[Syste
 				([System.Xml.XmlNodeType]::Element) {
 					if ($reader.Depth -eq 0) {
 						$doc = [xml]"<$($reader.Name)></$($reader.Name)>"
+						$item = $doc.DocumentElement
 						while($reader.MoveToNextAttribute()) {
-							if ($reader.Prefix -ne [string]::Empty) {
-								$item.SetAttribute($reader.Prefix, $reader.Name, $reader.Value)
+							if (($reader.Prefix -ne [string]::Empty) -and (!$reader.Prefix.StartsWith("xmlns"))) {
+								$item.SetAttribute($reader.Name, $reader.NamespaceUri, $reader.Value)
 							} else {
 								$item.SetAttribute($reader.Name, $reader.Value)
 							}
 						}
-						$reader.MoveToElement();
-						$item = $doc.DocumentElement
-						$writer.WriteStartElement($item.Name)
-						$item.Attributes | % { $writer.WriteAttributeString($_.Name, $item[$_.Name]) }
+						[void]$reader.MoveToElement();
+						if (![string]::IsNullOrWhitespace($reader.NamespaceUri)) {
+							$writer.WriteStartElement($item.Name, $reader.NamespaceURI)
+						} else {
+							$writer.WriteStartElement($item.Name)
+						}
+						$item.Attributes | % { WriteAttribute $writer $_ }
 						[void]$reader.Read()
 					} else {
 						$xelem = [System.Xml.Linq.XElement]::ReadFrom($reader)
@@ -57,7 +75,7 @@ function Operate($reader=[System.Xml.XmlReader]::Create($source), $writer=[Syste
 							)
 							$writer = [System.Xml.XmlWriter]::Create($OutPath)
 							$writer.WriteStartElement($item.Name)
-							$item.Attributes | % { $writer.WriteAttributeString($_.Name, $item[$_.Name]) }
+							$item.Attributes | % { WriteAttribute $writer $_ }
 						}
 					}
 				}
@@ -75,7 +93,7 @@ if ($test) {
 	$testDoc = @'
 <?xml version="1.0" standalone="no"?>
 <!--This file represents another fragment of a book store inventory database-->
-<bookstore>
+<bookstore xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<book
 	genre="autobiography"
 	publicationdate="1979"
@@ -122,7 +140,6 @@ if ($test) {
 	probably misrepresent output of deeper trees.
 
 	BUG: will create extra file with empty root if no children to fill last
-	BUG: may not handle namespaces correctly (not using namespaces at moment)
 .INPUTS
 	Does not accept pipelined inputs
 .OUTPUTS
