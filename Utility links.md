@@ -1,5 +1,7 @@
 ﻿- [ClipX](http://bluemars.org/clipx/) - clipboard manager
+    - $env:APPDATA\..\Local\ClipX\clipx_${env:USERNAME}.ini
 - [PureText](http://stevemiller.net/puretext/) - strips formatting from text on clipboard
+    - extract to $env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup
 - [GitExtensions](http://gitextensions.github.io/) - adds Git menu to VS 2005-2015
     - `git config --local --add user.email Erich-Stehr@users.noreply.github.com`
     - `git config --local --add user.name "Erich Stehr"`
@@ -11,6 +13,9 @@
 - [ILSpy](http://ilspy.net) - .NET assembly browser and decompiler
 - [Papercut](http://papercut.codeplex.com/) - simplified SMTP server with WPF UI <https://github.com/changemakerstudios/papercut>
 - [LinqPad](http://www.linqpad.net) - .NET code scratchpad
+- [PowerShell Gallery](https://www.powershellgallery.com/) or [PsGet](https://psget.net/) for older versions
+    - `Install-Module -Name PowerShellGet -Force` or the PsGet iex
+    - `Install-Module -Name Posh-Git -Force`
 
 - other VS extensions
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
@@ -29,3 +34,9 @@
     - .NET Portability Analyzer [Analyzers](https://docs.microsoft.com/en-us/dotnet/standard/analyzers/)
     - ? Serilog Analyzer
     - Concurrency Visualizer
+
+- VSCode extensions
+    - markdownlint
+    - C#
+    - PowerShell
+    - SQL Server (mssql)
