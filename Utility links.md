@@ -40,3 +40,20 @@
     - C#
     - PowerShell
     - SQL Server (mssql)
+    - user settings (File > Preferences > Settings)
+
+    ```json
+    "markdownlint.config": {
+        "default": true,
+        "MD007": { "indent": 4 },
+        "MD013": false,
+        "MD041": false,
+        "no-hard-tabs": false
+    },
+    "editor.wordWrap": "on",
+    "editor.renderControlCharacters": true,
+    "editor.renderWhitespace": "boundary",
+    "editor.rulers": [
+        72,80,120,132
+    ]
+    ```
