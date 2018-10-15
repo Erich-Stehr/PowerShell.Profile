@@ -10,10 +10,10 @@ while ($jsonreader.Read()) {
 	#$jsonreader
 	if (($jsonreader.TokenType -eq [Newtonsoft.Json.JsonToken]::StartObject) -or
 		(($jsonreader.TokenType -eq [Newtonsoft.Json.JsonToken]::StartArray) -and ($jsonreader.Depth -ne 0))) {
-		$deserializer.Deserialize($jsonreader, [Newtonsoft.Json.Linq.JObject])
+		,$deserializer.Deserialize($jsonreader, [Newtonsoft.Json.Linq.JObject])
 		#[Newtonsoft.Json.Linq.JObject]::ReadFrom($jsonreader)
 		#$jsonreader
 	}
 }
 $jsonreader.Close() # closes $textreader as well
-#$jsonReader
+##$jsonReader
