@@ -10,8 +10,9 @@ while ($jsonreader.Read()) {
 	#$jsonreader
 	if (($jsonreader.TokenType -eq [Newtonsoft.Json.JsonToken]::StartObject) -or
 		(($jsonreader.TokenType -eq [Newtonsoft.Json.JsonToken]::StartArray) -and ($jsonreader.Depth -ne 0))) {
-		,$deserializer.Deserialize($jsonreader, [Newtonsoft.Json.Linq.JObject])
-		#[Newtonsoft.Json.Linq.JObject]::ReadFrom($jsonreader)
+		,$deserializer.Deserialize($jsonreader, [Hashtable]) # one level works, sub-levels come out as JObject/JProperty or JArray/JValue
+		#,$deserializer.Deserialize($jsonreader, [Newtonsoft.Json.Linq.JObject]) # not yet understanding access
+		#[Newtonsoft.Json.Linq.JObject]::ReadFrom($jsonreader) # same as above
 		#$jsonreader
 	}
 }
