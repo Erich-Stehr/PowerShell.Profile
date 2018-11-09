@@ -34,6 +34,7 @@
     - .NET Portability Analyzer [Analyzers](https://docs.microsoft.com/en-us/dotnet/standard/analyzers/)
     - ? Serilog Analyzer
     - Concurrency Visualizer
+    - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension)
 
 - VSCode extensions
     - markdownlint
