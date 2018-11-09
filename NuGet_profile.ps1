@@ -105,7 +105,7 @@ function global:CollapseToDefinitions
     }
 
     $DTE.ActiveDocument.Selection.MoveToPoint($cp)
-    $cp.TryToShow([EnvDTE.vsPaneShowHow]::vsPaneShowCentered)
+    [void]$cp.TryToShow([EnvDTE.vsPaneShowHow]::vsPaneShowCentered)
 }
 
 function global:ResetOutlining()
