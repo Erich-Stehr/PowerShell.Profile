@@ -18,3 +18,5 @@ while ($jsonreader.Read()) {
 }
 $jsonreader.Close() # closes $textreader as well
 ##$jsonReader
+
+# TODO: get json output similar to `@{'ar'=@("one","two",@("three")); 'ht'=@{'one'=1;'two'=2;'three'=@{'a'='ah'}}}`
