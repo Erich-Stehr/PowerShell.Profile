@@ -10,12 +10,13 @@
     - `git config --global merge.tool kdiff3` or use vsdiffmerge.gitconfig and set vsdiffmerge
 - [StudioShell](http://studioshell.codeplex.com/) - DTE: access in VS (alt: `Install-Package StudioShell.Provider`)
 - [Dependency Walker](http://www.dependencywalker.com/) - PE dependency scanner
-- [ILSpy](http://ilspy.net) - .NET assembly browser and decompiler
+- [ILSpy](https://github.com/icsharpcode/ILSpy) - .NET assembly browser and decompiler
 - [Papercut](http://papercut.codeplex.com/) - simplified SMTP server with WPF UI <https://github.com/changemakerstudios/papercut>
-- [LinqPad](http://www.linqpad.net) - .NET code scratchpad
+- [LinqPad](http://www.linqpad.net) - .NET code scratchpad (Chocolatey linqpad5.anycpu.install)
 - [PowerShell Gallery](https://www.powershellgallery.com/) or [PsGet](https://psget.net/) for older versions
     - `Install-Module -Name PowerShellGet -Force` or the PsGet iex
     - `Install-Module -Name Posh-Git -Force`
+- [Chocolatey](https://chocolatey.org/) - Windows installer manager (ILSpy, Linqpad, etc.)
 
 - other VS extensions
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
