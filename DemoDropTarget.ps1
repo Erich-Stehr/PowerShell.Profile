@@ -14,7 +14,8 @@ function New-FileShortcut( [string]$SourceExe, [string]$ArgumentsToSourceExe, [s
 }
 
 if ($installDesktop) {
-	New-FileShortcut "powershell.exe" "-noprofile -executionpolicy Bypass -file `"$PSScriptPath\$($MyInvocation.InvocationName)`"" "$([Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop))\DemoDropTarget.lnk"
+	New-FileShortcut "powershell.exe" "-noprofile -executionpolicy Bypass -file `"$(Resolve-path (Join-Path (Join-Path $PWD $PSScriptPath) $MyInvocation.InvocationName))`"" "$([Environment]::GetFolderPath([Environment+SpecialFolder]::Desktop))\DemoDropTarget.lnk"
+	Write-Error "Shortcut $($MyInvocation.InvocationName) created on desktop" -ea Stop
 }
 
 'Paths'
