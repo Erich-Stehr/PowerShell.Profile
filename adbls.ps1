@@ -13,6 +13,9 @@ filter New-PSObjectFromHashtable([Parameter(Mandatory=$true,ValueFromPipeline=$t
 # name in field 7 may have whitespace, but (assumption) not leading whitespace
 $script:re = [regex]"^(\S+)\s+(\S+)\s+(\S+)\s{1,8}(\d*)\s+(\S+)\s+(\S+)\s+(.*)$"
 $androidPlatformTools = "h:\users\erichs\Development\Android\android-sdk-windows\platform-tools"
+if (!(test-path $androidPlatformTools)) {
+    $androidPlatformTools = "${env:ProgramFiles}\Android\android-sdk\platform-tools"
+}
 if ($args[0].Contains(' ')) {
 	$a = $args[0]
 } else {
