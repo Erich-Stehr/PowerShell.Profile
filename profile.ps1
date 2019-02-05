@@ -77,6 +77,7 @@ $6hive = 'C:\Program Files\Common Files\microsoft shared\Web Server Extensions\6
 $env:path += ";$ProfilePath"
 # 2012/10/28
 if (Test-Path 'h:\users\erichs\Development\android\android-sdk-windows\platform-tools\') { $env:path += ';h:\users\erichs\Development\android\android-sdk-windows\platform-tools'}
+elseif (Test-Path "${env:ProgramFiles}\android\android-sdk\platform-tools\") { $env:path += ";${env:ProgramFiles}\android\android-sdk\platform-tools"}
 
 # 2007/03/08: tweaked format to use "T" instead of "t" in file time stamps
 if (test-path $profilePath\filesystem.format.ps1xml) { Update-FormatData -pre $profilePath\filesystem.format.ps1xml }
