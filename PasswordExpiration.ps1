@@ -5,7 +5,8 @@ $localRoot = new-object DirectoryServices.DirectoryEntry
 if ($dom -ne $localRoot.Name) {
 	#$domainRoot = new-object DirectoryServices.DirectoryEntry ('LDAP://'+$localRoot.distinguishedName[0].Replace($localRoot.name, $dom))
 	$domainRoot = [ADSI]('LDAP://'+$localRoot.distinguishedName[0].Replace($localRoot.name, $dom))
-} else {
+}
+if (($domainRoot -eq $null) -or ($domainRoot.Name -eq $null)) {
 	$domainRoot = $localRoot
 }
 
@@ -22,8 +23,8 @@ if ($srchres.Properties.Contains("accountexpires")) {
 		"$usr 'accountexpires' over maximum (last set $pwdLastSet)"
 		#exit
 	} else {
-		"$usr forced expires $([DateTime]::FromFileTime($srchres.Properties.accountexpires[0]).AddYears(1600).ToString('Z'))"
-		exit
+		"$usr forced expires $([DateTime]::FromFileTime($srchres.Properties.accountexpires[0]).ToString('u'))"
+		#exit
 	}
 }
 
