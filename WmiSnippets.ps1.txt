@@ -19,3 +19,4 @@ $instance = [Wmi] 'Win32_Service.Name="winmgmt"'; $instance.GetRelated() # Get-C
 $system = Get-WmiObject Win32_OperatingSystem; $system.Scope.Options.EnablePrivileges = $true; $system.SetDateTime($system.ConvertFromDateTime("01/01/2007"))
 $credential = Get-Credential; $query = [WmiSearcher] "SELECT * FROM IISWebServerSetting"; $query.Scope.Path = "\\REMOTE_COMPUTER\Root\MicrosoftIISV2"; $query.Scope.Options.Username = $credential.Username; $query.Scope.Options.Password = $credential.GetNetworkCredential().Password; $query.Scope.Options.Authentication = "PacketPrivacy"; $query.get() | Select-Object AnonymousUserName
 
+Get-WmiObject Win32_ComputerSystem | select PartOfDomain, TotalPhysicalMemory, DNSHostName
