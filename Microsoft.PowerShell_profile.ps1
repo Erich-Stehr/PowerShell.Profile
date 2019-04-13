@@ -3,7 +3,9 @@ function mergetxt {
 	dir $files | %{ add-content -LiteralPath $target -value ((get-content -LiteralPath $_ -readCount ([long]::MaxValue))+"`r`n") }
 }
 # Load posh-git example profile
-. "$(split-path $PROFILE.CurrentUserCurrentHost)\Modules\posh-git\profile.example.ps1"
+if ($PROFILE.CurrentUserCurrentHost) {
+	. "$(split-path $PROFILE.CurrentUserCurrentHost)\Modules\posh-git\profile.example.ps1"
+}
 
 
 # Chocolatey profile
