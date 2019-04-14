@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE bookstore PUBLIC "" "books.dtd"[]>
 <!--This file represents another fragment of a book store inventory database-->
 <bookstore>
   <book
