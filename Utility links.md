@@ -16,7 +16,7 @@
 - [PowerShell Gallery](https://www.powershellgallery.com/) or [PsGet](https://psget.net/) for older versions
     - `Install-Module -Name PowerShellGet -Force` or the PsGet iex
     - `Install-Module -Name Posh-Git -Force`
-- [Chocolatey](https://chocolatey.org/) - Windows installer manager (ILSpy, Linqpad, etc.)
+- [Chocolatey](https://chocolatey.org/) - Windows installer manager (ILSpy, Linqpad5.AnyCPU.install, etc.)
 
 - other VS extensions
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
