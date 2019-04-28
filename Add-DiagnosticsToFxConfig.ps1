@@ -19,7 +19,7 @@ if ($UnsharedSourceListener) {
 	$TraceSource = $true
 }
 if ($TraceSource) {
-	$Switch = true
+	$Switch = $true
 }
 
 function CreateElementAtNode($node, $tag) {
@@ -40,7 +40,8 @@ function VerifyAttributeExists($elem, $name, $defaultValue) {
 	}
 }
 
-$cfgElem = $doc.configuration
+# $cfgElem = $doc.configuration
+$cfgElem = $doc.FirstChild # we want the root element; if it's empty, .configuration is String.Empty
 
 Write-Verbose "system.diagnostics"
 $diagElem = VerifyElementExists $cfgElem  "system.diagnostics"
@@ -48,7 +49,8 @@ $diagElem = VerifyElementExists $cfgElem  "system.diagnostics"
 Write-Verbose "trace"
 $traceElem = VerifyElementExists $diagElem  "trace"
 VerifyAttributeExists $traceElem "autoflush" "true"
-VerifyAttributeExists $traceElem "indentSize" "2"
+VerifyAttributeExists $traceElem "indentsize" "2"
+VerifyElementExists $traceElem "listeners"
 
 Write-Verbose "switches"
 if ($Switch) {
@@ -101,10 +103,10 @@ if ($SharedListener) {
 		}
 	}
 	VerifySharedListener "console" "System.Diagnostics.ConsoleTraceListener" @{} $true
-	VerifySharedListener "textwriter" "System.Diagnostics.TextWriterTraceListener" @{initializeData="%TEMP%\TextWriter.log";traceOutputOptions="ProcessId, DateTime"} $false
+	VerifySharedListener "textwriter" "System.Diagnostics.TextWriterTraceListener" @{initializeData=".\TextWriter.log";traceOutputOptions="ProcessId, DateTime"} $false
 	VerifySharedListener "eventlog" "System.Diagnostics.EventLogTraceListener" @{initializeData="ExistingEventSourceName"} $false
-	VerifySharedListener "xmlwriter" "System.Diagnostics.XmlWriterTraceListener" @{initializeData="%TEMP%\XmlWriter.log";traceOutputOptions="ProcessId, DateTime"} $false
-	VerifySharedListener "csvwriter" "System.Diagnostics.DelimitedListTraceListener" @{initializeData="%TEMP%\DelimitedListWriter.log";delimiter=",";traceOutputOptions="ProcessId, DateTime"} $false
+	VerifySharedListener "xmlwriter" "System.Diagnostics.XmlWriterTraceListener" @{initializeData=".\XmlWriter.log";traceOutputOptions="ProcessId, DateTime"} $false
+	VerifySharedListener "csvwriter" "System.Diagnostics.DelimitedListTraceListener" @{initializeData=".\DelimitedListWriter.log";delimiter=",";traceOutputOptions="ProcessId, DateTime"} $false
 }
 
 Write-Verbose $doc.get_OuterXml()
