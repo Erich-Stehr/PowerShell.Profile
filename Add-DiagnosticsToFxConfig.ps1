@@ -22,11 +22,15 @@ if ($TraceSource) {
 	$Switch = true
 }
 
-function VerifyElementExists($node, $name) {
-	if ($null -eq $node."$name") {
-		$node.AppendChild($node.OwnerDocument.CreateElement($name))
+function CreateElementAtNode($node, $tag) {
+	$node.AppendChild($node.OwnerDocument.CreateElement($tag))
+}
+
+function VerifyElementExists($node, $tag) {
+	if ($null -eq $node."$tag") {
+		$node.AppendChild($node.OwnerDocument.CreateElement($tag))
 	} else {
-		$node."$name"
+		$node."$tag"
 	}
 }
 
@@ -49,16 +53,18 @@ VerifyAttributeExists $traceElem "indentSize" "2"
 Write-Verbose "switches"
 if ($Switch) {
 	$switchElem = VerifyElementExists $diagElem "switches"
-	$addSwitchElem = VerifyElementExists $switchElem "add"
-	VerifyAttributeExists $addSwitchElem "name" "ExampleSwitch"
+	$switchCount = $switchElem.Children.Count
+	$addSwitchElem = CreateElementAtNode $switchElem "add"
+	VerifyAttributeExists $addSwitchElem "name" "ExampleSwitch${switchCount}"
 	VerifyAttributeExists $addSwitchElem "value" "0" # switched off, but you'll need to adjust anyway
 }
 
 Write-Verbose "TraceSource/sources"
 if ($TraceSource ) {
 	$sourcesElem = VerifyElementExists $diagElem "sources"
-	$sourceElem = VerifyElementExists $sourcesElem "source"
-	VerifyAttributeExists $sourceElem "name" "ExampleSource"
+	$sourcesCount = $sourcesElem.Children.Count
+	$sourceElem = CreateElementAtNode $sourcesElem "source"
+	VerifyAttributeExists $sourceElem "name" "ExampleSource${sourcesCount}"
 	VerifyAttributeExists $sourceElem "switchName" "ExampleSwitch"
 	VerifyAttributeExists $sourceElem "switchType" "System.Diagnostics.SourceSwitch"
 	if ($UnsharedSourceListener) {
@@ -78,13 +84,27 @@ if ($TraceSource ) {
 
 Write-Verbose "sharedListeners"
 if ($SharedListener) {
-	$sharedlistenersElem = VerifyElementExists $diagElem "sharedListeners"
-	$sharedlistenersaddElem = VerifyElementExists $sharedlistenersElem "add"
-	VerifyAttributeExists $sharedlistenersaddElem "name" "console"
-	VerifyAttributeExists $sharedlistenersaddElem "type" "System.Diagnostics.ConsoleTraceListener"
-	$sharedlistenersaddfilterElem = VerifyElementExists $sharedlistenersaddElem "filter"
-	VerifyAttributeExists $sharedlistenersaddfilterElem "type" "System.Diagnostics.EventTypeFilter"
-	VerifyAttributeExists $sharedlistenersaddfilterElem "initializeData" "Warning"
+	function VerifySharedListener($name, $type, $additionalAttributes, $IsFiltered=$false) {
+		$sharedlistenersElem = VerifyElementExists $diagElem "sharedListeners"
+		if (!($sharedlistenersElem.add | ? { $_.name -eq $name })) {
+			$sharedlistenersaddElem = CreateElementAtNode $sharedlistenersElem "add"
+			VerifyAttributeExists $sharedlistenersaddElem "name" $name
+			VerifyAttributeExists $sharedlistenersaddElem "type" $type
+			if ($additionalAttributes.Count) {
+				$additionalAttributes.GetEnumerator() | % { VerifyAttributeExists $sharedlistenersaddElem $_.Key $_.Value }
+			}
+			if ($IsFiltered) {
+				$sharedlistenersaddfilterElem = VerifyElementExists $sharedlistenersaddElem "filter"
+				VerifyAttributeExists $sharedlistenersaddfilterElem "type" "System.Diagnostics.EventTypeFilter"
+				VerifyAttributeExists $sharedlistenersaddfilterElem "initializeData" "ActivityTracing,Verbose"
+			}
+		}
+	}
+	VerifySharedListener "console" "System.Diagnostics.ConsoleTraceListener" @{} $true
+	VerifySharedListener "textwriter" "System.Diagnostics.TextWriterTraceListener" @{initializeData="%TEMP%\TextWriter.log";traceOutputOptions="ProcessId, DateTime"} $false
+	VerifySharedListener "eventlog" "System.Diagnostics.EventLogTraceListener" @{initializeData="ExistingEventSourceName"} $false
+	VerifySharedListener "xmlwriter" "System.Diagnostics.XmlWriterTraceListener" @{initializeData="%TEMP%\XmlWriter.log";traceOutputOptions="ProcessId, DateTime"} $false
+	VerifySharedListener "csvwriter" "System.Diagnostics.DelimitedListTraceListener" @{initializeData="%TEMP%\DelimitedListWriter.log";delimiter=",";traceOutputOptions="ProcessId, DateTime"} $false
 }
 
 Write-Verbose $doc.get_OuterXml()
