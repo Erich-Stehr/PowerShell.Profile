@@ -18,17 +18,15 @@ if ($null -eq $doc.configuration) {
 if ($UnsharedSourceListener) {
 	$TraceSource = $true
 }
-if ($TraceSource) {
-	$Switch = $true
-}
 
 function CreateElementAtNode($node, $tag) {
+    trap {break;}
 	$node.AppendChild($node.OwnerDocument.CreateElement($tag))
 }
 
 function VerifyElementExists($node, $tag) {
 	if ($null -eq $node."$tag") {
-		$node.AppendChild($node.OwnerDocument.CreateElement($tag))
+		CreateElementAtNode $node $tag
 	} else {
 		$node."$tag"
 	}
@@ -41,7 +39,7 @@ function VerifyAttributeExists($elem, $name, $defaultValue) {
 }
 
 # $cfgElem = $doc.configuration
-$cfgElem = $doc.FirstChild # we want the root element; if it's empty, .configuration is String.Empty
+$cfgElem = $doc.ChildNodes | ? { $_.NodeType -eq [System.Xml.XmlNodeType]::Element } # we want the root element, not the XML declaration or String.Empty; if the root is empty, .configuration is String.Empty
 
 Write-Verbose "system.diagnostics"
 $diagElem = VerifyElementExists $cfgElem  "system.diagnostics"
@@ -55,7 +53,7 @@ VerifyElementExists $traceElem "listeners"
 Write-Verbose "switches"
 if ($Switch) {
 	$switchElem = VerifyElementExists $diagElem "switches"
-	$switchCount = $switchElem.Children.Count
+	$switchCount = $switchElem.ChildNodes.Count
 	$addSwitchElem = CreateElementAtNode $switchElem "add"
 	VerifyAttributeExists $addSwitchElem "name" "ExampleSwitch${switchCount}"
 	VerifyAttributeExists $addSwitchElem "value" "0" # switched off, but you'll need to adjust anyway
@@ -64,10 +62,14 @@ if ($Switch) {
 Write-Verbose "TraceSource/sources"
 if ($TraceSource ) {
 	$sourcesElem = VerifyElementExists $diagElem "sources"
-	$sourcesCount = $sourcesElem.Children.Count
+	$sourcesCount = $sourcesElem.ChildNodes.Count
 	$sourceElem = CreateElementAtNode $sourcesElem "source"
 	VerifyAttributeExists $sourceElem "name" "ExampleSource${sourcesCount}"
-	VerifyAttributeExists $sourceElem "switchName" "ExampleSwitch"
+    if ($Switch) {
+	    VerifyAttributeExists $sourceElem "switchName" "ExampleSwitch${switchCount}"
+    } else {
+	    VerifyAttributeExists $sourceElem "switchValue" "ActivityTracing,Verbose"
+    }
 	VerifyAttributeExists $sourceElem "switchType" "System.Diagnostics.SourceSwitch"
 	if ($UnsharedSourceListener) {
 		$sourcelistenersElem = VerifyElementExists $sourceElem "listeners"
