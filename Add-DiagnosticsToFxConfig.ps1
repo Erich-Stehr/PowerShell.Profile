@@ -109,6 +109,7 @@ if ($SharedListener) {
 	VerifySharedListener "eventlog" "System.Diagnostics.EventLogTraceListener" @{initializeData="ExistingEventSourceName"} $false
 	VerifySharedListener "xmlwriter" "System.Diagnostics.XmlWriterTraceListener" @{initializeData=".\XmlWriter.log";traceOutputOptions="ProcessId, DateTime"} $false
 	VerifySharedListener "csvwriter" "System.Diagnostics.DelimitedListTraceListener" @{initializeData=".\DelimitedListWriter.log";delimiter=",";traceOutputOptions="ProcessId, DateTime"} $false
+	VerifySharedListener "filelog" "Microsoft.VisualBasic.Logging.FileLogTraceListener, Microsoft.VisualBasic, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" @{initializeData="FileLogWriter";traceOutputOptions="ProcessId, DateTime";logFileCreationSchedule="Daily"} $false # defaults to $env:APPDATA\$CompanyName\$ProductName\$ProductVersion\$BaseFile.log (vars from version resource or additional attributes)
 }
 
 Write-Verbose $doc.get_OuterXml()
