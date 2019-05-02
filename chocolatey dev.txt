@@ -1,0 +1,67 @@
+7zip.install 18.6
+aspnetcore-runtimepackagestore 2.1.6
+beyondcompare 4.2.9.23626
+chocolatey 0.10.11
+chocolatey-core.extension 1.3.3
+chocolatey-windowsupdate.extension 1.0.3
+ConEmu 19.1.8.0
+DotNet4.6.1 4.6.01055.20170308
+dotnet4.7.1 4.7.2558.0
+dotnetcore-runtime.install 2.1.6
+dotnetcore-windowshosting 2.1.6
+dotnetfx 4.7.1.0
+dotPeek 2018.3.1
+Firefox 64.0.2
+git 2.20.1
+git.install 2.20.1
+GoogleChrome 71.0.3578.98
+insomnia-rest-api-client 6.3.2
+KB2533623 1.0.3
+KB2919355 1.0.20160915
+KB2919442 1.0.20160915
+KB2999226 1.0.20181019
+KB3033929 1.0.4
+KB3035131 1.0.2
+linqpad5.AnyCPU.install 5.36.03
+netfx-4.7.1-devpack 4.7.2558.0
+nodejs 11.7.0
+nodejs.install 11.7.0
+notepadplusplus 7.6.2
+notepadplusplus.install 7.6.2
+nuget.commandline 4.9.2
+resharper-platform 183.0.20181223.64728
+Silverlight 5.1.50907.0
+sysinternals 2018.12.27
+vcredist140 14.16.27024.1
+vcredist2015 14.0.24215.20170201
+
+git.commandline 2.11.0.20170203
+git.portable 2.20.1
+notepadplusplus.commandline 7.6.2
+ruby.portable 2.3.0
+
+Install-ChocoPackage "netfx-4.7.1-devpack"
+Install-DotNetCore # dotnetcore-sdk, dotnetcore-windowshosting `-y -r --no-progress --force`
+# uncomment the 2017 line if you prefer Visual Studio 2017
+# Install-VisualStudio2019
+Install-VisualStudio2017 # visualstudio201?enterprise, visualstudio201?-workload-netweb, visualstudio201?-workload-manageddesktop, visualstudio201?-workload-Azure `-y -r --no-progress --force --includeRecommended --includeOptional`
+Install-EnvironmentVariables
+Install-FakeElcDatabase
+Install-ChocoPackage "vscode"
+Install-ChocoPackage "git"
+Install-ChocoPackage "nodejs"
+Install-ChocoPackage "notepadplusplus"
+Install-ChocoPackage "googlechrome"
+Install-ChocoPackage "7zip"
+Install-ChocoPackage "silverlight"
+Install-ChocoPackage "insomnia-rest-api-client"
+UnInstall-ChocoPackage "beyondcompare"
+UnInstall-ChocoPackage "dotpeek"
+Install-ChocoPackage "sysinternals" #
+Install-ChocoPackage "conemu"
+Install-ChocoPackage "firefox" #
+UnInstall-ChocoPackage "nvda"
+Install-ChocoPackage "linqpad5.AnyCPU.install" #+
+Install-ChocoPackage "nuget.commandline" #+
+Install-ChocoPackage "ruby.portable" #+
+
