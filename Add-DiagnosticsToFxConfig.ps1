@@ -53,7 +53,7 @@ VerifyElementExists $traceElem "listeners"
 Write-Verbose "switches"
 if ($Switch) {
 	$switchElem = VerifyElementExists $diagElem "switches"
-	$switchCount = $switchElem.ChildNodes.Count
+	$switchCount = @($switchElem.add).Count
 	$addSwitchElem = CreateElementAtNode $switchElem "add"
 	VerifyAttributeExists $addSwitchElem "name" "ExampleSwitch${switchCount}"
 	VerifyAttributeExists $addSwitchElem "value" "0" # switched off, but you'll need to adjust anyway
@@ -62,7 +62,7 @@ if ($Switch) {
 Write-Verbose "TraceSource/sources"
 if ($TraceSource ) {
 	$sourcesElem = VerifyElementExists $diagElem "sources"
-	$sourcesCount = $sourcesElem.ChildNodes.Count
+	$sourcesCount = @($sourcesElem.source).Count
 	$sourceElem = CreateElementAtNode $sourcesElem "source"
 	VerifyAttributeExists $sourceElem "name" "ExampleSource${sourcesCount}"
     if ($Switch) {
