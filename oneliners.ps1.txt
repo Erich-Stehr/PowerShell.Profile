@@ -76,4 +76,6 @@ start-process -wait -filepath "$env:windir\system32\mstsc.exe" -argumentlist "/v
 
 New-ItemProperty -Path 'HKCU:\Control Panel\Input Method' -Name EnableHexNumpad -PropertyType STRING -Value "1" # then reboot(pre-Vista)/logout and login to activate Unicode Alt-(NUMPAD+)-(Numpad-Hex){4}
 
+dir ~\Desktop\Notes\*.URL | sort LastWriteTime | select Name,LastWriteTime,@{n='URL';e={select-string 'URL=' $_ | % {$_.Line -replace '^URL=',''}}} | % { "$("{0:o}" -f $_.LastWriteTime) <a href='$($_.URL)'>$($_.Name)</a>" } | Add-Content -Path ~\Desktop\Links.fragment.html
+
 #
