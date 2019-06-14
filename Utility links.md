@@ -12,11 +12,12 @@
 - [Dependency Walker](http://www.dependencywalker.com/) - PE dependency scanner
 - [ILSpy](https://github.com/icsharpcode/ILSpy) - .NET assembly browser and decompiler
 - [Papercut](http://papercut.codeplex.com/) - simplified SMTP server with WPF UI <https://github.com/changemakerstudios/papercut>
-- [LinqPad](http://www.linqpad.net) - .NET code scratchpad (Chocolatey linqpad5.anycpu.install)
+- [LinqPad](http://www.linqpad.net) - .NET code scratchpad
 - [PowerShell Gallery](https://www.powershellgallery.com/) or [PsGet](https://psget.net/) for older versions
     - `Install-Module -Name PowerShellGet -Force` or the PsGet iex
     - `Install-Module -Name Posh-Git -Force`
-- [Chocolatey](https://chocolatey.org/) - Windows installer manager (ILSpy, Linqpad5.AnyCPU.install, etc.)
+- [Chocolatey](https://chocolatey.org/) - Windows installer manager
+    - vscode, git[.portable], nodejs, notepadplusplus[.commandline], googlechrome, 7zip, ?silverlight?, ?insomnia-rest-api-client?, sysinternals, ?conemu?, firefox, ilspy, Linqpad5.AnyCPU.install, nuget.commandline, ruby.portable
 
 - other VS extensions
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
@@ -36,6 +37,7 @@
     - ? Serilog Analyzer
     - Concurrency Visualizer
     - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
+    - [XPath Tools](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation)
 
 - VSCode extensions
     - markdownlint
