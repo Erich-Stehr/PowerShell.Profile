@@ -282,6 +282,15 @@ filter AfterLastDestination ($dest=$(throw "Must have destination"), [switch] $V
 begin {$lastts = (dir $dest | sort LastWriteTime | select -Last 1).LastWriteTime}
 process { $_ | Where-Object {$_.LastWriteTime -gt $lastts} }
 }
+function Copy-AfterLastDestination($destination=$(throw "Must have destination"), [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) {
+	$input |
+	AfterLastDestination $destination |
+	% { 
+		if (!$_.PSIsContainer) {
+			copy -literalpath $_.Fullname -dest $dest -pass -verbose:$Verbose -whatif:$WhatIf -confirm:$confirm 
+		}
+	}
+}
 # 2007/02/19, 2008/05/06, 2011/11/23
 function Import-CFToHome ([TimeSpan] $span="1.00:00:00", [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) { dir R:\pickup\TekSystems\MSFT201408 | WrittenDuringLastSpan -span $span | sorttime | copy -pass -dest H:\users\erichs\Career\TekSystems\MSFT201408 -verbose:$verbose -whatif:$WhatIf -confirm:$confirm }
 #function Export-WorkToCF () { dir $env:userprofile\Desktop | ? {!$_.PSIsContainer} | ? {!(FileExistsIn $_ E:\pickup\Excell)} | copy -dest E:\pickup\Excell -confirm }
