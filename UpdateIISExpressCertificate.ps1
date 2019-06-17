@@ -1,5 +1,7 @@
 # https://gist.github.com/camieleggermont/5b2971a96e80a658863106b21c479988
-# additional DnsNames added, reminders, Key data
+# additional DnsNames added, reminders, Key data; attempt HTTP/2(SPDY) update
+New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\HTTP\Parameters -Name DuoEnabled -PropertyType DWORD -Value 1 -Confirm# https://msandbu.wordpress.com/2015/09/04/setting-up-http2-support-on-iis-server-2016-citrix-storefront/
+
 $cert = New-SelfSignedCertificate -DnsName "localhost", "localhost", $env:COMPUTERNAME, "${env:COMPUTERNAME}.${env:USERDNSDOMAIN}" -Provider "Microsoft Enhanced RSA and AES Cryptographic Provider" -HashAlgorithm SHA256 -KeyLength 2048 -CertStoreLocation "cert:\LocalMachine\My" -NotAfter (Get-Date).AddYears(5)
 $thumb = $cert.GetCertHashString()
 
