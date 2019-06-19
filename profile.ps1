@@ -287,7 +287,7 @@ function Copy-AfterLastDestination($destination=$(throw "Must have destination")
 	AfterLastDestination $destination |
 	% { 
 		if (!$_.PSIsContainer) {
-			copy -literalpath $_.Fullname -dest $dest -pass -verbose:$Verbose -whatif:$WhatIf -confirm:$confirm 
+			copy -literalpath $_.Fullname -destination $destination -pass -verbose:$Verbose -whatif:$WhatIf -confirm:$confirm 
 		}
 	}
 }
