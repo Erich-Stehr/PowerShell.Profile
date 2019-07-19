@@ -8,6 +8,7 @@
     - `git config --global color.status.changed "red normal bold"`
     - `git config --global color.status.untracked "red normal bold"`
     - `git config --global merge.tool kdiff3` or use vsdiffmerge.gitconfig and set vsdiffmerge
+- [Bayden MezerTools](https://bayden.com/mezer)
 - [StudioShell](http://studioshell.codeplex.com/) - DTE: access in VS (alt: `Install-Package StudioShell.Provider`)
 - [Dependency Walker](http://www.dependencywalker.com/) - PE dependency scanner
 - [ILSpy](https://github.com/icsharpcode/ILSpy) - .NET assembly browser and decompiler
