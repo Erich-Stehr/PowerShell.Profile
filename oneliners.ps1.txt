@@ -78,4 +78,7 @@ New-ItemProperty -Path 'HKCU:\Control Panel\Input Method' -Name EnableHexNumpad 
 
 dir ~\Desktop\Notes\*.URL | sort LastWriteTime | select Name,LastWriteTime,@{n='URL';e={select-string -LiteralPath ($_.FullName) -Pattern '^URL=' | % {$_.Line -replace '^URL=',''}}} | % { "$("{0:o}" -f $_.LastWriteTime) <a href='$($_.URL)'>$($_.Name)</a><br />" } | Add-Content -Path ~\Desktop\Links.fragment.html
 
+[System.Management.Automation.VerbsCommon].DeclaredFields.Name
+$verbClasses = [AppDomain]::CurrentDomain.GetAssemblies() | ? { $_.FullName.StartsWith("System.Management.Automation,") } | % { $_.GetTypes() } | ? { $_.Name.StartsWith("Verbs") }
+
 #
