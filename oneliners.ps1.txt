@@ -78,7 +78,8 @@ New-ItemProperty -Path 'HKCU:\Control Panel\Input Method' -Name EnableHexNumpad 
 
 dir ~\Desktop\Notes\*.URL | sort LastWriteTime | select Name,LastWriteTime,@{n='URL';e={select-string -LiteralPath ($_.FullName) -Pattern '^URL=' | % {$_.Line -replace '^URL=',''}}} | % { "$("{0:o}" -f $_.LastWriteTime) <a href='$($_.URL)'>$($_.Name)</a><br />" } | Add-Content -Path ~\Desktop\Links.fragment.html
 
-[System.Management.Automation.VerbsCommon].DeclaredFields.Name
-$verbClasses = [AppDomain]::CurrentDomain.GetAssemblies() | ? { $_.FullName.StartsWith("System.Management.Automation,") } | % { $_.GetTypes() } | ? { $_.Name.StartsWith("Verbs") }
-
+[System.Management.Automation.VerbsCommon].DeclaredFields.Name # `Get-Verbs | Out-GridView` in 3.0+
+# $verbClasses = [AppDomain]::CurrentDomain.GetAssemblies() | ? { $_.FullName.StartsWith("System.Management.Automation,") } | % { $_.GetTypes() } | ? { $_.Name.StartsWith("Verbs") }
+# from <https://devblogs.microsoft.com/powershell/get-verb/>
+$verbClasses = [PSObject].Assembly.GetTypes() | ? {$_.Name -like "*Verbs*"} # Get-Member -type Property -static | select -ExpandProperty Name
 #
