@@ -61,6 +61,7 @@ Install-ChocoPackage "sysinternals" #
 Install-ChocoPackage "conemu"
 Install-ChocoPackage "firefox" #
 UnInstall-ChocoPackage "nvda"
+Install-ChocoPackage "ilspy" #+
 Install-ChocoPackage "linqpad5.AnyCPU.install" #+
 Install-ChocoPackage "nuget.commandline" #+
 Install-ChocoPackage "ruby.portable" #+
