@@ -17,6 +17,7 @@
 - [PowerShell Gallery](https://www.powershellgallery.com/) or [PsGet](https://psget.net/) for older versions
     - `Install-Module -Name PowerShellGet -Force` or the PsGet iex
     - `Install-Module -Name Posh-Git -Force`
+    - `Install-Module -Name PSCX -Force -AllowClobber`
 - [Chocolatey](https://chocolatey.org/) - Windows installer manager
     - vscode git[.portable] nodejs notepadplusplus[.commandline] googlechrome 7zip ?silverlight? ?insomnia-rest-api-client? sysinternals ?conemu? firefox ilspy Linqpad5.AnyCPU.install InkScape nuget.commandline ruby.portable
 
