@@ -867,4 +867,24 @@ function AwaitRdpConnection($server, [switch]$nodrop, [switch]$noclient, [switch
 	if (!$noClient) { start-process -wait:$wait -filepath "$env:windir\system32\mstsc.exe" -argumentlist "/v:$server","/w:1400","/h:900" }
 }
 
+# 2019/07/29
+function Get-RandomCNG([object]$InputObject, [int]$Count=1) {
+	$rcsp = [Security.Cryptography.RNGCryptoServiceProvider]::Create()
+	$rb = new-object Byte[] 1
+	$f = $InputObject.Count
+	$sp = [Math]::Truncate([Byte]::MaxValue/($f))
+	$r = 0
+	#New-Object PSObject | select @{'n'='$sp';e={$sp}},@{'n'='$f';e={$f}} | ft
+	for ($i = 0; $i -lt $Count; ++$i) {
+		do {
+			$rcsp.GetBytes($rb)
+			$r = [Math]::Truncate($rb[0]/$sp)
+			#New-Object PSObject | select @{'n'='$r';e={$r}} | ft
+		} while ($r -ge $f)
+		$InputObject[$r]
+	}
+	$rcsp.Dispose()
+}
+# Get-RandomCNG "abcdefg...".ToCharArray() 16 | Join-String # generating 16-char passwords from the string of password characters
+
 #

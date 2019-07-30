@@ -38,8 +38,25 @@ gwmi Win32_Process -Filter "Name='powershell.exe'" | ft -auto -wrap __PATH,Comma
 $passparts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()' # Onebox restricted 'symbols'
 $passparts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`~!@#$%^&*()_+-={}|[]\:";''<>?,./' # from Windows Live ID and Account Mangement Help
 $passparts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!%*_+-=[]:?./' # removed quotes and command-line specials
-$r = new-object Random ([Int32]([DateTime]::Now.Ticks -band 0x7fffffff)); 0..15 | % { write-host -NoNewline $passparts.Chars($r.Next(0,$passparts.Length)) } ; write-host ""
-# $r = $r = [Security.Cryptography.RNGCryptoServiceProvider]::Create(); # need to filter from $r.GetBytes(Byte[])
+$r = new-object Random ([Int32]([DateTime]::Now.Ticks -band 0x7fffffff)); 0..15 | % { $passparts.Chars($r.Next(0,$passparts.Length)) } | Join-String
+function Get-RandomCNG([object]$InputObject, [int]$Count=1) {
+	$rcsp = [Security.Cryptography.RNGCryptoServiceProvider]::Create()
+	$rb = new-object Byte[] 1
+	$f = $InputObject.Count
+	$sp = [Math]::Truncate([Byte]::MaxValue/($f))
+	$r = 0
+	#New-Object PSObject | select @{'n'='$sp';e={$sp}},@{'n'='$f';e={$f}} | ft
+	for ($i = 0; $i -lt $Count; ++$i) {
+		do {
+			$rcsp.GetBytes($rb)
+			$r = [Math]::Truncate($rb[0]/$sp)
+			#New-Object PSObject | select @{'n'='$r';e={$r}} | ft
+		} while ($r -ge $f)
+		$InputObject[$r]
+	}
+	$rcsp.Dispose()
+}
+Get-RandomCNG $passparts.ToCharArray() 16 | Join-String
 
 Write-Debug ((New-Object System.Management.Automation.PSCredential ('x', $result)).GetNetworkCredential().Password) # dump Security.SecureString $result to debug stream 2017/01/23
 $cert = dir Cert:\LocalMachine\My\4e* ;
