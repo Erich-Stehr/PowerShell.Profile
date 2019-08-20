@@ -1,6 +1,10 @@
 [color "status"]
 	changed = red normal bold
 	untracked = red normal bold
+	added = green normal bold
+[color "diff"]
+	old = red normal bold
+	new = green normal bold
 [diff]
 	tool = vsdiffmerge
 [difftool]
