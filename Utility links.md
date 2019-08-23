@@ -50,6 +50,7 @@
     - C#
     - PowerShell
     - SQL Server (mssql)
+    - hexdump for VSCode
     - user settings (File > Preferences > Settings)
 
     ```json
