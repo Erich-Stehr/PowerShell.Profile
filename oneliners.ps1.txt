@@ -100,4 +100,8 @@ pushd ~\Desktop\Notes; gc $PWD\Links.fragment.html | %{ [void]($_ -match "(\d{4}
 # $verbClasses = [AppDomain]::CurrentDomain.GetAssemblies() | ? { $_.FullName.StartsWith("System.Management.Automation,") } | % { $_.GetTypes() } | ? { $_.Name.StartsWith("Verbs") }
 # from <https://devblogs.microsoft.com/powershell/get-verb/>
 $verbClasses = [PSObject].Assembly.GetTypes() | ? {$_.Name -like "*Verbs*"} # Get-Member -type Property -static | select -ExpandProperty Name
+
+# sql server: kill spids holding single user $dbName open, make multi-user again <https://stackoverflow.com/questions/14652923/set-database-from-single-user-mode-to-multi-user>, <https://stackoverflow.com/questions/24497970/sqlcmd-to-generate-file-without-dashed-line-under-header-without-row-count>
+sqlcmd -h -1 -Q "SET NOCOUNT ON; SELECT spid from master.sys.sysprocesses WHERE spid > 50 AND dbid=DB_ID ('$dbName')" | % { sqlcmd -Q "KILL $_" }; sqlcmd -Q "ALTER DATABASE $dbName SET MULTI_USER WITH ROLLBACK IMMEDIATE"
+
 #
