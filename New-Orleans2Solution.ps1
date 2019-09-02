@@ -1,4 +1,4 @@
-﻿# Modified from <http://gigi.nullneuron.net/gigilabs/getting-organised-with-microsoft-orleans-2-0-in-net-core/>
+﻿# Modified from <http://gigi.nullneuron.net/gigilabs/getting-organised-with-microsoft-orleans-2-0-in-net-core/> and <http://gigi.nullneuron.net/gigilabs/orleans-2-0-stateless-worker-grains/>
 [CmdletBinding(ConfirmImpact=[System.Management.Automation.ConfirmImpact]::Medium,SupportsShouldProcess=$false)]
 #[Parameter(Mandatory=$true,ValueFromPipeline=$true)]
 param (
@@ -42,12 +42,21 @@ $newSiloMain = @"
                     options.AdvertisedIPAddress = IPAddress.Loopback)
                 .ConfigureLogging(logging => logging.AddConsole());
 
-            using (var host = siloBuilder.Build())
+            ISiloHost host = null;
+            try
             {
+                host = siloBuilder.Build(); // Can't `using` the host
                 await host.StartAsync();
-
                 Console.ReadLine();
             }
+            finally
+            {
+                if (host != null)
+                {
+                    await host.StopAsync();
+                }
+            }
+
         }
 "@
 "using Microsoft.Extensions.Logging;", "using Orleans;", "using Orleans.Configuration;", "using Orleans.Hosting;", "using System.Net;", "using System.Threading.Tasks;", ([regex]'(?m)static void Main[^}]*?}').Replace($siloCs, $newSiloMain) | Out-File -enc ASCII "${solutionName}Silo/Program.cs"
@@ -64,6 +73,7 @@ dotnet add "${solutionName}Client/${solutionName}Client.csproj" package Microsof
 dotnet add "${solutionName}Client/${solutionName}Client.csproj" reference "${solutionName}Contracts/${solutionName}Contracts.csproj"
 $clientCs = [IO.File]::ReadAllText("$PWD/${solutionName}Client/Startup.cs")
 $newCreateClientCode = @"
+        /// <remarks>`.Close()` client for graceful shutdown; `.Dispose()`/`.Abort()` are non-graceful</remarks>
         private IClusterClient CreateOrleansClient()
         {
             var clientBuilder = new ClientBuilder()
