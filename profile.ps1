@@ -872,6 +872,7 @@ function Get-RandomCNG([object]$InputObject, [int]$Count=1) {
 	$rcsp = [Security.Cryptography.RNGCryptoServiceProvider]::Create()
 	$rb = new-object Byte[] 1
 	$f = $InputObject.Count
+	if ($f -le 1) { throw "Need collection" }
 	$sp = [Math]::Truncate([Byte]::MaxValue/($f))
 	$r = 0
 	#New-Object PSObject | select @{'n'='$sp';e={$sp}},@{'n'='$f';e={$f}} | ft
