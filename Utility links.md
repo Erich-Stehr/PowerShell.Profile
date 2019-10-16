@@ -10,6 +10,7 @@
     - `git config --global color.status.added "green normal bold"`
     - `git config --global color.diff.old "red normal bold"`
     - `git config --global color.diff.new "green normal bold"`
+    - `git config --global color.branch.remote "red normal bold"`
     - `git config --global merge.tool kdiff3` or use vsdiffmerge.gitconfig and set vsdiffmerge
 - [Bayden MezerTools](https://bayden.com/mezer)
 - [StudioShell](http://studioshell.codeplex.com/) - DTE: access in VS (alt: `Install-Package StudioShell.Provider`)
