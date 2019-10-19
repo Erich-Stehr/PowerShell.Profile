@@ -12,7 +12,7 @@ dir | %{ $_.Attributes = $_.Attributes -band -bnot [System.IO.FileAttributes]::R
 [Enum]::GetValues([Environment+SpecialFolder]) | select @{n='Name';e={$_}},@{n='Path';e={[Environment]::GetFolderPath($_)}} | ft -auto -wrap
 [Environment]::CurrentDirectory=$pwd
 Start-Job -Name pester { cd $using:PWD ; . Use-AzDevSubscription.ps1; Invoke-Pester -Strict $using:testfile } | Receive-Job -Wait -AutoRemoveJob
-# $using:, -AutoRemoveJob are PoSH3 # Start-Job -Name pester -ArgumentList @($PWD, $testfile) { param($p, $testfile); cd $P ; . Use-AzDevSubscription.ps1; Invoke-Pester -Strict $testfile } | Receive-Job -Wait ; Remove-Job -Name pester
+# $using:, -AutoRemoveJob, -Wait are PoSH3 # Start-Job -Name pester -ArgumentList @($PWD, $testfile) { param($p, $testfile); Import-Module Pester; cd $P ; . Use-AzDevSubscription.ps1; Invoke-Pester -Strict $testfile } | Wait-Job | Receive-Job ; Remove-Job -Name pester
 
 [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.SharePoint.Publishing")
 
