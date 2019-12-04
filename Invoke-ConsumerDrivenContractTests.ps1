@@ -22,23 +22,28 @@ if ($passnumber -eq 1) {
 
 if ($passnumber -eq 2) {
     Push-Location "$location\$projectName"
-    # needs TFS task to restore through NuGet in order to use service connection
+    # may need "NuGet restore" TFS task in order to use service connection due to local AD forest configuration
+    # set Advanced > Destination directory to "$(System.DefaultWorkingDirectory)\packages" in addition to pointing at where the .csproj is created
     Write-Verbose -Verbose "publishing Tests project"
-    dotnet publish $project -o Tests
+    dotnet publish $project -o Tests # -no-restore
 
     # bring in config files and tools
 
     Write-Verbose -Verbose "collecting package data/configs for $project"
     $packs = (dotnet list $project package | select-string '\>\s+(?<packagename>\S+)\s+(?<requested>\S+)\s+(?<resolved>\S+)\s*$')
+    $packagecache = "$location\packages"
+    if (!(Test-Path $packagecache -PathType Container)) {
+        $packagecache = "~\.nuget\packages"
+    }
     $packs | % {
         $packagename = $_.Matches[0].Groups['packagename'].Value
         $resolved = $_.Matches[0].Groups['resolved'].Value
         if ($packagename -like '*BECU*') {
-            copy-item "~\.nuget\packages\${packagename}\${resolved}\lib\net471\*.config" Tests
+            copy-item "${packagecache}\${packagename}\${resolved}\lib\net471\*.config" Tests
         } elseif ($packagename -eq 'nunit') {
             $script:nunitVersion = "${resolved}.0"
         } elseif ($packagename -eq 'NUnit.ConsoleRunner') {
-            $script:runner = "~\.nuget\packages\${packagename}\${resolved}\tools\nunit3-console.exe"
+            $script:runner = "${packagecache}\${packagename}\${resolved}\tools\nunit3-console.exe"
             $script:runner
         }
     }
