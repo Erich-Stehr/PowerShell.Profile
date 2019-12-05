@@ -14,10 +14,33 @@ if ($passnumber -eq 1) {
     $project = "$location\$projectName\${projectName}.csproj"
     Write-Verbose -Verbose "$project saved initially"
 
+    Set-Content -Path .\Nuget.config -Value @"
+<configuration>
+  <config>
+    <add key="defaultPushSource" value="" />
+  </config>
+  <packageRestore>
+    <!-- Allow NuGet to download missing packages -->
+    <add key="enabled" value="True" />
+    <!-- Automatically check for missing packages during build in Visual Studio -->
+    <add key="automatic" value="True" />
+  </packageRestore>
+  <packageSources>
+    <clear />
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json"/>
+    <add key="Packages" value=""/>
+  </packageSources>
+</configuration>
+"@
+    Write-Verbose -Verbose "NuGet.config saved in project"
+
     dotnet add $project package $testPackage -n
     dotnet add $project package NUnit.ConsoleRunner -n
     Write-Verbose -Verbose "removing unneeded sample tests"
     del -rec -force UnitTest1.cs
+
+    #Write-Host "##vso[task.setvariable variable=NuGet_ForceEnableCredentialProviderV2]true"
+    #Write-Host "##vso[task.setvariable variable=NuGet.ForceEnableCredentialProvider]false"
 }
 
 if ($passnumber -eq 2) {
