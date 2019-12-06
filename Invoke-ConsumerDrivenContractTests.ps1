@@ -1,4 +1,5 @@
-[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingCmdletAliases", "", Target="del|%|cd")]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingCmdletAliases", "")] # del|%|cd
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseCmdletCorrectly", "")] # Write-Verbose
 param ([int]$passnumber=1, [string]$testPackage = "BECU.Services.Mortgage.Interop.MemberProfile.Tests", [Hashtable]$endpointReplacements=$null, [string]$projectName = "RelosContractTests")
 
 $location = "${env:SYSTEM_DEFAULTWORKINGDIRECTORY}"
