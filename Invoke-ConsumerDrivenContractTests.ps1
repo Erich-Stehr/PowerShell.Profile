@@ -7,15 +7,16 @@ if ($location -eq "") {
     $location = $PWD
 }
 Write-Verbose -Verbose "Location: $location"
+$project = "$location\$projectName\${projectName}.csproj"
+Write-Verbose -Verbose "project: $project"
 
 if ($passnumber -eq 1) {
     del -rec -force "${location}\${projectName}" -ea SilentlyContinue
     dotnet new nunit --framework net471 --name $projectName -o "${location}\${projectName}" --no-restore
     Push-Location "$location\$projectName"
-    $project = "$location\$projectName\${projectName}.csproj"
     Write-Verbose -Verbose "$project saved initially"
 
-    Set-Content -Path .\Nuget.config -Value @"
+    $nugetconfig = @"
 <configuration>
   <config>
     <add key="defaultPushSource" value="" />
@@ -33,8 +34,10 @@ if ($passnumber -eq 1) {
   </packageSources>
 </configuration>
 "@
+    Set-Content -Path .\Nuget.config -Value $nugetconfig
     Write-Verbose -Verbose "NuGet.config saved in project"
 
+    dotnet add $project package NUnit -n # current version instead of possible lessers
     dotnet add $project package $testPackage -n
     dotnet add $project package NUnit.ConsoleRunner -n
     Write-Verbose -Verbose "removing unneeded sample tests"
@@ -49,7 +52,8 @@ if ($passnumber -eq 2) {
     # may need "NuGet restore" TFS task in order to use service connection due to local AD forest configuration
     # set Advanced > Destination directory to "$(System.DefaultWorkingDirectory)\packages" in addition to pointing at where the .csproj is created
     Write-Verbose -Verbose "publishing Tests project"
-    dotnet publish $project -o Tests # -no-restore
+    dotnet publish $project -o Tests # --no-restore
+    dir Tests
 
     # bring in config files and tools
 
@@ -59,16 +63,18 @@ if ($passnumber -eq 2) {
     if (!(Test-Path $packagecache -PathType Container)) {
         $packagecache = "~\.nuget\packages"
     }
+    Write-Verbose -Verbose "packagecache = $packagecache"
     $packs | % {
         $packagename = $_.Matches[0].Groups['packagename'].Value
         $resolved = $_.Matches[0].Groups['resolved'].Value
         if ($packagename -like '*BECU*') {
-            copy-item "${packagecache}\${packagename}\${resolved}\lib\net471\*.config" Tests
+            copy-item -passThru "${packagecache}\${packagename}\${resolved}\lib\net471\*.config" Tests
         } elseif ($packagename -eq 'nunit') {
             $script:nunitVersion = "${resolved}.0"
+            Write-Verbose -Verbose "nunitVersion = ${nunitVersion}"
         } elseif ($packagename -eq 'NUnit.ConsoleRunner') {
             $script:runner = "${packagecache}\${packagename}\${resolved}\tools\nunit3-console.exe"
-            $script:runner
+            Write-Verbose -Verbose "runner = ${script:runner}"
         }
     }
 
@@ -77,7 +83,6 @@ if ($passnumber -eq 2) {
     $testNsmgr = new-object System.Xml.XmlNamespaceManager $testDllConfigDoc.NameTable
     $testNsmgr.AddNamespace("asm", "urn:schemas-microsoft-com:asm.v1") # handle assemblyBinding namespace
     $rtXpath = "/configuration/runtime"
-    # $bindingXpath = "asm:assemblyBinding[starts-with(asm:dependentAssembly/asm:assemblyIdentity/@name, 'nunit')]"
     $bindingXpath = "asm:assemblyBinding"
     $assemblyBindingDoc = [xml]@"
 <configuration>
@@ -94,6 +99,9 @@ if ($passnumber -eq 2) {
     $asmBindNsmgr = new-object System.Xml.XmlNamespaceManager $assemblyBindingDoc.NameTable
     $asmBindNsmgr.AddNamespace("asm", "urn:schemas-microsoft-com:asm.v1")
     $runtimeNode = $testDllConfigDoc.SelectSingleNode($rtXpath)
+    if ($null -eq $runtimeNode) {
+        throw "Failed to get runtime from .dll.config!"
+    }
     $updatedConfig = $false
 
     $assemblyBindingDoc.SelectNodes("$rtXpath/$bindingXpath", $asmBindNsmgr) | % {
@@ -105,10 +113,11 @@ if ($passnumber -eq 2) {
         $script:updatedConfig = $true
         if ($oldBind -eq $null) {
             [void]$runtimeNode.AppendChild($importedNewBind)
+            Write-Verbose -Verbose "$newBindName appended"
         } else {
             [void]$runtimeNode.ReplaceChild($importedNewBind, $oldBind)
+            Write-Verbose -Verbose "$newBindName replaced"
         }
-        Write-Verbose -Verbose "$newBindName updated"
     }
 
     # update test config to point to correct endpoints
@@ -125,6 +134,7 @@ if ($passnumber -eq 2) {
     if ($updatedConfig) {
         $testDllConfigDoc.Save("$PWD\Tests\${testPackage}.dll.config")
         Write-Verbose -Verbose "$PWD\Tests\${testPackage}.dll.config saved"
+        Write-Verbose -Verbose $testDllConfigDoc.documentElement.get_OuterXml()
     }
 
     cd Tests
