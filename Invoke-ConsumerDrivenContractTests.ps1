@@ -37,7 +37,6 @@ if ($passnumber -eq 1) {
     Set-Content -Path .\Nuget.config -Value $nugetconfig
     Write-Verbose -Verbose "NuGet.config saved in project"
 
-    dotnet add $project package NUnit -n # current version instead of possible lessers
     dotnet add $project package $testPackage -n
     dotnet add $project package NUnit.ConsoleRunner -n
     Write-Verbose -Verbose "removing unneeded sample tests"
@@ -139,6 +138,9 @@ if ($passnumber -eq 2) {
 
     cd Tests
     & $runner "${testPackage}.dll"
+    if ( 0 -gt $LastExitCode ) {
+        Write-Error -ErrorAction Stop "Console runner returned $LastExitCode"
+    }
 }
 
 Pop-Location
