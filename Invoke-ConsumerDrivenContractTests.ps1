@@ -2,6 +2,11 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseCmdletCorrectly", "")] # Write-Verbose
 param ([int]$passnumber=1, [string]$testPackage = "BECU.Services.Mortgage.Interop.MemberProfile.Tests", [string]$endpointReplacementJSON="", [string]$projectName = "RelosContractTests")
 
+Write-Verbose -Verbose "passnumber: $passnumber"
+Write-Verbose -Verbose "testPackage: $testPackage"
+Write-Verbose -Verbose "endpointReplacementJSON: $endpointReplacementJSON"
+Write-Verbose -Verbose "RelosContractTests: $RelosContractTests"
+Write-Verbose -Verbose ""
 $location = "${env:SYSTEM_DEFAULTWORKINGDIRECTORY}"
 if ($location -eq "") {
     $location = $PWD
