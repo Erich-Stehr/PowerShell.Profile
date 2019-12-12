@@ -1,7 +1,6 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingCmdletAliases", "")] # del|%|cd
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseCmdletCorrectly", "")] # Write-Verbose
-param ([int]$passnumber=1, [string]$testPackage = "BECU.Services.Mortgage.Interop.MemberProfile.Tests", [Hashtable]$endpointReplacements=$null, [string]$projectName = "RelosContractTests")
-# param ([int]$passnumber=1, [string]$testPackage = "$(testPackageName)", [string]$endpointReplacementJSON="", [string]$projectName = "$(projectName)")
+param ([int]$passnumber=1, [string]$testPackage = "BECU.Services.Mortgage.Interop.MemberProfile.Tests", [string]$endpointReplacementJSON="", [string]$projectName = "RelosContractTests")
 
 $location = "${env:SYSTEM_DEFAULTWORKINGDIRECTORY}"
 if ($location -eq "") {
@@ -122,7 +121,12 @@ if ($passnumber -eq 2) {
     }
 
     # update test config to point to correct endpoints
-    if ($endpointReplacements -ne $null) {
+    $endpointReplacements = @{}
+    (ConvertFrom-Json -InputObject $endpointReplacementJSON).psobject.properties |
+        ? {$null -ne $_} | % {
+        $endpointReplacements.Add($_.Name, $_.Value)
+    }
+    if ($endpointReplacements.Count -gt 0) {
         $testDllConfigDoc.SelectNodes("/configuration/system.serviceModel/client/endpoint", $testNsmgr) | % {
             $a = $_.address
             $e = $endpointReplacements[$a]
