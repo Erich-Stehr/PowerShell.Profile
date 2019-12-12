@@ -1,6 +1,7 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingCmdletAliases", "")] # del|%|cd
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseCmdletCorrectly", "")] # Write-Verbose
 param ([int]$passnumber=1, [string]$testPackage = "BECU.Services.Mortgage.Interop.MemberProfile.Tests", [Hashtable]$endpointReplacements=$null, [string]$projectName = "RelosContractTests")
+# param ([int]$passnumber=1, [string]$testPackage = "$(testPackageName)", [string]$endpointReplacementJSON="", [string]$projectName = "$(projectName)")
 
 $location = "${env:SYSTEM_DEFAULTWORKINGDIRECTORY}"
 if ($location -eq "") {
@@ -37,6 +38,7 @@ if ($passnumber -eq 1) {
     Set-Content -Path .\Nuget.config -Value $nugetconfig
     Write-Verbose -Verbose "NuGet.config saved in project"
 
+    dotnet add NUnit -n # explicit addtion prevents older nested prerequisite jamming the project
     dotnet add $project package $testPackage -n
     dotnet add $project package NUnit.ConsoleRunner -n
     Write-Verbose -Verbose "removing unneeded sample tests"
@@ -122,9 +124,11 @@ if ($passnumber -eq 2) {
     # update test config to point to correct endpoints
     if ($endpointReplacements -ne $null) {
         $testDllConfigDoc.SelectNodes("/configuration/system.serviceModel/client/endpoint", $testNsmgr) | % {
-            if ($endpointReplacements.ContainsKey($_.address)) {
-                Write-Verbose -Verbose "$($_.address) updating to $($endpointReplacements[$_.address])"
-                $_.address = $endpointReplacements[$_.address]
+            $a = $_.address
+            $e = $endpointReplacements[$a]
+            if ($endpointReplacements.ContainsKey($a)) {
+                Write-Verbose -Verbose "$a updating to $e"
+                $_.address = $e
                 $script:updatedConfig = $true
             }
         }
