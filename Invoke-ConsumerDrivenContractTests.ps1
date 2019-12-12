@@ -5,7 +5,7 @@ param ([int]$passnumber=1, [string]$testPackage = "BECU.Services.Mortgage.Intero
 Write-Verbose -Verbose "passnumber: $passnumber"
 Write-Verbose -Verbose "testPackage: $testPackage"
 Write-Verbose -Verbose "endpointReplacementJSON: $endpointReplacementJSON"
-Write-Verbose -Verbose "RelosContractTests: $RelosContractTests"
+Write-Verbose -Verbose "projectName: $projectName"
 Write-Verbose -Verbose ""
 $location = "${env:SYSTEM_DEFAULTWORKINGDIRECTORY}"
 if ($location -eq "") {
