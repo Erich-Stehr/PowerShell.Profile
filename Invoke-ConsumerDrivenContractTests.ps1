@@ -37,7 +37,7 @@ if ($passnumber -eq 1) {
     Set-Content -Path .\Nuget.config -Value $nugetconfig
     Write-Verbose -Verbose "NuGet.config saved in project"
 
-    dotnet add NUnit -n # explicit addtion prevents older nested prerequisite jamming the project
+    dotnet add $project package NUnit -n # explicit addtion prevents older nested prerequisite jamming the project
     dotnet add $project package $testPackage -n
     dotnet add $project package NUnit.ConsoleRunner -n
     Write-Verbose -Verbose "removing unneeded sample tests"
@@ -49,10 +49,10 @@ if ($passnumber -eq 1) {
 
 if ($passnumber -eq 2) {
     Push-Location "$location\$projectName"
-    # may need "NuGet restore" TFS task in order to use service connection due to local AD forest configuration
+    # needs "NuGet restore" TFS task in order to use service connection due to local AD forest configuration
     # set Advanced > Destination directory to "$(System.DefaultWorkingDirectory)\packages" in addition to pointing at where the .csproj is created
     Write-Verbose -Verbose "publishing Tests project"
-    dotnet publish $project -o Tests # --no-restore
+    dotnet publish $project -o Tests --no-restore
     dir Tests
 
     # bring in config files and tools
@@ -122,19 +122,20 @@ if ($passnumber -eq 2) {
 
     # update test config to point to correct endpoints
     $endpointReplacements = @{}
-    (ConvertFrom-Json -InputObject $endpointReplacementJSON).psobject.properties |
-        ? {$null -ne $_} | % {
-        $endpointReplacements.Add($_.Name, $_.Value)
+    if (![string]::IsNullOrWhiteSpace($endpointReplacementJSON)) {
+        (ConvertFrom-Json -InputObject $endpointReplacementJSON).psobject.properties |
+            ? {$null -ne $_} | % {
+            $endpointReplacements.Add($_.Name, $_.Value)
+        }
     }
-    if ($endpointReplacements.Count -gt 0) {
-        $testDllConfigDoc.SelectNodes("/configuration/system.serviceModel/client/endpoint", $testNsmgr) | % {
-            $a = $_.address
+    $testDllConfigDoc.SelectNodes("/configuration/system.serviceModel/client/endpoint", $testNsmgr) | % {
+        $a = $_.address
+        Write-Verbose -Verbose "Endpoint: $a"
+        if ($endpointReplacements.ContainsKey($a)) {
             $e = $endpointReplacements[$a]
-            if ($endpointReplacements.ContainsKey($a)) {
-                Write-Verbose -Verbose "$a updating to $e"
-                $_.address = $e
-                $script:updatedConfig = $true
-            }
+            Write-Verbose -Verbose "Endpoint $a updating to $e"
+            $_.address = $e
+            $script:updatedConfig = $true
         }
     }
 
