@@ -43,6 +43,8 @@
     - ? Serilog Analyzer
     - Concurrency Visualizer
     - Open PowerShell Prompt
+    - Productivity Power Tools
+    - ? VSDebrix
     - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
     - [XPath Tools](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation)
 
