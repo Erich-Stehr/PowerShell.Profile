@@ -5,25 +5,30 @@ param (
 	[Parameter(Mandatory=$true)]
 	[string] 
 	# Name of solution (creates subdirectory in $pwd if not already in one of same name)
-	$solutionName=$(throw "Requires name of solution to create")
+    $solutionName=$(throw "Requires name of solution to create"),
+    [string]
+    # Version of Orleans to use (Nuget package ranges apply, default '2.*')
+    $orleansVersion='2.*'
 	)
 if ((Split-Path $pwd -Leaf) -ne $solutionName) {
     cd (md (Join-Path $pwd $solutionName))
 }
+$sdkVersion = dotnet --version | select-string '^(\d+\.\d+)\.' | %{$_.Matches[0].Groups[1].Value}
+$sdkVersion = "${sdkVersion}.*"
 
 dotnet new classlib --name "${solutionName}Contracts" --no-restore
-dotnet add "${solutionName}Contracts/${solutionName}Contracts.csproj" package Microsoft.Orleans.Core.Abstractions --no-restore
-dotnet add "${solutionName}Contracts/${solutionName}Contracts.csproj" package Microsoft.Orleans.OrleansCodeGenerator.Build 
+dotnet add "${solutionName}Contracts/${solutionName}Contracts.csproj" package Microsoft.Orleans.Core.Abstractions --no-restore -v $orleansVersion
+dotnet add "${solutionName}Contracts/${solutionName}Contracts.csproj" package Microsoft.Orleans.OrleansCodeGenerator.Build  -v $orleansVersion
 
 dotnet new classlib --name "${solutionName}Grains" --no-restore
-dotnet add "${solutionName}Grains/${solutionName}Grains.csproj" package Microsoft.Orleans.Core.Abstractions --no-restore
-dotnet add "${solutionName}Grains/${solutionName}Grains.csproj" package Microsoft.Orleans.OrleansCodeGenerator.Build --no-restore
+dotnet add "${solutionName}Grains/${solutionName}Grains.csproj" package Microsoft.Orleans.Core.Abstractions --no-restore -v $orleansVersion
+dotnet add "${solutionName}Grains/${solutionName}Grains.csproj" package Microsoft.Orleans.OrleansCodeGenerator.Build --no-restore -v $orleansVersion
 dotnet add "${solutionName}Grains/${solutionName}Grains.csproj" reference "${solutionName}Contracts/${solutionName}Contracts.csproj"
 
 dotnet new console --name "${solutionName}Silo" --no-restore
-dotnet add "${solutionName}Silo/${solutionName}Silo.csproj" package Microsoft.Orleans.Server --no-restore
-dotnet add "${solutionName}Silo/${solutionName}Silo.csproj" package Microsoft.Extensions.Logging.Console --no-restore
-dotnet add "${solutionName}Silo/${solutionName}Silo.csproj" package OrleansDashboard --no-restore
+dotnet add "${solutionName}Silo/${solutionName}Silo.csproj" package Microsoft.Orleans.Server --no-restore -v $orleansVersion
+dotnet add "${solutionName}Silo/${solutionName}Silo.csproj" package Microsoft.Extensions.Logging.Console --no-restore -v $sdkVersion
+dotnet add "${solutionName}Silo/${solutionName}Silo.csproj" package OrleansDashboard --no-restore -v $orleansVersion
 dotnet add "${solutionName}Silo/${solutionName}Silo.csproj" reference "${solutionName}Contracts/${solutionName}Contracts.csproj"
 dotnet add "${solutionName}Silo/${solutionName}Silo.csproj" reference "${solutionName}Grains/${solutionName}Grains.csproj"
 $siloCs = [IO.File]::ReadAllText("$PWD/${solutionName}Silo/Program.cs")
@@ -68,8 +73,8 @@ $xdoc.Save("$PWD/${solutionName}Silo/${solutionName}Silo.csproj")
 "set Silo to use latest C# (for async Main)"
 
 dotnet new webapi --name "${solutionName}Client" --no-restore
-dotnet add "${solutionName}Client/${solutionName}Client.csproj" package Microsoft.Orleans.Client --no-restore
-dotnet add "${solutionName}Client/${solutionName}Client.csproj" package Microsoft.Extensions.Logging.Console --no-restore
+dotnet add "${solutionName}Client/${solutionName}Client.csproj" package Microsoft.Orleans.Client --no-restore -v $orleansVersion
+dotnet add "${solutionName}Client/${solutionName}Client.csproj" package Microsoft.Extensions.Logging.Console --no-restore -v $sdkVersion
 dotnet add "${solutionName}Client/${solutionName}Client.csproj" reference "${solutionName}Contracts/${solutionName}Contracts.csproj"
 $clientCs = [IO.File]::ReadAllText("$PWD/${solutionName}Client/Startup.cs")
 $newCreateClientCode = @"
