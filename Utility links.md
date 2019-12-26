@@ -23,11 +23,12 @@
     - `Install-Module -Name Posh-Git -Force`
     - `Install-Module -Name PSCX -Force -AllowClobber`
 - [Chocolatey](https://chocolatey.org/) - Windows installer manager
-    - vscode git nodejs notepadplusplus.commandline googlechrome 7zip sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape nuget.commandline ruby.portable
+    - `choco upgrade git 7zip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape nuget.commandline ruby.portable -y`
     - # git.portable notepadplusplus.commandline ?silverlight? ?insomnia-rest-api-client? ?conemu?
-    - (after IIS install) netfx-4.7.1-devpack netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk visualstudio2019community visualstudio2019-workload-netweb dotnetcore-windowshosting visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure -y -r --no-progress --force --includeRecommended --includeOptional	
-
-  
+    - `choco upgrade IIS-WebServerRole --source windowsfeatures -y`
+    - `choco upgrade netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk dotnetcore-windowshosting  visualstudio2019community visualstudio2019-workload-netweb visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure -y -r --no-progress --force --includeRecommended --includeOptional`
+    - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
+    - `choco install docker-desktop -y`
 
 - other VS extensions
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
