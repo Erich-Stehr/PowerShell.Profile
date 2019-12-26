@@ -29,3 +29,5 @@
 	optimizepublish = yes
 [gc]
 	auto = 0
+[color "branch"]
+	remote = red normal bold
