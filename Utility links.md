@@ -23,7 +23,11 @@
     - `Install-Module -Name Posh-Git -Force`
     - `Install-Module -Name PSCX -Force -AllowClobber`
 - [Chocolatey](https://chocolatey.org/) - Windows installer manager
-    - vscode git[.portable] nodejs notepadplusplus[.commandline] googlechrome 7zip ?silverlight? ?insomnia-rest-api-client? sysinternals ?conemu? firefox ilspy Linqpad5.AnyCPU.install InkScape nuget.commandline ruby.portable
+    - vscode git nodejs notepadplusplus.commandline googlechrome 7zip sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape nuget.commandline ruby.portable
+    - # git.portable notepadplusplus.commandline ?silverlight? ?insomnia-rest-api-client? ?conemu?
+    - (after IIS install) netfx-4.7.1-devpack netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk visualstudio2019community visualstudio2019-workload-netweb dotnetcore-windowshosting visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure -y -r --no-progress --force --includeRecommended --includeOptional	
+
+  
 
 - other VS extensions
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
