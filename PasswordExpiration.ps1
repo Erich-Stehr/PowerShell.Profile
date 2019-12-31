@@ -23,7 +23,7 @@ if ($srchres.Properties.Contains("accountexpires")) {
 		"$usr 'accountexpires' over maximum (last set $pwdLastSet)"
 		#exit
 	} else {
-		"$usr forced expires $([DateTime]::FromFileTime($srchres.Properties.accountexpires[0]).ToString('u'))"
+		"$usr forced expires $([DateTime]::FromFileTimeUTC($srchres.Properties.accountexpires[0]).ToString('u'))"
 		#exit
 	}
 }
