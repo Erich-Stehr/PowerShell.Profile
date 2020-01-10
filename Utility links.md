@@ -23,6 +23,7 @@
     - `Install-Module -Name PowerShellGet -Force` or the PsGet iex
     - `Install-Module -Name Posh-Git -Force`
     - `Install-Module -Name PSCX -Force -AllowClobber`
+    - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
 - [Chocolatey](https://chocolatey.org/) - Windows installer manager
     - `choco upgrade git 7zip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape nuget.commandline ruby.portable papercut dependencywalker -y`
     - \# git.portable notepadplusplus.commandline ?silverlight? ?insomnia-rest-api-client? ?conemu?
