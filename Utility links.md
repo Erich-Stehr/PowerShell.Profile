@@ -32,6 +32,7 @@
     - `choco upgrade netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk dotnetcore-windowshosting  visualstudio2019community visualstudio2019-workload-netweb visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure  visualstudio2019-workload-nativedesktop visualstudio2019-workload-netcoretools visualstudio2019-workload-netcrossplat visualstudio2019-workload-node  -y -r --no-progress --force --includeRecommended --includeOptional`
     - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - `choco upgrade docker-desktop -y`
+    - `choco upgrade vlc -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer -y`
 
 - other VS extensions
