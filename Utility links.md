@@ -1,4 +1,4 @@
-﻿- [ClipX](http://bluemars.org/clipx/) - clipboard manager
+﻿- [ClipX](https://web.archive.org/web/20200111230002/https://bluemars.org/clipx/) - clipboard manager
     - $env:APPDATA\..\Local\ClipX\clipx_${env:USERNAME}.ini
     - probably want Stickies as well, but that's not in Chocolatey
 - *?[PureText](http://stevemiller.net/puretext/) - strips formatting from text on clipboard
