@@ -21,15 +21,15 @@
 - [LinqPad](http://www.linqpad.net) - .NET code scratchpad
 - [PowerShell Gallery](https://www.powershellgallery.com/) or [PsGet](https://psget.net/) for older versions
     - `Install-Module -Name PowerShellGet -Force` or the PsGet iex
-    - `Install-Module -Name Posh-Git -Force`
+    - `Install-Module -Name Posh-Git -Force -AllowClobber`
     - `Install-Module -Name PSCX -Force -AllowClobber`
     - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
 - [Chocolatey](https://chocolatey.org/) - Windows installer manager
     - `choco upgrade git 7zip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape nuget.commandline ruby.portable papercut dependencywalker -y`
     - \# git.portable notepadplusplus.commandline ?silverlight? ?insomnia-rest-api-client? ?conemu?
     - `choco upgrade clipx -pre -y`
-    - `choco upgrade IIS-WebServerRole --source windowsfeatures -y`
-    - `choco upgrade netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk dotnetcore-windowshosting  visualstudio2019community visualstudio2019-workload-netweb visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure  visualstudio2019-workload-nativedesktop visualstudio2019-workload-netcoretools visualstudio2019-workload-netcrossplat visualstudio2019-workload-node  -y -r --no-progress --force --includeRecommended --includeOptional`
+    - `choco install IIS-WebServerRole --source windowsfeatures -y`
+    - s/community/enterprise/ ? `choco upgrade netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk dotnetcore-windowshosting  visualstudio2019community visualstudio2019-workload-netweb visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure  visualstudio2019-workload-nativedesktop visualstudio2019-workload-netcoretools visualstudio2019-workload-netcrossplat visualstudio2019-workload-node  -y -r --no-progress --force --includeRecommended --includeOptional`
     - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - `choco upgrade docker-desktop -y`
     - `choco upgrade vlc -y`
