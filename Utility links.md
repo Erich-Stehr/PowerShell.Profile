@@ -24,7 +24,7 @@
     - `Install-Module -Name Posh-Git -Force -AllowClobber`
     - `Install-Module -Name PSCX -Force -AllowClobber`
     - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
-- [Chocolatey](https://chocolatey.org/) - Windows installer manager
+- [Chocolatey](https://chocolatey.org/install) - Windows installer manager
     - `choco upgrade git 7zip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape nuget.commandline ruby.portable papercut dependencywalker -y`
     - \# git.portable notepadplusplus.commandline ?silverlight? ?insomnia-rest-api-client? ?conemu?
     - `choco upgrade clipx -pre -y`
@@ -33,6 +33,7 @@
     - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - `choco upgrade docker-desktop -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer -y`
+	- `choco install sql-server-express sql-server-management-studio -y`
 
 - other VS extensions
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
