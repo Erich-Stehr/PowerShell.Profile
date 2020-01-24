@@ -34,7 +34,7 @@
     - `choco upgrade docker-desktop -y`
     - `choco upgrade vlc -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer -y`
-	- `choco install sql-server-express sql-server-management-studio -y`
+    - `choco upgrade sql-server-express sql-server-management-studio -y`
 
 - other VS extensions
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
@@ -58,6 +58,7 @@
     - ? VSDebrix
     - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
     - [XPath Tools](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation)
+    - Solution Error Visualizer
 
 - VSCode extensions
     - markdownlint
