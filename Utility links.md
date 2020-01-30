@@ -1,6 +1,5 @@
-﻿- [ClipX](https://web.archive.org/web/20200111230002/https://bluemars.org/clipx/) - clipboard manager
-    - $env:APPDATA\..\Local\ClipX\clipx_${env:USERNAME}.ini
-    - probably want Stickies as well, but that's not in Chocolatey
+﻿- *[ClipX](https://web.archive.org/web/20200111230002/https://bluemars.org/clipx/) - clipboard manager, add ClipX Stickies to keep entries around
+    - $env:LOCALAPPDATA\ClipX\clipx_${env:USERNAME}.ini ; a Stickies preset copy is in OneDrive
 - *?[PureText](http://stevemiller.net/puretext/) - strips formatting from text on clipboard
     - extract to $env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup
 - *[GitExtensions](http://gitextensions.github.io/) - adds Git menu to VS 2005-2015
