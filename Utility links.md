@@ -26,6 +26,7 @@
 - [Chocolatey](https://chocolatey.org/install) - Windows installer manager
     - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable papercut dependencywalker large-text-file-viewer -y`
     - \# git.portable notepadplusplus.commandline ?silverlight? ?insomnia-rest-api-client? ?conemu?
+        - notepadplusplus: Settings > Preferences. Editing. Multi-select.
     - `choco upgrade clipx -pre -y`
     - `choco install IIS-WebServerRole --source windowsfeatures -y`
     - s/community/enterprise/ ? `choco upgrade netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk dotnetcore-windowshosting  visualstudio2019community visualstudio2019-workload-netweb visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure  visualstudio2019-workload-nativedesktop visualstudio2019-workload-netcoretools visualstudio2019-workload-netcrossplat visualstudio2019-workload-node  -y -r --no-progress --force --includeRecommended --includeOptional`
