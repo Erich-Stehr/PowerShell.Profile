@@ -33,6 +33,7 @@
         - list.exe from Windows Debugging Kit in Windows Settings > Apps > Windows SDK > Change
     - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - `choco upgrade docker-desktop -y`
+    - `choco upgrade wixtoolset -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity eac calibre ghostscript.app irfanview musescore -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer -y`
     - `choco upgrade sql-server-express sql-server-management-studio -y`
@@ -60,6 +61,7 @@
     - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
     - [XPath Tools](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation)
     - Solution Error Visualizer
+    - WiX Toolset Visual Studio * Extension, Wax (3rd party WiX editor)
 
 - VSCode extensions
     - markdownlint
