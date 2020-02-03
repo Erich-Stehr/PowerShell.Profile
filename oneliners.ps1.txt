@@ -108,4 +108,7 @@ $verbClasses = [PSObject].Assembly.GetTypes() | ? {$_.Name -like "*Verbs*"} # Ge
 # sql server: kill spids holding single user $dbName open, make multi-user again <https://stackoverflow.com/questions/14652923/set-database-from-single-user-mode-to-multi-user>, <https://stackoverflow.com/questions/24497970/sqlcmd-to-generate-file-without-dashed-line-under-header-without-row-count>
 sqlcmd -h -1 -Q "SET NOCOUNT ON; SELECT spid from master.sys.sysprocesses WHERE spid > 50 AND dbid=DB_ID ('$dbName')" | % { sqlcmd -Q "KILL $_" }; sqlcmd -Q "ALTER DATABASE $dbName SET MULTI_USER WITH ROLLBACK IMMEDIATE"
 
+# 2020/02/03: http://blogs.clariusconsulting.net/kzu/reading-xml-document-fragments-in-net/ from 2007/08/04
+$xrs = New-object Xml.XmlReaderSettings; $xrs.ConformanceLevel = [Xml.ConformanceLevel]::Fragment; $xpdoc = New-Object Xml.XPath.XPathDocument @([Xml.XmlReader]::Create("$PWD\app_tracelog.svclog", $xrs))
+
 #
