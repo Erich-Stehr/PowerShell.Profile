@@ -115,4 +115,7 @@ $xrs = New-object Xml.XmlReaderSettings; $xrs.ConformanceLevel = [Xml.Conformanc
 # Select-Xml -Path .\app_tracelog1.svclog -XPath '/E2ETraceEvent' # can't share write on input, can't conform to fragments even through pipeline
 $xrs = New-object Xml.XmlReaderSettings; $xrs.ConformanceLevel = [Xml.ConformanceLevel]::Fragment; PSUsing ($fs = New-Object IO.FileStream @("$PWD\app_tracelog1.svclog", [IO.FileMode]::Open, [IO.FileAccess]::Read, [IO.FileShare]::ReadWrite)) { PSUsing ($sr = New-Object IO.StreamReader @($fs)) { $xr = [Xml.XmlReader]::Create($sr, $xrs) ; $(for ($xr.MoveToContent(); $x = $xr.ReadOuterXml();) { $x }) ; $xr.Close() ; $sr.Close() } ; $fs.Close() } | measure-object
 
+# 2020/02/27: simple 'o' time log exclusion
+select-string -pattern '^[0-9T:.-]*Z\tDebug\t(Copy|Done copying|Checking|Found)' -Path '\\proxcard-dev\c$\Users\v-ersteh\AppData\Local\ProxEventManager.log' -notmatch | select -l 40 | ... Line
+
 #
