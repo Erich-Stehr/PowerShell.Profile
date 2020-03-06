@@ -97,7 +97,7 @@ start-process -wait -filepath "$env:windir\system32\mstsc.exe" -argumentlist "/v
 
 New-ItemProperty -Path 'HKCU:\Control Panel\Input Method' -Name EnableHexNumpad -PropertyType STRING -Value "1" # then reboot(pre-Vista)/logout and login to activate Unicode Alt-(NUMPAD+)-(Numpad-Hex){4}
 
-dir ~\Desktop\Notes\*.URL | sort LastWriteTime | select Name,LastWriteTime,@{n='URL';e={select-string -LiteralPath ($_.FullName) -Pattern '^URL=' | % {$_.Line -replace '^URL=',''}}} | % { "$("{0:o}" -f $_.LastWriteTime) <a href='$($_.URL)'>$([System.Web.HTTPUtility]::HtmlEncode($_.Name))</a><br />" } | Add-Content -Encoding UTF8 -Path ~\Desktop\Notes\Links.fragment.html ; gc ~\Desktop\Notes\Links.fragment.html | Out-Clipboard ; (Get-Clipboard).Length ; copy ~\Desktop\Notes\Links.fragment.html "~\OneNote - Microsoft\Links.fragment.html"
+dir ~\Desktop\Notes\*.URL | sort LastWriteTime | select Name,LastWriteTime,@{n='URL';e={select-string -LiteralPath ($_.FullName) -Pattern '^URL=' | % {$_.Line -replace '^URL=',''}}} | % { "$("{0:o}" -f $_.LastWriteTime) <a href='$($_.URL)'>$([System.Web.HTTPUtility]::HtmlEncode($_.Name))</a><br />" } | Add-Content -Encoding UTF8 -Path ~\Desktop\Notes\Links.fragment.html ; gc ~\Desktop\Notes\Links.fragment.html | Out-Clipboard ; (Get-Clipboard).Length ; copy ~\Desktop\Notes\Links.fragment.html "~\OneDrive - Microsoft\Links.fragment.html"
 pushd ~\Desktop\Notes; gc $PWD\Links.fragment.html | %{ [void]($_ -match "(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{1,7}[-+]\d{2}:\d{2}) <a href='(.*?)'>(.*)</a><br />"); New-PSObjectFromHashtable @{LastWriteTime=[DateTime]$Matches[1];URL=$Matches[2];FileName=HtmlDecode($Matches[3])}  } | %{ if (![IO.File]::Exists("$PWD\$($_.FileName)")) {New-FileShortcut.ps1 ($_.URL) $null ("$PWD\$($_.FileName)")} ; Set-FileTime -LiteralPath ("$PWD\$($_.FileName)") -Time ($_.LastWriteTime) -Modified } ; popd
 
 [System.Management.Automation.VerbsCommon].DeclaredFields.Name # `Get-Verbs | Out-GridView` in 3.0+
@@ -116,6 +116,6 @@ $xrs = New-object Xml.XmlReaderSettings; $xrs.ConformanceLevel = [Xml.Conformanc
 $xrs = New-object Xml.XmlReaderSettings; $xrs.ConformanceLevel = [Xml.ConformanceLevel]::Fragment; PSUsing ($fs = New-Object IO.FileStream @("$PWD\app_tracelog1.svclog", [IO.FileMode]::Open, [IO.FileAccess]::Read, [IO.FileShare]::ReadWrite)) { PSUsing ($sr = New-Object IO.StreamReader @($fs)) { $xr = [Xml.XmlReader]::Create($sr, $xrs) ; $(for ($xr.MoveToContent(); $x = $xr.ReadOuterXml();) { $x }) ; $xr.Close() ; $sr.Close() } ; $fs.Close() } | measure-object
 
 # 2020/02/27: simple 'o' time log exclusion
-select-string -pattern '^[0-9T:.-]*Z\tDebug\t(Copy|Done copying|Checking|Found)' -Path '\\proxcard-dev\c$\Users\v-ersteh\AppData\Local\ProxEventManager.log' -notmatch | select -l 40 | ... Line
+select-string -pattern '[0-9T:.-]*Z\t(Copy|Done copying|Checking|Found)' -Path '\\proxcard-dev\c$\Users\v-ersteh\AppData\Local\ProxEventManager.log' -notmatch | select -l 40 | ... Line
 
 #
