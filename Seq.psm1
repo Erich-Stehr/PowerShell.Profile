@@ -14,10 +14,6 @@ function Send-SeqEvent (
     [System.Exception] $exception = $null,
     [switch] $clef)
 {
-  if (-not $level) {
-    $level = 'Information'
-  }
-   
   if (@('Verbose', 'Debug', 'Information', 'Warning', 'Error', 'Fatal') -notcontains $level) {
     $level = 'Information'
   }
@@ -33,24 +29,25 @@ function Send-SeqEvent (
     $allProperties += @{ Text = $text; }
   }
 
-  $ex = "null";
-  if ($exception) {
-    $ex = ($exception.ToString() | ConvertTo-Json)
-  }
-  
   if (!$clef) {
-  $global:body = "{""Events"": [ {
-    ""Timestamp"": ""$([System.DateTimeOffset]::Now.ToString('o'))"",
-    ""Level"": ""$level"",
-    ""Exception"": $ex,
-    ""MessageTemplate"": $($messageTemplate | ConvertTo-Json),
-    ""Properties"": $($allProperties | ConvertTo-Json) }]}"
+    $ex = "null";
+    if ($exception) {
+      $ex = ($exception.ToString() | ConvertTo-Json)
+    }
+    $global:body = "{""Events"": [ {
+      ""Timestamp"": ""$([System.DateTimeOffset]::Now.ToString('o'))"",
+      ""Level"": ""$level"",
+      ""Exception"": $ex,
+      ""MessageTemplate"": $($messageTemplate | ConvertTo-Json),
+      ""Properties"": $($allProperties | ConvertTo-Json) }]}"
   } else {
     $clefObj = [ordered]@{}
     $clefObj["@t"] = [System.DateTimeOffset]::Now.ToString('o')
     $clefObj["@l"] = $level
-    $clefObj["@x"] = $ex
-    $clefObj["@mt"] = $messageTemplate | ConvertTo-Json
+    if ($exception) {
+      $clefObj["@x"] = $ex
+    }
+    $clefObj["@mt"] = $messageTemplate
     $clefObj += $allProperties
     $global:body = ConvertTo-Json -InputObject $clefObj -Compress 
   }
