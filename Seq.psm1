@@ -4,7 +4,7 @@ function Open-Seq ([string] $url, [string] $apiKey, $properties = @{})
 {
   return @{ Url = $url; ApiKey = $apiKey; Properties = $properties.Clone() }
 }
-  
+# $seq = Open-Seq "http://localhost:5341/" -properties @{ Machine = $env:ComputerName }
 function Send-SeqEvent (
     $seq,
     [string] $text,
@@ -69,3 +69,6 @@ function Send-SeqEvent (
   
   Invoke-RestMethod -Uri $uribuilder.ToString() -Body $body -ContentType "application/json" -Method POST
 }
+# Send-SeqEvent $seq "Hello from PowerShell"
+# Send-SeqEvent $seq "Something is broken!" -level Error -properties @{ User = $env:Username }
+# Send-SeqEvent $seq "Leonard is {Age}" -properties @{ Age = 42 } -template
