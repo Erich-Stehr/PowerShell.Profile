@@ -17,7 +17,7 @@ Start-Job -Name pester { cd $using:PWD ; . Use-AzDevSubscription.ps1; Invoke-Pes
 [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.SharePoint.Publishing")
 
 [System.Reflection.Assembly]::LoadFrom("C:\app\ScraperService\HtmlAgilityPack.dll"); $hd = New-Object HtmlAgilityPack.HtmlDocument
-(Get-Clipboard).Split("`n`r", [StringSplitOptions]::RemoveEmptyEntries) | % { dir "\\relemeas17\ScraperService\RequestsOut\*$_*" }
+(Get-Clipboard).Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries) | % {$_.Trim()} | %{"#$_#"}  # | del -WhatIf -Recurse -Path {$_}
 
 $wc.DownloadString("http://spdev25:7000/_layouts/15/ScriptResx.ashx?name=CMSClientResources&culture=en-US")
 
