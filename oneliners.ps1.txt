@@ -121,5 +121,6 @@ $xrs = New-object Xml.XmlReaderSettings; $xrs.ConformanceLevel = [Xml.Conformanc
 # 2020/02/27: simple 'o' time log exclusion
 select-string -pattern '[0-9T:.-]*Z\t(Copy|Done copying|Checking|Found)' -Path '\\proxcard-dev\c$\Users\v-ersteh\AppData\Local\ProxEventManager.log' -notmatch | select -l 40 | ... Line
 select-string -pattern '^ProxEventManager Verbose: 0 : [0-9T:.-]*Z:\t(Copy|Done copying|Checking|Found)' -Path '\\proxcard-dev\c$\Users\v-ersteh\AppData\Local\ProxEventManager.log' -notmatch | select -l 16 | ... Line
+# shutdown /r /m \\proxcard-dev /t 1 /d U:0:5 /c "mstsc responses hung"
 
 #
