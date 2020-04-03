@@ -18,6 +18,7 @@ Start-Job -Name pester { cd $using:PWD ; . Use-AzDevSubscription.ps1; Invoke-Pes
 
 [System.Reflection.Assembly]::LoadFrom("C:\app\ScraperService\HtmlAgilityPack.dll"); $hd = New-Object HtmlAgilityPack.HtmlDocument
 (Get-Clipboard).Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries) | % {$_.Trim()} | %{"#$_#"}  # | del -WhatIf -Recurse -Path {$_}
+(Get-Clipboard).Split([Environment]::NewLine, [System.StringSplitOptions]::RemoveEmptyEntries) | %{ $_ -replace ' - ([\w.-]+?) .*','$1' } | % { choco upgrade $_ -y }
 
 $wc.DownloadString("http://spdev25:7000/_layouts/15/ScriptResx.ashx?name=CMSClientResources&culture=en-US")
 
