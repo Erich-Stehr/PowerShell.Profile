@@ -666,6 +666,7 @@ function PSUsing {
         }
     }
 }
+# PSUsing ($sr = [IO.File]::AppendText($literalPath)) { $sr.WriteLine($logString) }
 
 # http://thepowershellguy.com/blogs/posh/archive/2010/11/14/powershell-get-easter-function.aspx
 # recorrected to use DateTime constructor 2013/04/05
