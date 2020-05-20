@@ -25,7 +25,7 @@
     - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
     - after VS/dotnet/Chocolatey `dotnet tool install --global powershell --ignore-failed-sources`
 - [Chocolatey](https://chocolatey.org/install) - Windows installer manager
-    - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable papercut dependencywalker large-text-file-viewer winmerge -y`
+    - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable papercut dependencywalker large-text-file-viewer winmerge microsoft-windows-terminal -y`
     - \# git.portable notepadplusplus.commandline silverlight insomnia-rest-api-client conemu kdiff3
         - notepadplusplus: Settings > Preferences. Editing. Multi-select.
     - `choco upgrade clipx -pre -y`
