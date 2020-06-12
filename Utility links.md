@@ -13,6 +13,7 @@
     - `git config --global color.branch.remote "red normal bold"`
     - `git config --global merge.tool kdiff3` or use vsdiffmerge.gitconfig and set vsdiffmerge
 - *[Bayden MezerTools](https://bayden.com/mezer)
+    - `Set-ItemProperty 'HKCU:\SOFTWARE\Bayden Systems\Mezer' HotKeysModifier 3` # (Ctrl-Alt) from 8 (Win)
 - [StudioShell](http://studioshell.codeplex.com/) - DTE: access in VS (alt: `Install-Package StudioShell.Provider`)
 - [Dependency Walker](http://www.dependencywalker.com/) - PE dependency scanner
 - [ILSpy](https://github.com/icsharpcode/ILSpy) - .NET assembly browser and decompiler
