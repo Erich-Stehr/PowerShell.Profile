@@ -31,7 +31,7 @@
         - notepadplusplus: Settings > Preferences. Editing. Multi-select.
     - `choco upgrade clipx -pre -y`
     - `choco install IIS-WebServerRole Containers-DisposableClientVM --source windowsfeatures -y`
-    - s/community/enterprise/ ? `choco upgrade netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk dotnetcore-windowshosting  visualstudio2019community visualstudio2019-workload-netweb visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure  visualstudio2019-workload-nativedesktop visualstudio2019-workload-netcoretools visualstudio2019-workload-netcrossplat visualstudio2019-workload-node  -y -r --no-progress --force --includeRecommended --includeOptional`
+    - s/community/enterprise/ ? `choco upgrade netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk dotnetcore-windowshosting  visualstudio2019community visualstudio2019-workload-netweb visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure  visualstudio2019-workload-nativedesktop visualstudio2019-workload-netcoretools visualstudio2019-workload-netcrossplat visualstudio2019-workload-node visualstudio2019-workload-python  -y -r --no-progress --force --includeRecommended --includeOptional`
         - list.exe from Windows Debugging Kit in Windows Settings > Apps > Windows SDK > Change
     - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - `choco upgrade docker-desktop -y`
