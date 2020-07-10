@@ -59,7 +59,7 @@
     - Concurrency Visualizer
     - Open PowerShell Prompt
     - Productivity Power Tools
-    - ? VSDebrix
+    - VSDebrix
     - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
     - [XPath Tools](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation)
     - Solution Error Visualizer
@@ -71,6 +71,7 @@
     - PowerShell
     - SQL Server (mssql)
     - hexdump for VSCode
+    - HexEditor
     - user settings (File > Preferences > Settings)
 
     ```json
