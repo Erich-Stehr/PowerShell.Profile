@@ -89,3 +89,23 @@
         72,80,120,132
     ]
     ```
+
+- Windows Terminal settings
+
+    ```json
+    {
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "profiles":
+    {
+      "defaults": {
+        "fontSize": 9
+      },
+    }
+    "keybindings":
+    [
+        { "command": "unbound", "keys": "ctrl+shift+c" },
+        { "command": "unbound", "keys": "ctrl+shift+v" },
+    ]
+
+    }
+    ```
