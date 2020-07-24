@@ -36,7 +36,7 @@
     - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - `choco upgrade docker-desktop -y`
     - `choco upgrade wixtoolset -y`
-    - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity eac calibre ghostscript.app irfanview musescore -y`
+    - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity eac calibre ghostscript.app irfanview musescore openshot -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer -y`
     - `choco upgrade sql-server-express sql-server-management-studio -y`
 
@@ -98,7 +98,7 @@
     "profiles":
     {
       "defaults": {
-        "fontSize": 9
+        "fontSize": 8
       },
     }
     "keybindings":
