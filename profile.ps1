@@ -889,4 +889,21 @@ function Get-RandomCNG([object]$InputObject, [int]$Count=1) {
 }
 # Get-RandomCNG "abcdefg...".ToCharArray() 16 | Join-String # generating 16-char passwords from the string of password characters
 
+# 2020/08/11 from <https://social.technet.microsoft.com/Forums/en-US/ff39d018-9c38-4276-a4c9-3234f088c630/how-can-i-delete-quotto-recycle-binquot-in-powershell-instead-of-remove-item->
+Function Send-ToRecycleBin
+{
+    Param(
+    [Parameter(Mandatory = $true,
+    ValueFromPipeline = $true)]
+    [alias('FullName')]
+    [string]$FilePath
+    )
+    Begin{$shell = New-Object -ComObject 'Shell.Application'}
+    Process{
+        $Item = Get-Item $FilePath
+		$shell.namespace(0).ParseName($item.FullName).InvokeVerb('delete')
+    }
+}
+# dir foo.txt, foo | Send-ToRecycleBin
+
 #
