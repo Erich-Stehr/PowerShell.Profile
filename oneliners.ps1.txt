@@ -123,4 +123,7 @@ select-string -pattern '[0-9T:.-]*Z\t(Copy|Done copying|Checking|Found)' -Path '
 select-string -pattern '^ProxEventManager Verbose: 0 : [0-9T:.-]*Z:\t(Copy|Done copying|Checking|Found)' -Path '\\proxcard-dev\c$\Users\v-ersteh\AppData\Local\ProxEventManager.log' -notmatch | select -l 16 | ... Line
 # shutdown /r /m \\proxcard-dev /t 1 /d U:0:5 /c "mstsc responses hung"
 
+# 2020/08/13: from <https://stackoverflow.com/questions/1153126/how-to-create-a-zip-archive-with-powershell/52395011#52395011> et al.; .NET 4.5
+Add-Type -Assembly 'System.IO.Compression.FileSystem'; [Environment]::CurrentDirectory=$pwd; PSUsing ($z = [System.IO.Compression.ZipFile]::Open('z.zip', [System.IO.Compression.ZipArchiveMode]::Create)) { dir .* | select -ExpandProperty FullName | % { [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($z, $_, $_.Replace("$PWD\", '')) } } 
+
 #
