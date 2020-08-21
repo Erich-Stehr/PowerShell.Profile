@@ -12,6 +12,7 @@
     - `git config --global color.diff.new "green normal bold"`
     - `git config --global color.branch.remote "red normal bold"`
     - `git config --global merge.tool kdiff3` or use vsdiffmerge.gitconfig and set vsdiffmerge
+    - `git config --global format.pretty 'tformat:"%h %aI %al: %s"'`
 - *[Bayden MezerTools](https://bayden.com/mezer)
     - `Set-ItemProperty 'HKCU:\SOFTWARE\Bayden Systems\Mezer' HotKeysModifier 3` # (Ctrl-Alt) from 8 (Win)
 - [StudioShell](http://studioshell.codeplex.com/) - DTE: access in VS (alt: `Install-Package StudioShell.Provider`)
