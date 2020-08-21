@@ -31,3 +31,5 @@
 	auto = 0
 [color "branch"]
 	remote = red normal bold
+[format]
+	pretty = tformat:%h %aI %al: %s
