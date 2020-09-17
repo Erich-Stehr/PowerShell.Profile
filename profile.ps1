@@ -462,7 +462,7 @@ function elevate-process
     $psi.Arguments = $arguments
   } 
      
-  [System.Diagnostics.Process]::Start($psi) | out-null
+  [void][System.Diagnostics.Process]::Start($psi)
 } 
 
 # http://blogs.msdn.com/powershell/archive/2008/11/23/convertto-hashtable-ps1-part-2.aspx
@@ -632,7 +632,7 @@ function new-transliteratedstring {
  
  $inputstring.toCharArray() | 
    %{$char = if ($table.containskey($_)) {$table[$_]} else {$_}
-     $sb.append($char) | out-null
+     [void]$sb.append($char)
     }
  $sb.toString()
 }
