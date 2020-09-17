@@ -906,4 +906,13 @@ Function Send-ToRecycleBin
 }
 # dir foo.txt, foo | Send-ToRecycleBin
 
+# PowerShell parameter completion shim for the dotnet CLI (with added command check)
+if (gcm Register-ArgumentCompleter -ea SilentlyContinue) {
+	Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
+		param($commandName, $wordToComplete, $cursorPosition)
+			dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+			[System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+			}
+	}
+}
 #
