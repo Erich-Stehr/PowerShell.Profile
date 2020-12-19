@@ -27,17 +27,18 @@
     - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
     - after VS/dotnet/Chocolatey `dotnet tool (install|update) --global powershell --ignore-failed-sources`
 - [Chocolatey](https://chocolatey.org/install) - Windows installer manager
-    - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable papercut dependencywalker large-text-file-viewer winmerge microsoft-windows-terminal -y`
+    - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable python2 python papercut dependencywalker large-text-file-viewer winmerge microsoft-windows-terminal -y`
     - \# git.portable notepadplusplus.commandline silverlight insomnia-rest-api-client conemu kdiff3
         - notepadplusplus: Settings > Preferences. Editing. Multi-select.
     - `choco upgrade clipx -pre -y`
     - `choco install IIS-WebServerRole Containers-DisposableClientVM --source windowsfeatures -y`
     - s/community/enterprise/ ? `choco upgrade netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk dotnetcore-windowshosting dotnet-5.0-sdk dotnet-5.0-windowshosting  visualstudio2019community visualstudio2019-workload-netweb visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure  visualstudio2019-workload-nativedesktop visualstudio2019-workload-netcoretools visualstudio2019-workload-netcrossplat visualstudio2019-workload-node visualstudio2019-workload-python  -y -r --no-progress --force --includeRecommended --includeOptional`
         - list.exe from Windows Debugging Kit in Windows Settings > Apps > Windows SDK > Change
+        - `choco uninstall "vcredist140,KB2533623"` choose option 3's to allow NET(Core) upgrades with `all -y`
     - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - `choco upgrade docker-desktop -y`
     - `choco upgrade wixtoolset -y`
-    - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity eac calibre ghostscript.app irfanview musescore openshot -y`
+    - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity eac calibre ghostscript.app irfanview thunderbird musescore openshot freeciv sigil cobian-backup -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer -y`
     - `choco upgrade sql-server-express sql-server-management-studio -y`
 
