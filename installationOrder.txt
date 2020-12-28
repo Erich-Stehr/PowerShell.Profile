@@ -1,0 +1,14 @@
+#launch PoSH as Administrator
+Set-ExecutionPolicy RemoteSigned LocalMachine
+# install per chocolatey.org/install
+choco install git -y
+cd (split-path $PROFILE.CurrentUserCurrentHost)
+git clone https://github.com/Erich-Stehr/PowerShell.Profile .
+close and reopen PoSH as Administrator
+cd $ProfilePath; gc '.\Utility Links.md' | Out-GridView
+# install PoSH modules
+# choco upgrade(s)
+# Restart Windows
+
+https://www.repairwin.com/enable-admin-shares-windows-10-8-7/
+
