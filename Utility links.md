@@ -1,4 +1,4 @@
-﻿- *[ClipX](https://web.archive.org/web/20200111230002/https://bluemars.org/clipx/) - clipboard manager, add ClipX Stickies to keep entries around
+- *[ClipX](https://web.archive.org/web/20200111230002/https://bluemars.org/clipx/) - clipboard manager, add ClipX Stickies to keep entries around
     - $env:LOCALAPPDATA\ClipX\clipx_${env:USERNAME}.ini ; a Stickies preset copy is in OneDrive
 - *?[PureText](http://stevemiller.net/puretext/) - strips formatting from text on clipboard
     - extract to $env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup
@@ -59,7 +59,7 @@
     - .NET Portability Analyzer [Analyzers](https://docs.microsoft.com/en-us/dotnet/standard/analyzers/)
     - ? Serilog Analyzer
     - Concurrency Visualizer
-    - Open PowerShell Prompt
+    - Open PowerShell Prompt/Open Command Line
     - Productivity Power Tools
     - VSDebrix
     - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
