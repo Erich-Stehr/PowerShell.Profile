@@ -74,6 +74,7 @@
     - SQL Server (mssql)
     - hexdump for VSCode
     - HexEditor
+    - Remote - Containers (after Docker Desktop install)
     - user settings (File > Preferences > Settings)
 
     ```json
