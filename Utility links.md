@@ -39,7 +39,7 @@
     - `choco upgrade docker-desktop -y`
     - `choco upgrade wixtoolset -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity eac calibre ghostscript.app irfanview thunderbird musescore openshot freeciv sigil cobian-backup -y`
-    - `choco upgrade azure-cli microsoftazurestorageexplorer -y`
+    - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
     - `choco upgrade sql-server-express sql-server-management-studio -y`
 
 - other VS extensions
