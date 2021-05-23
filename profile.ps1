@@ -1,4 +1,9 @@
-﻿function Add-PSSnapinConditionally ($name, [Switch]$quiet)
+﻿[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingCmdletAliases', '', Target='gcm|ft|dir|\?|select|\%|sort|copy|gp|gv|where|foreach|sleep', Justification="if you're changing standard aliases, folks...")]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSPossibleIncorrectComparisonWithNull', '', Justification='heretic')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '', Justification='profile sets up vars for later use')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidAssignmentToAutomaticVariable', '', Justification='profile set up')]
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseApprovedVerbs', '', Scope='Function', Target='Hardlink-FilesNotPresent|elevate-process|Regenerate-Object', Justification='hysterical porpoises')]
+    param()function Add-PSSnapinConditionally ($name, [Switch]$quiet)
 {
 if (get-pssnapin -registered | ? {$_.Name -eq $name})
 	{ add-pssnapin $name }
@@ -276,7 +281,8 @@ function SortTime() { $input | sort LastWriteTime }
 filter WrittenDuringLastSpan([TimeSpan] $span="1.00:00:00") { if ($_.LastWriteTime -ge [DateTime]::Now.Subtract($span)) {$_} }
 # 2007/09/28
 filter Copy-FilesNotPresent ($dest=$(throw "Must have destination"), [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) { if ((!$_.PSIsContainer) -and (!(FileExistsIn $_ $dest))) { copy -literalpath $_.Fullname -dest $dest -pass -verbose:$Verbose -whatif:$WhatIf -confirm:$confirm } }
-filter Hardlink-FilesNotPresent ($dest) { if ((!$_.PSIsContainer) -and (!(FileExistsIn $_ $dest))) { New-Hardlink "$dest\$($_.Name)" $_.Fullname } }
+filter Hardlink-FilesNotPresent ($dest) { 
+ if ((!$_.PSIsContainer) -and (!(FileExistsIn $_ $dest))) { New-Hardlink "$dest\$($_.Name)" $_.Fullname } }
 # 2014/05/03
 filter AfterLastDestination ($dest=$(throw "Must have destination"), [switch] $Verbose=$false) {
 begin {$lastts = (dir $dest | sort LastWriteTime | select -Last 1).LastWriteTime}
