@@ -74,6 +74,7 @@
     - SQL Server (mssql)
     - hexdump for VSCode
     - HexEditor
+    - Python / Pylance / Jupyter
     - Remote - Containers (after Docker Desktop install)
     - user settings (File > Preferences > Settings)
 
