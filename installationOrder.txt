@@ -1,3 +1,4 @@
+# net localgroup Administrators _email_ /add
 #launch PoSH as Administrator
 Set-ExecutionPolicy RemoteSigned LocalMachine
 # install per chocolatey.org/install
