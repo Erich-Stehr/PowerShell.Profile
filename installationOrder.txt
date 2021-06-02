@@ -5,11 +5,14 @@ Set-ExecutionPolicy RemoteSigned LocalMachine
 choco install git -y
 cd (split-path $PROFILE.CurrentUserCurrentHost)
 git clone https://github.com/Erich-Stehr/PowerShell.Profile .
-close and reopen PoSH as Administrator
+# close and reopen PoSH as Administrator
 cd $ProfilePath; gc '.\Utility Links.md' | Out-GridView
 # install PoSH modules
 # choco upgrade(s)
 # Restart Windows
 
-https://www.repairwin.com/enable-admin-shares-windows-10-8-7/
+<https://www.repairwin.com/enable-admin-shares-windows-10-8-7/>
+    - Enable Administrator
+    - Allow _File and Printer Sharing_ through firewall (by double-toggling if already set)
+    - `New-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -Name LocalAccountTokenFilterPolicy -PropertyType DWORD -Value 1`
 
