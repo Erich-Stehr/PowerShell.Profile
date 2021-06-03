@@ -126,4 +126,7 @@ select-string -pattern '^ProxEventManager Verbose: 0 : [0-9T:.-]*Z:\t(Copy|Done 
 # 2020/08/13: from <https://stackoverflow.com/questions/1153126/how-to-create-a-zip-archive-with-powershell/52395011#52395011> et al.; .NET 4.5
 del .\z.zip; Add-Type -Assembly 'System.IO.Compression','System.IO.Compression.FileSystem'; [Environment]::CurrentDirectory=$pwd; PSUsing ($z = [System.IO.Compression.ZipFile]::Open('z.zip', [System.IO.Compression.ZipArchiveMode]::Create)) { dir .* | ? {!$_.PsIsContainer} | select -ExpandProperty FullName | % { [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($z, $_, $_.Replace("$PWD\", '')) } }
 
+# 2021/06/02: saw newbie wanted to run VS with a file; this is as simple as it gets? 
+& (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property productPath)  $filename
+
 #
