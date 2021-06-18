@@ -23,4 +23,4 @@ function global:prompt {
 
 Pop-Location
 
-Start-SshAgent -Quiet
+if (Get-Command Start-SshAgent -ea Ignore) { Start-SshAgent -Quiet }
