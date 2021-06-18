@@ -36,7 +36,7 @@
         - list.exe from Windows Debugging Kit in Windows Settings > Apps > Windows SDK > Change
         - `choco uninstall "vcredist140,KB2533623"` choose option 3's to allow NET(Core) upgrades with `all -y`
     - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
-    - `choco upgrade docker-desktop -y`
+    - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; upgrade docker-desktop -y`
     - `choco upgrade wixtoolset -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity eac calibre ghostscript.app irfanview thunderbird musescore openshot freeciv sigil cobian-backup -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
