@@ -25,7 +25,7 @@
     - `Install-Module -Name Posh-Git -Force -AllowClobber`
     - `Install-Module -Name PSCX -Force -AllowClobber`
     - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
-    - after VS/dotnet/Chocolatey `dotnet tool (install|update) --global powershell --ignore-failed-sources`
+    - after VS/dotnet/Chocolatey `dotnet tool (install|update) --global powershell --ignore-failed-sources  --add-source https://api.nuget.org/v3/index.json`
 - [Chocolatey](https://chocolatey.org/install) - Windows installer manager
     - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable python2 python papercut dependencywalker large-text-file-viewer winmerge microsoft-windows-terminal err -y`
     - \# git.portable notepadplusplus.commandline silverlight insomnia-rest-api-client conemu kdiff3
