@@ -42,7 +42,7 @@
     - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
     - `choco upgrade sql-server-express sql-server-management-studio -y`
 
-- other VS extensions
+- other VS extensions (choco isn't up to date)
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
         - `Set-itemproperty -path 'HKCU:\Software\Microsoft\VisualStudio\9.0\Text Editor' -name Guides -type string -value 'RGB(128,0,0) 72, 80, 120, 132'`
         - Ctrl-Alt-A for Command window; `Edit.AddGuideline 72`
@@ -50,21 +50,21 @@
     - CodeMaid
     - SqlCeVsToolbox (SQLite/SQL Server Compact Toolbox)
     - ? EF Core Power Tools
-    - IndentGuide
+    - IndentGuides
     - ? T4Toolbox
-    - ~~Web Essentials~~ Web Extension Pack
+    - Web Essentials ~~Web Extension Pack~~
         - NPM Task Runner
         - Sidewaffle Template Pack
         - Trailing Whitespace Visualizer
+        - Open Command Line/Open PowerShell Prompt
     - .NET Portability Analyzer [Analyzers](https://docs.microsoft.com/en-us/dotnet/standard/analyzers/)
-    - ? Serilog Analyzer
+    - ? Serilog Analyzer, Moq Analyzer
     - Concurrency Visualizer
-    - Open PowerShell Prompt/Open Command Line
     - Productivity Power Tools
+        - Solution Error Visualizer
     - VSDebrix
     - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
     - [XPath Tools](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation)
-    - Solution Error Visualizer
     - WiX Toolset Visual Studio * Extension, Wax (3rd party WiX editor)
 
 - VSCode extensions
