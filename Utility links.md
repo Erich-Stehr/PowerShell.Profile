@@ -66,7 +66,7 @@
     - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
     - [XPath Tools](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation)
     - WiX Toolset Visual Studio * Extension, Wax (3rd party WiX editor)
-    - SpecFlow for Visual Studio 20** (Cucumber/Gherkin)
+    - SpecFlow for Visual Studio 20** (Cucumber/Gherkin/Given-When-Then; <https://specflow.org>)
 
 - VSCode extensions
     - markdownlint
