@@ -33,7 +33,8 @@
     - `choco upgrade clipx -pre -y`
     - `choco install NetFx3 IIS-WebServerRole Containers-DisposableClientVM --source windowsfeatures -y`
     - s/community/enterprise/ ? `choco upgrade netfx-4.6.2-devpack netfx-4.7.2-devpack netfx-4.8-devpack dotnetcore-sdk dotnetcore-windowshosting dotnet-5.0-sdk dotnet-5.0-windowshosting  visualstudio2019community visualstudio2019-workload-netweb visualstudio2019-workload-manageddesktop visualstudio2019-workload-Azure  visualstudio2019-workload-nativedesktop visualstudio2019-workload-netcoretools visualstudio2019-workload-netcrossplat visualstudio2019-workload-node visualstudio2019-workload-python  -y -r --no-progress --force --includeRecommended --includeOptional`
-        - list.exe from Windows Debugging Kit in Windows Settings > Apps > Windows SDK > Change
+        - list.exe from Windows Debugging Kit in Windows Settings > Apps > Windows SDK > Change (may need to use VS Installer; ${env:ProgramFilesX86}\Windows Kits)
+        - `sqllocaldb v` failure on 13.1 (2016) needs `ren 'HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server Local DB\Installed Versions\13.0' 13.1`
         - `choco uninstall "vcredist140,KB2533623"` choose option 3's to allow NET(Core) upgrades with `all -y`
     - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; upgrade docker-desktop -y`
