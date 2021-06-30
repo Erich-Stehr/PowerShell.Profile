@@ -41,7 +41,9 @@
     - `choco upgrade wixtoolset -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity eac calibre ghostscript.app irfanview thunderbird musescore openshot freeciv sigil cobian-backup -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
-    - `choco upgrade sql-server-express sql-server-management-studio -y`
+    - `choco upgrade sql-server-management-studio -y`
+        - `choco install sql-server-express <# -o -ia "'/FEATURES=LocalDB'"#> -y; choco uninstall sql-server-express -n`
+        - ? `choco install sqllocaldb` but not the buggy 2017/v14 installer
 
 - other VS extensions (choco isn't up to date)
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
