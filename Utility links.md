@@ -37,7 +37,7 @@
         - `sqllocaldb v` failure on 13.1 (2016) needs `ren 'HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server Local DB\Installed Versions\13.0' 13.1`
         - `choco uninstall "vcredist140,KB2533623"` choose option 3's to allow NET(Core) upgrades with `all -y`
     - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
-    - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; upgrade docker-desktop -y`
+    - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; choco upgrade docker-desktop -y`
     - `choco upgrade wixtoolset -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity eac calibre ghostscript.app irfanview thunderbird musescore openshot freeciv sigil cobian-backup -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
