@@ -24,6 +24,8 @@ $wc.DownloadString("http://spdev25:7000/_layouts/15/ScriptResx.ashx?name=CMSClie
 
 $pubweb = [Microsoft.SharePoint.Publishing.PublishingWeb]::GetPublishingWeb($web)
 
+New-Item -ItemType File|Directory|SymbolicLink|Junction|HardLink -Path .\$($_.Name) -Value $_ -Force ; (Get-Item .\D).Delete(); # Hint: what is 'dir' alias of?
+
 (gp HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters).SearchList
 ([adsisearcher]"(&(objectCategory=computer)(name=*erich*))").findAll() | % {([adsi]$_.path)} | select cn,operatingsystem
 ([adsisearcher]"(&(objectCategory=user)(sAMAccountName=erich.stehr))").findOne() | select @{n='PwdLastSet';e={[DateTime]::FromFileTime($_.properties.pwdlastset[0])}}
