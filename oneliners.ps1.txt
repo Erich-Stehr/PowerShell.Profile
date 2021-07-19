@@ -13,6 +13,7 @@ dir | %{ $_.Attributes = $_.Attributes -band -bnot [System.IO.FileAttributes]::R
 [Environment]::CurrentDirectory=$pwd
 Start-Job -Name pester { cd $using:PWD ; . Use-AzDevSubscription.ps1; Invoke-Pester -Strict $using:testfile } | Receive-Job -Wait -AutoRemoveJob
 # $using:, -AutoRemoveJob, -Wait are PoSH3 # Start-Job -Name pester -ArgumentList @($PWD, $testfile) { param($p, $testfile); Import-Module Pester; cd $P ; . Use-AzDevSubscription.ps1; Invoke-Pester -Strict $testfile } | Wait-Job | Receive-Job ; Remove-Job -Name pester
+robocopy /zb /j /nooffload 
 
 [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.SharePoint.Publishing")
 
