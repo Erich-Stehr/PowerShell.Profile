@@ -309,7 +309,8 @@ function last ([int]$count=10, [Object[]]$Property=@("LastWriteTime")) { $input 
 # 2015/03/17
 function yesterday([int]$days=1) { return [DateTime]::Today.AddDays(-$days) }
 # 2015/03/17 from http://stackoverflow.com/questions/6072974/modify-xml-while-preserving-whitespace
-function ReadAllText($path) { [System.IO.File]::ReadAllText($path) } # since gc returns array of lines not text
+# 2021/08/04 reminded that (Resolve-Path ...) can be passed this way; also PoSH3 `Get-Content -Raw` is equivalent
+function ReadAllText($path) { [System.IO.File]::ReadAllText( (Resolve-Path $path) ) } # since gc returns array of lines not text
 
 # http://blogs.msdn.com/powershell/comments/1779203.aspx 2007/03/01
 function ql {$args} # turn the list of arguments into a lookup array # ql Pig Rat Ox Tiger Rabbit Dragon Snake Horse Goat Monkey Rooster Dog
