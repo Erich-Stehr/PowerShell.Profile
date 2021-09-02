@@ -135,6 +135,6 @@ del .\z.zip; Add-Type -Assembly 'System.IO.Compression','System.IO.Compression.F
 & (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property productPath)  $filename
 
 # 2021/08/26: Autofac+System.Configuration conversion to code (one escape character for the commandline parser, one for the string)
-Select-Xml -Path .\ProcessorDependencyConfig.xml -XPath "/autofac/components" | %{ $_.Node } | %{ "container.RegisterType<$($_.Name)>()$( $_.services | %{ ".As($($_.Type))" })$(if ($_.Parameters) {$_.Parameters.GetEnumerator() | ? {! $_.Name.StartsWith("#") } | %{ ".WithParameter(``"$($_.Name)``", $($_.InnerText))" }}).SingleInstance();" }
+Select-Xml -Path .\ProcessorDependencyConfig.xml -XPath "/autofac/components" | %{ $_.Node } | %{ "container.RegisterType<$($_.Name)>()$( $_.services | %{ ".As<$($_.Type)>()" })$(if ($_.Parameters) {$_.Parameters.GetEnumerator() | ? {! $_.Name.StartsWith("#") } | %{ ".WithParameter(``"$($_.Name)``", $($_.InnerText))" }}).SingleInstance();" }
 
 #
