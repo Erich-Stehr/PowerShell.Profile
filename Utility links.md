@@ -83,6 +83,8 @@
     - HexEditor
     - Python / Pylance / Jupyter
     - Remote - Containers (after Docker Desktop install)
+    - ? EditorConfig for VSCode
+    - ? XML Tools
     - user settings (File > Preferences > Settings)
 
     ```json
