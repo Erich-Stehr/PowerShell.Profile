@@ -137,4 +137,7 @@ del .\z.zip; Add-Type -Assembly 'System.IO.Compression','System.IO.Compression.F
 # 2021/08/26: Autofac+System.Configuration conversion to code (one escape character for the commandline parser, one for the string)
 Select-Xml -Path .\ProcessorDependencyConfig.xml -XPath "/autofac/components" | %{ $_.Node } | %{ "container.RegisterType<$($_.Name)>()$( $_.services | %{ ".As<$($_.Type)>()" })$(if ($_.Parameters) {$_.Parameters.GetEnumerator() | ? {! $_.Name.StartsWith("#") } | %{ ".WithParameter(``"$($_.Name)``", $($_.InnerText))" }}).SingleInstance();" }
 
+# 2021/11/30: Check URIs from Excel file
+.\Invoke-SqlCommandCe.ps1 (resolve-path ..\ServersAndPorts_Verification_20211130.xlsx) -sql "select [New_Server Url or DB Connection or Executable] AS Url from [ServersAndPorts$] order by [New_Server Name],[New_Port #]" | ? {($_.Url).Trim().StartsWith("http")} | select -ExpandProperty Url| %{ $uri = $_; Invoke-WebRequest $_ -UseDefaultCredentials -Method GET | select @{n='Uri';e={$uri}},StatusCode,StatusDescription } | Export-Csv -Path Test.csv
+
 #
