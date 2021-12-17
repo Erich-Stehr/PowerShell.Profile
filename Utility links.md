@@ -65,7 +65,7 @@
         - Sidewaffle Template Pack
         - Trailing Whitespace Visualizer
         - Open Command Line/Open PowerShell Prompt
-    - .NET Portability Analyzer [Analyzers](https://docs.microsoft.com/en-us/dotnet/standard/analyzers/)
+    - .NET Portability Analyzer [Analyzers](https://docs.microsoft.com/en-us/dotnet/standard/analyzers/), [.NET Upgrade Assistant](https://docs.microsoft.com/en-us/dotnet/core/porting/upgrade-assistant-overview)
     - ? Serilog Analyzer, Moq Analyzer
     - Concurrency Visualizer
     - Productivity Power Tools
