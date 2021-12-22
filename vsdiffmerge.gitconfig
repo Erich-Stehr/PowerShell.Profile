@@ -33,3 +33,6 @@
 	remote = red normal bold
 [format]
 	pretty = tformat:%h%C(auto)% D %aI %al:: %s
+[alias]
+	visual = !gitk
+	visual = log --graph
