@@ -301,8 +301,8 @@ function Copy-AfterLastDestination($destination=$(throw "Must have destination")
 function Import-CFToHome ([TimeSpan] $span="1.00:00:00", [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) { dir R:\pickup\TekSystems\MSFT201408 | WrittenDuringLastSpan -span $span | sorttime | copy -pass -dest H:\users\erichs\Career\TekSystems\MSFT201408 -verbose:$verbose -whatif:$WhatIf -confirm:$confirm }
 #function Export-WorkToCF () { dir $env:userprofile\Desktop | ? {!$_.PSIsContainer} | ? {!(FileExistsIn $_ E:\pickup\Excell)} | copy -dest E:\pickup\Excell -confirm }
 function Export-WorkToCF([TimeSpan] $span="1.00:00:00", [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) { dir "$env:userprofile\Documents\OneDrive - Microsoft\Notes", "$env:userprofile\Downloads", "$env:userprofile\Documents", "$env:userprofile" | SortTime | Copy-WorkDuringLastSpan -span $span -verbose:$verbose -whatif:$WhatIf -confirm:$confirm }
-# 2011/10/07
-filter Copy-DuringLastSpan($dest, [TimeSpan] $span="1.00:00:00", [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) { $_ | ? {!($_.PSIsContainer)} | WrittenDuringLastSpan -span $span | copy -pass -dest $dest -verbose:$verbose -whatif:$WhatIf -confirm:$confirm }
+# 2011/10/07; 2021/01/24 -Destination
+filter Copy-DuringLastSpan($destination=$(throw "Must have -Destination"), [TimeSpan] $span="1.00:00:00", [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) { $_ | ? {!($_.PSIsContainer)} | WrittenDuringLastSpan -span $span | copy -pass -dest $destination -verbose:$verbose -whatif:$WhatIf -confirm:$confirm }
 filter Copy-WorkDuringLastSpan([TimeSpan] $span="1.00:00:00", [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) { $_ | Copy-DuringLastSpan -dest R:\pickup\TekSystems\MSFT201408 -span $span -verbose:$verbose -whatif:$WhatIf -confirm:$confirm }
 # 2015/02/06
 function last ([int]$count=10, [Object[]]$Property=@("LastWriteTime")) { $input | sort -Property $Property | select -l $count }
