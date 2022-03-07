@@ -1,0 +1,43 @@
+﻿[*]
+charset = utf-8
+indent_style = tab
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.cs]
+#IDE1006
+dotnet_naming_style.camel_case.capitalization = camel_case
+dotnet_naming_symbols.private_symbols.applicable_accessibilities = private
+dotnet_naming_rule.camel_case_for_private.severity = silent
+dotnet_naming_rule.camel_case_for_private.symbols  = private_symbols
+dotnet_naming_rule.camel_case_for_private.style = camel_case
+#IDE1006
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+dotnet_naming_symbols.private_symbols.applicable_accessibilities = private
+dotnet_naming_rule.pascal_case_for_private.severity = warning
+dotnet_naming_rule.pascal_case_for_private.symbols  = private_symbols
+dotnet_naming_rule.pascal_case_for_private.style = pascal_case
+#IDE0018
+csharp_style_inlined_variable_declaration = false:suggestion
+#IDE0039
+csharp_style_pattern_local_over_anonymous_function = false:silent
+#IDE0019
+csharp_style_pattern_matching_over_as_with_null_check = false:silent
+#IDE0011
+csharp_prefer_braces = true:warning
+#IDE0016
+csharp_style_throw_expression = false:silent
+#IDE0017
+dotnet_style_object_initializer = true:silent
+#IDE0028
+dotnet_style_collection_initializer = true:silent
+#IDE0037
+dotnet_prefer_inferred_tuple_names = true:silent
+dotnet_prefer_inferred_anonymous_type_member_names = true:silent
+# IDE0059
+csharp_style_unused_value_assignment_preference = discard_variable:silent
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
