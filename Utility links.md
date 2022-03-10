@@ -59,7 +59,7 @@
     - SqlCeVsToolbox (SQLite/SQL Server Compact Toolbox)
     - ? EF Core Power Tools
     - IndentGuides
-    - ? T4Toolbox
+    - ? T4Toolbox ? T4 Language
     - Web Essentials ~~Web Extension Pack~~
         - NPM Task Runner
         - Sidewaffle Template Pack
@@ -69,12 +69,14 @@
     - ? Serilog Analyzer, Moq Analyzer
     - Concurrency Visualizer
     - Productivity Power Tools
+        - Time Stamp Margin
         - Solution Error Visualizer
     - VSDebrix
     - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
     - [XPath Tools](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation)
     - WiX Toolset Visual Studio * Extension, Wax (3rd party WiX editor)
     - SpecFlow for Visual Studio 20** (Cucumber/Gherkin/Given-When-Then; <https://specflow.org>)
+    - ? PostSharp (AOP)
 
 - VSCode extensions
     - markdownlint
