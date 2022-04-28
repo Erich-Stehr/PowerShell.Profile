@@ -922,4 +922,12 @@ if (gcm Register-ArgumentCompleter -ea SilentlyContinue) {
 			}
 	}
 }
+
+# 
+if (test-path 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe') {
+function adm_devenv ()
+{
+	runas /u:gsm1900\adm_estehr1 /netonly 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe'
+}
+}
 #
