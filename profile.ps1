@@ -923,11 +923,17 @@ if (gcm Register-ArgumentCompleter -ea SilentlyContinue) {
 	}
 }
 
-# 
+# 2022/05/04: run selected apps as adm_ account 
 if (test-path 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe') {
-function adm_devenv ()
-{
-	runas /u:gsm1900\adm_estehr1 /netonly 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe'
+	function adm_devenv ()
+	{
+		runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} /netonly 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe'
+	}
 }
+if (test-path 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe') {
+	function adm_ssms ()
+	{
+		runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} /netonly 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
+	}
 }
 #
