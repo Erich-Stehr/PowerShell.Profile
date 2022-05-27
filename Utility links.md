@@ -23,6 +23,7 @@
 - [PowerShell Gallery](https://www.powershellgallery.com/) or [PsGet](https://psget.net/) for older versions
     - `Install-Module -Name PowerShellGet -Force` or the PsGet iex
     - `Install-Module -Name Posh-Git -Force -AllowClobber`
+    - `PowerShellGet\Install-Module posh-sshell -Scope CurrentUser -Force -AllowClobber`
     - `Install-Module -Name PSCX -Force -AllowClobber`
     - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
     - after VS/dotnet/Chocolatey `dotnet tool (install|update) --global powershell --ignore-failed-sources  --add-source https://api.nuget.org/v3/index.json`
