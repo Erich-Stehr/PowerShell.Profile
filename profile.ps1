@@ -931,9 +931,14 @@ if (test-path 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common
 	}
 }
 if (test-path 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe') {
-	function adm_ssms ()
+	function adm_ssms ([switch]$netonly)
 	{
-		runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} /netonly 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
+		if ($netonly) {
+			runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} /netonly 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
+
+		} else {
+			runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
+		}
 	}
 }
 #
