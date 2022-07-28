@@ -45,6 +45,7 @@ gwmi Win32_Process -Filter "Name='powershell.exe'" | ft -auto -wrap __PATH,Comma
 # merge lines from console Select All, Copy at 120 column output
 ( (Get-Clipboard).Split([Environment]::NewLine[1]) | & { begin { $s = "" } process { if ($_.Length -eq 121) { $s += $_ } elseif ($_.Length -eq 120) { $s += $_ + ' ' } else { "$s$_"; $s = "" } } end { if ($s -ne "") { $s } } } )
 
+$passparts = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890+/@:.~' # RFC4648 Base64 + GitLab masked variable characters
 $passparts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*_-+=`|\(){}[]:;"''<>,.?/' # 2022/07/14 <https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/password-must-meet-complexity-requirements> but can also include diacritics, Greek letters, and Cyrillic letters
 $passparts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()' # Onebox restricted 'symbols'
 $passparts = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`~!@#$%^&*()_+-={}|[]\:";''<>?,./' # from Windows Live ID and Account Mangement Help
