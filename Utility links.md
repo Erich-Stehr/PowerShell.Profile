@@ -45,7 +45,7 @@
     - s/community/enterprise/ ? `choco install dotnet-6.0-sdk dotnet-6.0-runtime dotnet-6.0-aspnetruntime dotnet-6.0-windowsruntime visualstudio2022community visualstudio2022-workload-node visualstudio2022-workload-azure visualstudio2022-workload-python visualstudio2022-workload-visualstudioextension visualstudio2022-workload-nativecrossplat visualstudio2022-workload-manageddesktop visualstudio2022-workload-nativemobile visualstudio2022-workload-netcrossplat visualstudio2022-workload-netweb visualstudio2022-workload-universal visualstudio2022-workload-nativedesktop -y -r --no-progress --force --includeRecommended --includeOptional` # visualstudio2022-workload-azurebuildtools  visualstudio2022-workload-managedgame visualstudio2022-workload-nativegame
     - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; choco upgrade docker-desktop -y`
     - `choco upgrade wixtoolset -y`
-    - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity eac calibre ghostscript.app irfanview okular thunderbird musescore openshot freeciv sigil cobian-backup -y`
+    - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity lame eac calibre ghostscript.app irfanview okular thunderbird musescore openshot freeciv sigil cobian-backup -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
     - `choco upgrade sql-server-management-studio azure-data-studio -y`
         - `choco install sql-server-express <# -o -ia "'/FEATURES=LocalDB'"#> -y; choco uninstall sql-server-express -n --skip-autouninstaller`
