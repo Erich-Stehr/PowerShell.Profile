@@ -13,7 +13,7 @@ dir | %{ $_.Attributes = $_.Attributes -band -bnot [System.IO.FileAttributes]::R
 [Environment]::CurrentDirectory=$pwd
 Start-Job -Name pester { cd $using:PWD ; . Use-AzDevSubscription.ps1; Invoke-Pester -Strict $using:testfile } | Receive-Job -Wait -AutoRemoveJob
 # $using:, -AutoRemoveJob, -Wait are PoSH3 # Start-Job -Name pester -ArgumentList @($PWD, $testfile) { param($p, $testfile); Import-Module Pester; cd $P ; . Use-AzDevSubscription.ps1; Invoke-Pester -Strict $testfile } | Wait-Job | Receive-Job ; Remove-Job -Name pester
-robocopy /zb /j /e /nooffload 
+robocopy /zb /j /e /nooffload
 
 [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.SharePoint.Publishing")
 
@@ -81,16 +81,16 @@ $cred3 = (New-Object 'System.Management.Automation.PSCredential' @('\Administrat
 dir Cert:\LocalMachine\My | ? { $_.Subject.StartsWith('CN=acc753e7') } | %{ [Convert]::ToBase64String($_.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pkcs12)) } | Write-Clipboard -NoNewLine
 
 $warnings = Get-OutlookInBox.ps1 | ? { $_.Subject.StartsWith('Azure Security Advisory') } # SenderName is 'friendly'
-$warnings | 
-	select @{n='SubscriptionId';e={[regex]::Match($_.Body, 'SubscriptionId: *([0-9a-f-]{36})').Groups[1].Value}}, @{n='Deployment';e={[regex]::Match($_.Body, 'Deployments: (.*)').Groups[1].Value}} | 
+$warnings |
+	select @{n='SubscriptionId';e={[regex]::Match($_.Body, 'SubscriptionId: *([0-9a-f-]{36})').Groups[1].Value}}, @{n='Deployment';e={[regex]::Match($_.Body, 'Deployments: (.*)').Groups[1].Value}} |
 	Export-Csv -Path SecAdvisory.csv
 
 #
-$updateSearcher = new-object -com "Microsoft.Update.Searcher"; 
-$updateCount= $updateSearcher.GetTotalHistoryCount(); 
+$updateSearcher = new-object -com "Microsoft.Update.Searcher";
+$updateCount= $updateSearcher.GetTotalHistoryCount();
 if ($updateCount -eq 0) { 0 } else {
-	@($updateSearcher.QueryHistory(0,$updateCount) | 
-	? { $_.UpdateIdentity.UpdateId -eq 'df31c69c-1f04-4e07-8e1e-9faef2fe7a1b' -or # 2008R2 update 
+	@($updateSearcher.QueryHistory(0,$updateCount) |
+	? { $_.UpdateIdentity.UpdateId -eq 'df31c69c-1f04-4e07-8e1e-9faef2fe7a1b' -or # 2008R2 update
 		$_.UpdateIdentity.UpdateId -eq 'd2281849-7314-4da5-bed1-9e8e4d74b4ed' # 2012R2 update
 		}
 	).Count
@@ -121,7 +121,7 @@ sqlcmd -h -1 -Q "SET NOCOUNT ON; SELECT spid from master.sys.sysprocesses WHERE 
 
 # 2020/02/03-08: http://blogs.clariusconsulting.net/kzu/reading-xml-document-fragments-in-net/ from 2007/08/04
 $xrs = New-object Xml.XmlReaderSettings; $xrs.ConformanceLevel = [Xml.ConformanceLevel]::Fragment; $xpdoc = New-Object Xml.XPath.XPathDocument @([Xml.XmlReader]::Create("$PWD\app_tracelog.svclog", $xrs)) ; $nav = $xpdoc.CreateNavigator() ; $(for ($nav.MoveToFirstChild(); $nav.MoveToNext();) { $nav.OuterXml }) | select -f 1 # can't share write on input, file needs to be completed
-# 2020/02/08 
+# 2020/02/08
 $xrs = New-object Xml.XmlReaderSettings; $xrs.ConformanceLevel = [Xml.ConformanceLevel]::Fragment; $xr = [Xml.XmlReader]::Create("$PWD\app_tracelog1.svclog", $xrs) ; $(for ($xr.MoveToContent(); $x = $xr.ReadOuterXml();) { $x }) | measure-object
 # Select-Xml -Path .\app_tracelog1.svclog -XPath '/E2ETraceEvent' # can't share write on input, can't conform to fragments even through pipeline
 $xrs = New-object Xml.XmlReaderSettings; $xrs.ConformanceLevel = [Xml.ConformanceLevel]::Fragment; PSUsing ($fs = New-Object IO.FileStream @("$PWD\app_tracelog1.svclog", [IO.FileMode]::Open, [IO.FileAccess]::Read, [IO.FileShare]::ReadWrite)) { PSUsing ($sr = New-Object IO.StreamReader @($fs)) { $xr = [Xml.XmlReader]::Create($sr, $xrs) ; $(for ($xr.MoveToContent(); $x = $xr.ReadOuterXml();) { $x }) ; $xr.Close() ; $sr.Close() } ; $fs.Close() } | measure-object
@@ -134,7 +134,7 @@ select-string -pattern '^ProxEventManager Verbose: 0 : [0-9T:.-]*Z:\t(Copy|Done 
 # 2020/08/13: from <https://stackoverflow.com/questions/1153126/how-to-create-a-zip-archive-with-powershell/52395011#52395011> et al.; .NET 4.5
 del .\z.zip; Add-Type -Assembly 'System.IO.Compression','System.IO.Compression.FileSystem'; [Environment]::CurrentDirectory=$pwd; PSUsing ($z = [System.IO.Compression.ZipFile]::Open('z.zip', [System.IO.Compression.ZipArchiveMode]::Create)) { dir .* | ? {!$_.PsIsContainer} | select -ExpandProperty FullName | % { [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($z, $_, $_.Replace("$PWD\", '')) } }
 
-# 2021/06/02: saw newbie wanted to run VS with a file; this is as simple as it gets? 
+# 2021/06/02: saw newbie wanted to run VS with a file; this is as simple as it gets?
 & (& "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property productPath)  $filename
 
 # 2021/08/26: Autofac+System.Configuration conversion to code (one escape character for the commandline parser, one for the string)
@@ -143,4 +143,6 @@ Select-Xml -Path .\ProcessorDependencyConfig.xml -XPath "/autofac/components" | 
 # 2021/11/30: Check URIs from Excel file
 .\Invoke-SqlCommandCe.ps1 (resolve-path ..\ServersAndPorts_Verification_20211130.xlsx) -sql "select [New_Server Url or DB Connection or Executable] AS Url from [ServersAndPorts$] order by [New_Server Name],[New_Port #]" | ? {($_.Url).Trim().StartsWith("http")} | select -ExpandProperty Url| %{ $uri = $_; Invoke-WebRequest $_ -UseDefaultCredentials -Method GET | select @{n='Uri';e={$uri}},StatusCode,StatusDescription } | Export-Csv -Path Test.csv
 
+# 2022/10/04 quick string SHA512 hash
+"inigo", "montoya" | %{ [String]::Join("", ([System.Security.Cryptography.SHA512]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes(($_).ToLowerInvariant())) | %{ "{0:X2}" -f $_ }) )}
 #
