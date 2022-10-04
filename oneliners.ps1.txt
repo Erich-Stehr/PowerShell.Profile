@@ -144,5 +144,6 @@ Select-Xml -Path .\ProcessorDependencyConfig.xml -XPath "/autofac/components" | 
 .\Invoke-SqlCommandCe.ps1 (resolve-path ..\ServersAndPorts_Verification_20211130.xlsx) -sql "select [New_Server Url or DB Connection or Executable] AS Url from [ServersAndPorts$] order by [New_Server Name],[New_Port #]" | ? {($_.Url).Trim().StartsWith("http")} | select -ExpandProperty Url| %{ $uri = $_; Invoke-WebRequest $_ -UseDefaultCredentials -Method GET | select @{n='Uri';e={$uri}},StatusCode,StatusDescription } | Export-Csv -Path Test.csv
 
 # 2022/10/04 quick string SHA512 hash
-"inigo", "montoya" | %{ [String]::Join("", ([System.Security.Cryptography.SHA512]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes(($_).ToLowerInvariant())) | %{ "{0:X2}" -f $_ }) )}
+"inigo", "montoya" | %{ [String]::Join("", ([System.Security.Cryptography.SHA512]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes(($_).ToLowerInvariant())) | %{ "{0:X2}" -f $_ }) )} # remember to salt!
+
 #
