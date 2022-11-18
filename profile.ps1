@@ -924,21 +924,21 @@ if (gcm Register-ArgumentCompleter -ea SilentlyContinue) {
 }
 
 # 2022/05/04: run selected apps as adm_ account
+# 2022/05/04: run selected apps as adm_ account
 if (test-path 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe') {
-    function adm_devenv ()
+    function adm_devenv ([string]$user=$("${env:USERDOMAIN}\adm_${env:USERNAME}"))
     {
-        runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} /netonly 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe'
+        runas /u:$user /netonly 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe'
     }
 }
 if (test-path 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe') {
-    function adm_ssms ([switch]$netonly)
+    function adm_ssms ([string]$user=$("${env:USERDOMAIN}\adm_${env:USERNAME}"), [switch]$netonly)
     {
         if ($netonly) {
-            runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} /netonly 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
+            runas /u:$user /netonly 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
 
         } else {
-            runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
+            runas /u:$user 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
         }
     }
-}
 #
