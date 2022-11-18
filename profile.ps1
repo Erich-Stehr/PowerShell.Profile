@@ -6,19 +6,19 @@
     param()function Add-PSSnapinConditionally ($name, [Switch]$quiet)
 {
 if (get-pssnapin -registered | ? {$_.Name -eq $name})
-	{ add-pssnapin $name }
+    { add-pssnapin $name }
 else
-	{ if (!$quiet) { "$name snapin is not installed" } }
+    { if (!$quiet) { "$name snapin is not installed" } }
 }
 Add-PSSnapinConditionally 'PSCX'
 Add-PSSnapinConditionally 'Microsoft.TeamFoundation.PowerShell' -quiet
 Add-PSSnapinConditionally 'TfsBPAPowerShellSnapIn' -quiet
 function Import-PSModuleConditionally ($name, [Switch]$quiet)
 {
-	if ((gcm get-module -ea silentlycontinue) -and (Get-Module -ListAvailable $name)) { 
-		import-module $name
-		if (!$quiet) { "$name module imported" }
-	}
+    if ((gcm get-module -ea silentlycontinue) -and (Get-Module -ListAvailable $name)) {
+        import-module $name
+        if (!$quiet) { "$name module imported" }
+    }
 }
 Import-PSModuleConditionally PSCX
 #Import-PSModuleConditionally StudioShell
@@ -28,20 +28,20 @@ Import-PSModuleConditionally PSCX
 # Set-StrictMode -Version 2.0
 $ScriptDirBlock = { Split-Path $MyInvocation.ScriptName -Parent }
 #"PARENT:  Before dot-sourcing libary ScriptDir is $(&$ScriptDirBlock)"
-# or from later comment 
+# or from later comment
 function ScriptRoot { if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path $MyInvocation.ScriptName } }
 # PSSCriptRoot in modules for PoSH 2.0, all for 3.0+
 
 
 function prompt
 {
-	#Write-Host ("PS " + $(get-location) + ">") -nonewline -foregroundcolor gray -backgroundcolor black
-	$private:color = $Host.UI.RawUI.ForegroundColor
-	$private:bgcolor = $Host.UI.RawUI.BackgroundColor
-	if (![ConsoleColor]::IsDefined([ConsoleColor], $bgcolor)) { $color = [ConsoleColor]::Black; $bgcolor=[ConsoleColor]::Gray } #ISE
-	$private:nesting = new-object String ('>', $NestedPromptLevel)
-	Write-Host ("PS " + $(get-location) + ">$nesting") -nonewline -foregroundcolor $bgcolor -backgroundcolor $color
-	return " "
+    #Write-Host ("PS " + $(get-location) + ">") -nonewline -foregroundcolor gray -backgroundcolor black
+    $private:color = $Host.UI.RawUI.ForegroundColor
+    $private:bgcolor = $Host.UI.RawUI.BackgroundColor
+    if (![ConsoleColor]::IsDefined([ConsoleColor], $bgcolor)) { $color = [ConsoleColor]::Black; $bgcolor=[ConsoleColor]::Gray } #ISE
+    $private:nesting = new-object String ('>', $NestedPromptLevel)
+    Write-Host ("PS " + $(get-location) + ">$nesting") -nonewline -foregroundcolor $bgcolor -backgroundcolor $color
+    return " "
 }
 
 #[System.Reflection.Assembly]::Load("System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")
@@ -49,11 +49,11 @@ function prompt
 
 #hacked from Microsoft.public.windows.powershell newsgroup postings 20060701
 function LoadStdAsm {
-	[System.Reflection.Assembly]::LoadFrom([System.IO.Path]::Combine(([System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()), ($args[0] + '.dll')))
+    [System.Reflection.Assembly]::LoadFrom([System.IO.Path]::Combine(([System.Runtime.InteropServices.RuntimeEnvironment]::GetRuntimeDirectory()), ($args[0] + '.dll')))
 }
 
 if (!([AppDomain]::CurrentDomain.GetAssemblies() | ? { $_.FullName.StartsWith("System.Web,") })) { # 2012/09/27 <http://richardspowershellblog.wordpress.com/2007/09/30/assemblies-loaded-in-powershell/>
-	LoadStdAsm("System.Web") | ft ImageRuntimeVersion,Location -auto # 2005/12/26 server.scripting newsgroups: known bug, default output wrecks formatting later in the path, so we ft here
+    LoadStdAsm("System.Web") | ft ImageRuntimeVersion,Location -auto # 2005/12/26 server.scripting newsgroups: known bug, default output wrecks formatting later in the path, so we ft here
 }
 # 20080825 buffer access to the (Url|Html)Decode functions
 function UrlDecode([string]$Url) { [System.Web.HTTPUtility]::UrlDecode($Url) }
@@ -110,7 +110,7 @@ set-alias bp start-debug
 # from <a href="http://blogs.msdn.com/powershell/archive/2006/10/21/Power-and-Pith.aspx" title="Windows PowerShell">Power and Pith</a>
 ${function:...} = { process { $_.($args[0]) } }
 
-#helper function for finding files in another directory 
+#helper function for finding files in another directory
 # dir $path | ? {!(FileExistsIn $_ $pwd)} # shows files in $path not in $pwd
 # filter FileExistsIn { (($args[0] -is [IO.FileInfo]) -and (([IO.FileInfo]($args[1].ToString()+'\'+($args[0].Name))).Exists)) }
 filter FileExistsIn { test-path -literalPath (join-path $args[1] $args[0].Name) -pathType leaf }
@@ -132,18 +132,18 @@ Set-Alias rver Resolve-Error
 if (!(Get-Command -CommandType Alias ?:)) { # conditional to prevent error when PSCX already loaded
 filter Invoke-Ternary ($Predicate, $Then, $Otherwise = $null)
 {
-	if($predicate -is [scriptblock]) { $predicate = &$predicate }
-	if ($predicate) { 
-		if($then -is [ScriptBlock]) { &$then }
-		else { $then }
-	} elseif($otherwise) { 
-		if($otherwise -is [ScriptBlock]) { &$otherwise }
-		else { $otherwise }
-	}
+    if($predicate -is [scriptblock]) { $predicate = &$predicate }
+    if ($predicate) {
+        if($then -is [ScriptBlock]) { &$then }
+        else { $then }
+    } elseif($otherwise) {
+        if($otherwise -is [ScriptBlock]) { &$otherwise }
+        else { $otherwise }
+    }
 }
 filter Invoke-Coalescence($predicate, $alternative) {
-	if($predicate -is [scriptblock]) { $predicate = &$predicate }
-	Invoke-Ternary $predicate $predicate $alternative
+    if($predicate -is [scriptblock]) { $predicate = &$predicate }
+    Invoke-Ternary $predicate $predicate $alternative
 }
 set-alias ?: Invoke-Ternary -Option AllScope
 set-alias ?? Invoke-Coalescence -Option AllScope
@@ -154,72 +154,72 @@ set-alias ?? Invoke-Coalescence -Option AllScope
 # Tweaked 2015/04/30 to fix UNC IO.FileInfo creation
 function Get-Hash
 {
-	param(
-	     [string]$path,
-	     [string]$format="X2",
-	     [string]$hashClassname="System.Security.Cryptography.MD5")
-	begin
-	{
-	     if (!$hashClassname.Contains(".")) { $hashClassname = "System.Security.Cryptography." + $hashClassname }
-	     $hashAlgorithm = invoke-expression "[$hashClassname]::Create()"
-	
-	     function ProcessObject($object)
-	     {
-	         if($object -is [IO.FileInfo])
-	         {
-	             ProcessFile $object.FullName
-	         }
-	         elseif($object -is [IO.DirectoryInfo])
-	         {
-	             # skip directories...
-	         }
-	         elseif($object -and $object.Path)
-	         {
-	             ProcessFile $object.Path
-	         }
-	         elseif($object)
-	         {
-	            ProcessFile $object
-	         }
-	     }
-	     function ProcessFile([string]$filesToProcess)
-	     {
-	         foreach($pathInfo in (resolve-path $filesToProcess))
-	         {
-	             $stream = $null;
-	             trap
-	             {
-	                 ## We have to be sure that we close the file stream
-	                 ## if any exceptions are thrown.
-	                 if ($stream -ne $null)
-	                 {
-	                     $stream.Close();
-	                 }
-	             }
-	
-	             $file= (dir $pathInfo.Path) -as [IO.FileInfo]
-	
-	             $stream = $file.OpenRead();
-	             $hashByteArray = $hashAlgorithm.ComputeHash($stream);
-	             $stream.Close();
-	
-	             $result=1 | Select Text, Bytes, Path
-	             $result.Text=[String]::Join("", ($hashByteArray | %{ "{0:$format}" -f $_ }) )
-	             $result.Bytes=$hashByteArray
-	             $result.Path=$file.FullName
-	
-	             $result
-	          }
-	     }
-	}
-	process
-	{
-	     ProcessObject $_
-	}
-	end
-	{
-	     ProcessObject $path
-	}
+    param(
+         [string]$path,
+         [string]$format="X2",
+         [string]$hashClassname="System.Security.Cryptography.MD5")
+    begin
+    {
+         if (!$hashClassname.Contains(".")) { $hashClassname = "System.Security.Cryptography." + $hashClassname }
+         $hashAlgorithm = invoke-expression "[$hashClassname]::Create()"
+
+         function ProcessObject($object)
+         {
+             if($object -is [IO.FileInfo])
+             {
+                 ProcessFile $object.FullName
+             }
+             elseif($object -is [IO.DirectoryInfo])
+             {
+                 # skip directories...
+             }
+             elseif($object -and $object.Path)
+             {
+                 ProcessFile $object.Path
+             }
+             elseif($object)
+             {
+                ProcessFile $object
+             }
+         }
+         function ProcessFile([string]$filesToProcess)
+         {
+             foreach($pathInfo in (resolve-path $filesToProcess))
+             {
+                 $stream = $null;
+                 trap
+                 {
+                     ## We have to be sure that we close the file stream
+                     ## if any exceptions are thrown.
+                     if ($stream -ne $null)
+                     {
+                         $stream.Close();
+                     }
+                 }
+
+                 $file= (dir $pathInfo.Path) -as [IO.FileInfo]
+
+                 $stream = $file.OpenRead();
+                 $hashByteArray = $hashAlgorithm.ComputeHash($stream);
+                 $stream.Close();
+
+                 $result=1 | Select Text, Bytes, Path
+                 $result.Text=[String]::Join("", ($hashByteArray | %{ "{0:$format}" -f $_ }) )
+                 $result.Bytes=$hashByteArray
+                 $result.Path=$file.FullName
+
+                 $result
+              }
+         }
+    }
+    process
+    {
+         ProcessObject $_
+    }
+    end
+    {
+         ProcessObject $path
+    }
 }
 # 2007/01/05: http://keithhill.spaces.live.com/Blog/cns!5A8D2641E0963A97!675.entry
 if (!(Get-Command -CommandType Alias gtn -ea SilentlyContinue)) { # conditional to prevent error when PSCX already loaded
@@ -254,7 +254,7 @@ function Get-TypeName([switch]$FullName=$false) {
             WriteTypeName $_
             $processedInput = $true
         }
-    } 
+    }
 
     end {
         foreach ($arg in $args) {
@@ -281,7 +281,7 @@ function SortTime() { $input | sort LastWriteTime }
 filter WrittenDuringLastSpan([TimeSpan] $span="1.00:00:00") { if ($_.LastWriteTime -ge [DateTime]::Now.Subtract($span)) {$_} }
 # 2007/09/28
 filter Copy-FilesNotPresent ($dest=$(throw "Must have destination"), [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) { if ((!$_.PSIsContainer) -and (!(FileExistsIn $_ $dest))) { copy -literalpath $_.Fullname -dest $dest -pass -verbose:$Verbose -whatif:$WhatIf -confirm:$confirm } }
-filter Hardlink-FilesNotPresent ($dest) { 
+filter Hardlink-FilesNotPresent ($dest) {
  if ((!$_.PSIsContainer) -and (!(FileExistsIn $_ $dest))) { New-Hardlink "$dest\$($_.Name)" $_.Fullname } }
 # 2014/05/03
 filter AfterLastDestination ($dest=$(throw "Must have destination"), [switch] $Verbose=$false) {
@@ -289,13 +289,13 @@ begin {$lastts = (dir $dest | sort LastWriteTime | select -Last 1).LastWriteTime
 process { $_ | Where-Object {$_.LastWriteTime -gt $lastts} }
 }
 function Copy-AfterLastDestination($destination=$(throw "Must have destination"), [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) {
-	$input |
-	AfterLastDestination $destination |
-	% { 
-		if (!$_.PSIsContainer) {
-			copy -literalpath $_.Fullname -destination $destination -pass -verbose:$Verbose -whatif:$WhatIf -confirm:$confirm 
-		}
-	}
+    $input |
+    AfterLastDestination $destination |
+    % {
+        if (!$_.PSIsContainer) {
+            copy -literalpath $_.Fullname -destination $destination -pass -verbose:$Verbose -whatif:$WhatIf -confirm:$confirm
+        }
+    }
 }
 # 2007/02/19, 2008/05/06, 2011/11/23
 function Import-CFToHome ([TimeSpan] $span="1.00:00:00", [switch] $Verbose=$false, [switch] $WhatIf=$false, [switch] $Confirm=$false) { dir R:\pickup\TekSystems\MSFT201408 | WrittenDuringLastSpan -span $span | sorttime | copy -pass -dest H:\users\erichs\Career\TekSystems\MSFT201408 -verbose:$verbose -whatif:$WhatIf -confirm:$confirm }
@@ -321,49 +321,49 @@ function echoargs { for ($i = 0; $i -lt $args.count; ++$i) { write-host "$($i)::
 # 2007/03/08 from (re)pointer to iisapp.vbs for finding application pool ids
 # 2011/07/18 suffix question mark is lazy quantifier for non-greedy matches
 function Get-IisAppPoolIds( [string] $machineName="." )
-{ 
-	get-wmiobject -class "Win32_Process" -namespace "root\cimv2" -computername $machineName -filter "Name='w3wp.exe'" | 
-	select Name,ProcessId,@{n='AppPool';e={if ($_.CommandLine -match '-ap "(.*?)"') {$Matches.Item(1)} else {$null}} }
+{
+    get-wmiobject -class "Win32_Process" -namespace "root\cimv2" -computername $machineName -filter "Name='w3wp.exe'" |
+    select Name,ProcessId,@{n='AppPool';e={if ($_.CommandLine -match '-ap "(.*?)"') {$Matches.Item(1)} else {$null}} }
 }
 
 # 2007/05/15 from http://blogs.msdn.com/richardb/archive/2007/02/21/add-types-ps1-poor-man-s-using-for-powershell.aspx
 # filterized (one-at-a-time instead of $input) and renamed parameter
-# usage: $tfs = new-object Management.Automation.PsObject; $tfs | add-types "Microsoft.TeamFoundation.VersionControl.Client" ; $itemSpec = new-object $tfs.itemspec("$/foo", $tfs.RecursionType::none) 
+# usage: $tfs = new-object Management.Automation.PsObject; $tfs | add-types "Microsoft.TeamFoundation.VersionControl.Client" ; $itemSpec = new-object $tfs.itemspec("$/foo", $tfs.RecursionType::none)
 # instead of  $itemSpec = new-object Microsoft.TeamFoundation.VersionControl.Client.ItemSpec ("$/foo", [Microsoft.TeamFoundation.VersionControl.Client.RecursionType]::None)
 filter add-types (
-	[string] $assemblyName = $(throw 'assemblyName is required'),
-	[object] $inputobject
+    [string] $assemblyName = $(throw 'assemblyName is required'),
+    [object] $inputobject
 )
 {
-	if ($_) {
-		$inputobject = $_
-	}
+    if ($_) {
+        $inputobject = $_
+    }
 
-	if (! $inputobject) {
-		throw 'must pass an -inputobject or pipe one in'
-	}
+    if (! $inputobject) {
+        throw 'must pass an -inputobject or pipe one in'
+    }
 
-	# load the required dll
-	$assembly = [System.Reflection.Assembly]::LoadWithPartialName($assemblyName)
+    # load the required dll
+    $assembly = [System.Reflection.Assembly]::LoadWithPartialName($assemblyName)
 
-	# add each type as a member property
-	$assembly.GetTypes() |
- 	where {$_.ispublic -and !$_.IsSubclassOf( [Exception] ) -and $_.name -notmatch "event"} |
- 	foreach {
- 		# avoid error messages in case it already exists
-		if (! ($inputobject  | get-member $_.name)) {
-			add-member noteproperty $_.name $_ -inputobject $inputobject 
-		}
-	}
+    # add each type as a member property
+    $assembly.GetTypes() |
+    where {$_.ispublic -and !$_.IsSubclassOf( [Exception] ) -and $_.name -notmatch "event"} |
+    foreach {
+        # avoid error messages in case it already exists
+        if (! ($inputobject  | get-member $_.name)) {
+            add-member noteproperty $_.name $_ -inputobject $inputobject
+        }
+    }
 }
 
 # 20070523 TrimBOM - converts file to LE Unicode without byte order mark (for Sansa .plp playlists)
 function TrimBOM ([string]$filepath) { ,(gc $filepath) | % { [Text.Encoding]::Unicode.GetBytes([string]::join("`r`n", $_)+"`r`n") } | set-content $filepath -encoding byte }
 
 function Set-ContentTrimBOM ($path=(throw "Must have -path!"), $value) {
-	if ($null -eq $value) { $value = @($input) }
-	[Text.Encoding]::Unicode.GetBytes([string]::join("`r`n", $value)+"`r`n") | 
-	set-content $path -encoding byte
+    if ($null -eq $value) { $value = @($input) }
+    [Text.Encoding]::Unicode.GetBytes([string]::join("`r`n", $value)+"`r`n") |
+    set-content $path -encoding byte
 }
 
 # http://blogs.msdn.com/powershell/archive/2007/05/29/using-powershell-to-generate-xml-documents.aspx
@@ -373,33 +373,33 @@ function New-Xml
 param($RootTag="ROOT",$ItemTag="ITEM", $ChildItems="*", $Attributes=$Null)
 
 Begin {
-	$xml = "<$RootTag>`n"
+    $xml = "<$RootTag>`n"
 }
 
 Process {
-	$xml += " <$ItemTag"
-	if ($Attributes)
-	{
-		foreach ($attr in $_ | Get-Member -type *Property $attributes)
-		{
-			$name = $attr.Name
-			$xml += " $Name=`"$($_.$Name)`""
-		}
-	}
-	$xml += ">`n"
-	foreach ($child in $_ | Get-Member -Type *Property $childItems)
-	{
-		$Name = $child.Name
-		$xml += " <$Name>$($_.$Name)</$Name>`n"
-	}
-	$xml += " </$ItemTag>`n"
+    $xml += " <$ItemTag"
+    if ($Attributes)
+    {
+        foreach ($attr in $_ | Get-Member -type *Property $attributes)
+        {
+            $name = $attr.Name
+            $xml += " $Name=`"$($_.$Name)`""
+        }
+    }
+    $xml += ">`n"
+    foreach ($child in $_ | Get-Member -Type *Property $childItems)
+    {
+        $Name = $child.Name
+        $xml += " <$Name>$($_.$Name)</$Name>`n"
+    }
+    $xml += " </$ItemTag>`n"
 }
 
 End {
-	$xml += "</$RootTag>`n"
-	$xml
+    $xml += "</$RootTag>`n"
+    $xml
 }
-} 
+}
 
 # http://jtruher.spaces.live.com/Blog/cns!7143DA6E51A2628D!172.entry 2007/07/15 "Tracing the script stack"
 # include     trap { write-error $_; get-stacktrace }	in each function to display the trace
@@ -414,7 +414,7 @@ function get-stacktrace
     exit
 }
 
-# 2008/05/09: needed to properly decode from pre-utf8'ed french language string  
+# 2008/05/09: needed to properly decode from pre-utf8'ed french language string
 # function FixUTF8([string] $s) { $str = new-object IO.MemoryStream ($s.length); $s.ToCharArray() | % { $str.WriteByte([byte]$_) } ; [Text.Encoding]::UTF8.GetString($str.GetBuffer()) }
 # 2008/05/13
 function FixUTF8([string] $s) { $str = new-object IO.MemoryStream ($s.length); $tw = new-object IO.StreamWriter ($str, [Text.Encoding]::GetEncoding(1252)); $tw.Write($s); $tw.Close(); [Text.Encoding]::UTF8.GetString($str.GetBuffer()) }
@@ -429,7 +429,7 @@ function get-Constructor ([type]$type)
         $type.Name + "("
         foreach ($p in $c.GetParameters())
         {
-            "`t{0} {1}," -f $p.ParameterType.FullName, $p.Name 
+            "`t{0} {1}," -f $p.ParameterType.FullName, $p.Name
         }
         ")"
     }
@@ -439,38 +439,38 @@ function get-Constructor ([type]$type)
 
 # http://devhawk.net/2008/11/08/My+ElevateProcess+Script.aspx
 # Vista UAC process elevation
-function elevate-process  
-{  
-  $psi = new-object System.Diagnostics.ProcessStartInfo 
-  $psi.Verb = "runas"; 
+function elevate-process
+{
+  $psi = new-object System.Diagnostics.ProcessStartInfo
+  $psi.Verb = "runas";
 
   #if we pass no parameters, then launch PowerShell in the current location
-  if ($args.length -eq 0) 
-  { 
+  if ($args.length -eq 0)
+  {
     $psi.FileName = 'powershell'
-    $psi.Arguments =  
+    $psi.Arguments =
       "-NoExit -Command &{set-location '" + (get-location).Path + "'}"
-  } 
+  }
 
   #if we pass in a folder location, then launch powershell in that location
-  elseif (($args.Length -eq 1) -and  
-          (test-path $args[0] -pathType Container)) 
-  { 
+  elseif (($args.Length -eq 1) -and
+          (test-path $args[0] -pathType Container))
+  {
     $psi.FileName = 'powershell'
-    $psi.Arguments =  
+    $psi.Arguments =
         "-NoExit -Command &{set-location '" + (resolve-path $args[0]) + "'}"
-  } 
+  }
 
   #otherwise, launch the application specified in the arguments
   else
-  { 
-    $file, [string]$arguments = $args; 
-    $psi.FileName = $file   
+  {
+    $file, [string]$arguments = $args;
+    $psi.FileName = $file
     $psi.Arguments = $arguments
-  } 
-     
+  }
+
   [void][System.Diagnostics.Process]::Start($psi)
-} 
+}
 
 # http://blogs.msdn.com/powershell/archive/2008/11/23/convertto-hashtable-ps1-part-2.aspx
 # converts "$ht = @{}; foreach ($foo in $bar){ $ht.add($foo.prop, (proc $foo)}"
@@ -480,17 +480,17 @@ function elevate-process
 
 function ConvertTo-HashTable
 {
-param( [string]  $key, $value ) 
-Begin 
-{ 
+param( [string]  $key, $value )
+Begin
+{
     $hashTables  = @()
     foreach ($v in @($value))
     {
-      $hashTables += @{} 
+      $hashTables += @{}
     }
-} 
-Process 
-{ 
+}
+Process
+{
     $thisKey = $_.$Key
     for ($i = 0 ; $i -lt $hashTables.Count; $i++)
     {
@@ -501,15 +501,15 @@ Process
         }
         else
         {
-            $hash.$thisKey = $_.$(@($Value)[$i]) 
+            $hash.$thisKey = $_.$(@($Value)[$i])
         }
     }
-} 
-End 
-{ 
+}
+End
+{
     foreach ($hash in $hashtables)
     {
-        Write-Output $hash 
+        Write-Output $hash
     }
 }
 
@@ -543,108 +543,108 @@ function find-to-set-alias($foldersearch = $(throw "folder*s to search required"
     $filename = $(throw "filename required"),
     $alias = $(throw "alias required"),
     [switch]$quiet
-) 
-{ 
-	if ((test-path $foldersearch) -eq $false) {
-	    if ($quiet -eq $false) { write-warning ("Could not find any paths to match " + $foldersearch) }
-	    return #exit
-	}
-	
-	# If the user specified a wildcard, turn the foldersearch into an array of matching items
-	# We don't always want to do this, because specifying a non-wildcard directory gives false positives
-	
-	if ($foldersearch.contains('*') -or $foldersearch.contains('?')) {
-	    $foldersearch = Get-ChildItem $foldersearch -ErrorAction SilentlyContinue
-	}
-	
-	$files = @($foldersearch | %{ Get-ChildItem $_ -Recurse -Filter $filename -ErrorAction SilentlyContinue })
-	
-	if ($files.count -eq 0) {
-	    if ($quiet -eq $false) {
-	        write-warning ("Could not find " + $filename + " in searched paths:")
-	        $foldersearch | %{ write-warning ("  " + $_) }
-	    }
-	    return #exit
-	}
+)
+{
+    if ((test-path $foldersearch) -eq $false) {
+        if ($quiet -eq $false) { write-warning ("Could not find any paths to match " + $foldersearch) }
+        return #exit
+    }
 
-	if ($files.Count) {set-alias $alias $files[0].FullName -scope Global} else {if (-not $quiet) {write-warning "No file found for alias '$alias'"}}
-	
-	if ($quiet -eq $false) {
-	    write-host ("Added alias " + $alias + " for " + $files[0].FullName)
-	    if ($files.count -gt 1) {
-	        write-warning ("There were " + $files.count + " matches:")
-	        $files | %{ write-warning ("  " + $_.FullName) }
-	    }
-	}
-} 
-#find-to-set-alias 'c:\program files*\Microsoft Visual Studio 9.0\Common7' devenv.exe vs 
+    # If the user specified a wildcard, turn the foldersearch into an array of matching items
+    # We don't always want to do this, because specifying a non-wildcard directory gives false positives
+
+    if ($foldersearch.contains('*') -or $foldersearch.contains('?')) {
+        $foldersearch = Get-ChildItem $foldersearch -ErrorAction SilentlyContinue
+    }
+
+    $files = @($foldersearch | %{ Get-ChildItem $_ -Recurse -Filter $filename -ErrorAction SilentlyContinue })
+
+    if ($files.count -eq 0) {
+        if ($quiet -eq $false) {
+            write-warning ("Could not find " + $filename + " in searched paths:")
+            $foldersearch | %{ write-warning ("  " + $_) }
+        }
+        return #exit
+    }
+
+    if ($files.Count) {set-alias $alias $files[0].FullName -scope Global} else {if (-not $quiet) {write-warning "No file found for alias '$alias'"}}
+
+    if ($quiet -eq $false) {
+        write-host ("Added alias " + $alias + " for " + $files[0].FullName)
+        if ($files.count -gt 1) {
+            write-warning ("There were " + $files.count + " matches:")
+            $files | %{ write-warning ("  " + $_.FullName) }
+        }
+    }
+}
+#find-to-set-alias 'c:\program files*\Microsoft Visual Studio 9.0\Common7' devenv.exe vs
 ## 20100526 use Windows SDK registry settings to locate windiff.exe
 $SdkRegPath = 'HKLM:\SOFTWARE\Microsoft\Microsoft SDKs\Windows'
 if (Test-Path $SdkRegPath) { # 2013/05/19 is it even there? don't look if not
-	$SdkFilePath = ((gp $SdkRegPath CurrentInstallFolder -ErrorAction SilentlyContinue).CurrentInstallFolder) # 2012/10/28: -ea SilentlyContiue
+    $SdkFilePath = ((gp $SdkRegPath CurrentInstallFolder -ErrorAction SilentlyContinue).CurrentInstallFolder) # 2012/10/28: -ea SilentlyContiue
 }
 if (test-path "$SdkFilePath\bin\WinDiff.Exe") {new-alias windiff "$SdkFilePath\bin\WinDiff.Exe"} else {find-to-set-alias "${env:ProgramFiles}\Microsoft Visual Studio*" windiff.exe windiff -quiet}
 #find-to-set-alias "${env:ProgramFiles}\Microsoft Visual Studio 9.0\Common7" tf.exe tf -quiet # pull this back out on a TFS installation
 
 
 # From http://www.wintellect.com/CS/blogs/jrobbins/archive/2008/12/31/powershell-one-year-later.aspx
-function Get-FullPath ( [string] $fileName ) 
-{ 
-    # The easy case is if it exists. Just call Resolve-Path. 
-    if ( Test-Path $fileName ) 
-    { 
-        return $(Resolve-Path $fileName) 
-    } 
-    else 
-    { 
-        # The file doesn't exist. 
-        # Look to see if the caller has passed in a drive letter. 
-        $rootPath = [System.IO.Path]::GetPathRoot($fileName) 
-        if ( $rootPath -ne "" ) 
-        { 
-            # Return what the user passed in. 
-            return ( $rootPath ) 
-        } 
-        # There's no drive letter so make it relative from the current location. 
-        $fullName = [system.IO.Path]::Combine($(Get-Location) , $fileName) 
-        return ( $fullName ) 
-    } 
-} 
+function Get-FullPath ( [string] $fileName )
+{
+    # The easy case is if it exists. Just call Resolve-Path.
+    if ( Test-Path $fileName )
+    {
+        return $(Resolve-Path $fileName)
+    }
+    else
+    {
+        # The file doesn't exist.
+        # Look to see if the caller has passed in a drive letter.
+        $rootPath = [System.IO.Path]::GetPathRoot($fileName)
+        if ( $rootPath -ne "" )
+        {
+            # Return what the user passed in.
+            return ( $rootPath )
+        }
+        # There's no drive letter so make it relative from the current location.
+        $fullName = [system.IO.Path]::Combine($(Get-Location) , $fileName)
+        return ( $fullName )
+    }
+}
 
 # http://blogs.msdn.com/powershell/archive/2009/05/22/get-visibleprocess-ps1.aspx
 function Get-WindowTitle()
 {
-	Get-Process |where {$_.mainWindowTItle} |format-table id,name,mainwindowtitle –AutoSize
+    Get-Process |where {$_.mainWindowTItle} |format-table id,name,mainwindowtitle –AutoSize
 }
 
 # http://blogs.msdn.com/powershell/archive/2009/08/12/get-systemuptime-and-working-with-the-wmi-date-format.aspx
-function Get-SystemUptime            
-{            
-    $operatingSystem = Get-WmiObject Win32_OperatingSystem                
-    [Management.ManagementDateTimeConverter]::ToDateTime($operatingSystem.LastBootUpTime)            
+function Get-SystemUptime
+{
+    $operatingSystem = Get-WmiObject Win32_OperatingSystem
+    [Management.ManagementDateTimeConverter]::ToDateTime($operatingSystem.LastBootUpTime)
 }
 
 # http://www.get-command.com/121/transliterating-strings/ 2011/01/01 from 2009/10/30
 function new-transliteratedstring {
- param ([string] $inputstring, 
-        [string] $SourceSet, 
+ param ([string] $inputstring,
+        [string] $SourceSet,
         [string] $DestinationSet)
- 
+
  $sb = new-object System.Text.StringBuilder
  $table = @{}
  $length = [Math]::Min($SourceSet.length,$DestinationSet.length)
  for ($i = 0; $i -lt $length; $i++) {
    $table.add($SourceSet[$i],$DestinationSet[$i])
  }
- 
- $inputstring.toCharArray() | 
+
+ $inputstring.toCharArray() |
    %{$char = if ($table.containskey($_)) {$table[$_]} else {$_}
      [void]$sb.append($char)
     }
  $sb.toString()
 }
- 
-new-alias tr new-transliteratedstring 
+
+new-alias tr new-transliteratedstring
 
 # http://www.get-command.com/128/rot13ing-a-string/ 2011/01/01 from 2009/11/01
 function Rot13 {
@@ -652,7 +652,7 @@ function Rot13 {
   new-transliteratedstring `
     $inputstring `
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" `
-    "nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"} 
+    "nopqrstuvwxyzabcdefghijklmNOPQRSTUVWXYZABCDEFGHIJKLM"}
 
 # http://weblogs.asp.net/adweigert/archive/2008/08/27/powershell-adding-the-using-statement.aspx
 function PSUsing {
@@ -660,7 +660,7 @@ function PSUsing {
         [System.IDisposable] $inputObject = $(throw "The parameter -inputObject is required."),
         [ScriptBlock] $scriptBlock = $(throw "The parameter -scriptBlock is required.")
     )
-    
+
     Try {
         &$scriptBlock
     } Finally {
@@ -688,7 +688,7 @@ function get-Easter ($year) {
     $g = [math]::floor(($b-$f+1)/3)
     $h = (19*$a+$b-$d-$g+15)%30
     $i = [math]::floor($c/4)
-    $k = $c%4 
+    $k = $c%4
     $l = (32+2*$e+2*$i-$h-$k)%7
     $m = [math]::floor(($a+11*$h+22*$l)/451)
     $Month = [math]::floor(($h+$l-7*$m+114)/31)
@@ -700,39 +700,39 @@ function get-Easter ($year) {
 
 # 20110614: foreach $_, create new PSObject with NoteProperty of all properties on object
 filter Regenerate-Object {
-	$x = $_; 
-	if ($x -ne $null) {
-		$n = New-Object PSObject
-		$x | gm -MemberType Property | %{ 
-			Add-Member -InputObject $n -MemberType NoteProperty -Name $_.Name -Value $x.($_.Name)
-			}
-		$n
-	}
+    $x = $_;
+    if ($x -ne $null) {
+        $n = New-Object PSObject
+        $x | gm -MemberType Property | %{
+            Add-Member -InputObject $n -MemberType NoteProperty -Name $_.Name -Value $x.($_.Name)
+            }
+        $n
+    }
 }
 
 # 20110616: from http://bsonposh.com/archives/226 "Dealing iADSLargeInteger in Powershell" 2007/08/13
 # modfied to recognize if full LDAP URL (say, from PSCX (Get-ADObject).Path) passed in
 # Get-iADSLargeIntFromSearcher -date ((Get-ADObject -domain mackie.com -class User -value "*stehr*").Path) lastlogontimestamp
-function Get-iADSLargeIntFromSearcher ([string]$LdapPath, 
-	[string]$attribute=$(throw "Attribute Required"), 
-	[string]$server,
-	[switch]$date)
+function Get-iADSLargeIntFromSearcher ([string]$LdapPath,
+    [string]$attribute=$(throw "Attribute Required"),
+    [string]$server,
+    [switch]$date)
 {
-	if ($LdapPath.StartsWith("LDAP://")) {
-		$de = [ADSI]$LdapPath
-	} elseif ($server) {
-		$de = [ADSI]"LDAP://$server/$LdapPath"
-	} else {
-		$de = [ADSI]"LDAP://$LdapPath"
-	}
-	$return = new-object system.DirectoryServices.DirectorySearcher($de)
-	$value = ($return.findone()).properties[$attribute.ToLower()]
-	if ($date)
-	{
-		[datetime]::FromFileTime([int64]::Parse($value))
-	} else {
-		$value
-	}
+    if ($LdapPath.StartsWith("LDAP://")) {
+        $de = [ADSI]$LdapPath
+    } elseif ($server) {
+        $de = [ADSI]"LDAP://$server/$LdapPath"
+    } else {
+        $de = [ADSI]"LDAP://$LdapPath"
+    }
+    $return = new-object system.DirectoryServices.DirectorySearcher($de)
+    $value = ($return.findone()).properties[$attribute.ToLower()]
+    if ($date)
+    {
+        [datetime]::FromFileTime([int64]::Parse($value))
+    } else {
+        $value
+    }
 }
 
 # 2011/10/11: Dump value as named bits from enum (drop unnamed bits as well)
@@ -741,92 +741,92 @@ function Get-iADSLargeIntFromSearcher ([string]$LdapPath,
 # Example value: Restricted Read ("ViewListItems, OpenItems, ViewFormPages, Open, ViewPages, BrowseUserInfo, UseClientIntegration, UseRemoteAPIs")
 function Convert-AsEnum([UInt64] $value=[uint64]0x3008031021, [Type] $type=[Microsoft.SharePoint.SPBasePermissions])
 {
-	$local:curr = [uint64]1
-	$local:bits = new-object System.Collections.BitArray (,[BitConverter]::GetBytes($value))
-	$bits | %{ if ($_) { [Enum]::Format($type, $curr, "G") } ; $curr += $curr }
+    $local:curr = [uint64]1
+    $local:bits = new-object System.Collections.BitArray (,[BitConverter]::GetBytes($value))
+    $bits | %{ if ($_) { [Enum]::Format($type, $curr, "G") } ; $curr += $curr }
 }
 
 # 2012/04/03 edited from http://get-spscripts.com/2011/02/finding-site-template-names-and-ids-in.html
 # example: $ht = @{"foo"="bar", "baz"="quuz"}; New-PSObjectFromHashtable $ht
 function New-PSObjectFromHashtable($templateValues, $keys=$(@($templateValues.Keys)))
 {
-	New-Object PSObject -Property $templateValues | Select @($keys)
+    New-Object PSObject -Property $templateValues | Select @($keys)
 }
 
 # 2012/07/30 from http://haacked.com/archive/2012/07/23/get-all-types-in-an-assembly.aspx
 # picks up loadables from ReflectionTypeLoadException.Types if not all can load
 function GetLoadableTypes([System.Reflection.Assembly]$asm)
 {
-	try {
-		$asm.GetTypes()
-	} catch [System.Reflection.ReflectionTypeLoadException] {
-		$_.Types | ? {$_ -ne $null}
-	}
+    try {
+        $asm.GetTypes()
+    } catch [System.Reflection.ReflectionTypeLoadException] {
+        $_.Types | ? {$_ -ne $null}
+    }
 }
 
 # 2012/07/31: returns generic List
 function New-GenericList ($type="System.String")
 {
-	New-Object "System.Collections.Generic.List``1[$type]"
+    New-Object "System.Collections.Generic.List``1[$type]"
 }
 
 # 2017/09/19: returns generic
 function New-GenericOf ($base="HashSet", $type="System.Int32")
 {
-	New-Object "System.Collections.Generic.$base``1[$type]"
+    New-Object "System.Collections.Generic.$base``1[$type]"
 }
 
 # 2013/03/25: Pseudolocalize (from 2006 VB.NET macro for VS)
 function Pseudolocalize ([string]$s)
 {
-	$sIn  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-	$sOut = "ÂЬÇÐĘҒĞĦĪĴĶĽЩŊŐΡΘŘŠŦŲдŴҖÝŻâьçðęғğħīĵķľщŋőρθřšŧųџŵҗýż"
-	$sVowel = "AEIOUYaeiouy"
-	$first = $true
-	$sb = new-object System.Text.StringBuilder($s.Length)
+    $sIn  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    $sOut = "ÂЬÇÐĘҒĞĦĪĴĶĽЩŊŐΡΘŘŠŦŲдŴҖÝŻâьçðęғğħīĵķľщŋőρθřšŧųџŵҗýż"
+    $sVowel = "AEIOUYaeiouy"
+    $first = $true
+    $sb = new-object System.Text.StringBuilder($s.Length)
 
-	$s.ToCharArray() |
-		% {
-			if (![Char]::IsLetter($_)) {
-				[void]$sb.Append($_)
-				$first = $true
-			} else {
-				$off = $sIn.IndexOf($_)
-				if (-1 -eq $off) {
-					[void]$sb.Append($_)
-				} else {
-					if ($first -and (-1 -ne $sVowel.IndexOf($_))) {
-						[void]$sb.Append($sOut.Chars($off))
-						$first = $false
-					}
-					[void]$sb.Append($sOut.Chars($off))
-				}
-			}
-		}
-	$sb.ToString()
+    $s.ToCharArray() |
+        % {
+            if (![Char]::IsLetter($_)) {
+                [void]$sb.Append($_)
+                $first = $true
+            } else {
+                $off = $sIn.IndexOf($_)
+                if (-1 -eq $off) {
+                    [void]$sb.Append($_)
+                } else {
+                    if ($first -and (-1 -ne $sVowel.IndexOf($_))) {
+                        [void]$sb.Append($sOut.Chars($off))
+                        $first = $false
+                    }
+                    [void]$sb.Append($sOut.Chars($off))
+                }
+            }
+        }
+    $sb.ToString()
 }
 
 # 2013/04/18: 'fix' MS IT powersaving mode : 2016/11/22 W10 Software Center settings can switch off IT power settings
 if ([version]((gwmi Win32_OperatingSystem).Version) -gt [version]"5.3") {
-	if (powercfg /getactivescheme | ? { !($_.Split(' ',6)[5].StartsWith('(High performance')) }) {
-		$g = (powercfg /l | ? { $_.Split(' ',6)[5] -eq '(High performance)'} | % { $_.Split(' ',6)[3]}) 
-		if ($null -ne $g) {
-			"Resetting powercfg" | fl
-			powercfg /setactive $g
-		}
-	}
+    if (powercfg /getactivescheme | ? { !($_.Split(' ',6)[5].StartsWith('(High performance')) }) {
+        $g = (powercfg /l | ? { $_.Split(' ',6)[5] -eq '(High performance)'} | % { $_.Split(' ',6)[3]})
+        if ($null -ne $g) {
+            "Resetting powercfg" | fl
+            powercfg /setactive $g
+        }
+    }
 }
 #
 
 #
 # 2013/04/05 locate SharePoint version, if installed
-$spVersion = dir 'HKLM:\SOFTWARE\Microsoft\Shared Tools\Web Server Extensions' -ea SilentlyContinue | 
+$spVersion = dir 'HKLM:\SOFTWARE\Microsoft\Shared Tools\Web Server Extensions' -ea SilentlyContinue |
     ? {$_.GetValue('SharePoint') -eq 'Installed'} |
     select -Last 1
 if ($null -ne $spVersion) {
     if (Test-Path "$($spVersion.GetValue('Location'))CONFIG\POWERSHELL\Registration\SharePoint.ps1") {
-	    if (!(get-pssnapin Microsoft.SharePoint.PowerShell -ea SilentlyContinue)) { & "$($spVersion.GetValue('Location'))CONFIG\POWERSHELL\Registration\SharePoint.ps1" }
-	    $global:sphive = [Microsoft.SharePoint.Utilities.SPUtility]::GetGenericSetupPath("").Trim('\') #2012/03/27
+        if (!(get-pssnapin Microsoft.SharePoint.PowerShell -ea SilentlyContinue)) { & "$($spVersion.GetValue('Location'))CONFIG\POWERSHELL\Registration\SharePoint.ps1" }
+        $global:sphive = [Microsoft.SharePoint.Utilities.SPUtility]::GetGenericSetupPath("").Trim('\') #2012/03/27
     }
 }
 # only cd to userprofile if we're in system directory (as admin launch, determine from ComSpec) 2017/04/05
@@ -838,61 +838,61 @@ if ($PWD.Path -eq (split-path ${env:ComSpec} -parent)) { Set-Location $env:USERP
 # 2014/04/25 keep running command until it sucessfully completes
 function Wait-CommandSuccessful([ScriptBlock]$exec={qwinsta.exe -server:osgsecdev01}, [int]$seconds=5)
 {
-	do { . $exec ; if ($LASTEXITCODE) { Start-Sleep -Seconds $seconds } } while ($LASTEXITCODE)
+    do { . $exec ; if ($LASTEXITCODE) { Start-Sleep -Seconds $seconds } } while ($LASTEXITCODE)
 }
 
 #
 # 2015/02/12 cd into [Environment] special folder i.e. Startup, SendTo, CommonDocuments, (Common)Templates
 function CDSpecial([Environment+SpecialFolder]$specialFolder='Startup')
 {
-	cd ([Environment]::GetFolderPath($specialFolder))
+    cd ([Environment]::GetFolderPath($specialFolder))
 }
 
 # 2017/03/27 Convert hex string '7B00220056006500' into (Unicode) string '{"Ve'
 # uses RegExp substitution $0 to simulate BitConverter output, then splits and makes byte[] to pull from
 function ConvertFrom-HexString([string]$s, [System.Text.Encoding]$encoding=[System.Text.Encoding]::Unicode)
 {
-	$encoding.GetString([Byte[]]@(($s -replace '(..)','0x$0-').Trim('-').Split('-')))
+    $encoding.GetString([Byte[]]@(($s -replace '(..)','0x$0-').Trim('-').Split('-')))
 }
 
 # 2017/05/24 AwaitRdpConnection
 function AwaitRdpConnection($server, [switch]$nodrop, [switch]$noclient, [switch]$wait)
 {
-	if (gcm Test-NetConnection -ea SilentlyContinue) {
-		$RdpCheck = {Test-NetConnection -ComputerName $server -CommonTCPPort RDP -InformationLevel Quiet}
-	} else {
-		$RdpCheck = {$(try {$socket = New-Object Net.Sockets.TcpClient($server, 3389);if ($socket.Connected) {$true}; $socket.Close()} catch {})}
-	}
-	if (!$nodrop) {
-		while (&$RdpCheck) {
-			"$(get-date -F o) Waiting for drop"; sleep 30
-		}
-	}
-	while (!(&$RdpCheck)) {
-		"$(get-date -f o) Waiting for restart"; sleep 30
-	}
-	"$(get-date -f o) Responding`n`n"
-	if (!$noClient) { start-process -wait:$wait -filepath "$env:windir\system32\mstsc.exe" -argumentlist "/v:$server","/w:1400","/h:900" }
+    if (gcm Test-NetConnection -ea SilentlyContinue) {
+        $RdpCheck = {Test-NetConnection -ComputerName $server -CommonTCPPort RDP -InformationLevel Quiet}
+    } else {
+        $RdpCheck = {$(try {$socket = New-Object Net.Sockets.TcpClient($server, 3389);if ($socket.Connected) {$true}; $socket.Close()} catch {})}
+    }
+    if (!$nodrop) {
+        while (&$RdpCheck) {
+            "$(get-date -F o) Waiting for drop"; sleep 30
+        }
+    }
+    while (!(&$RdpCheck)) {
+        "$(get-date -f o) Waiting for restart"; sleep 30
+    }
+    "$(get-date -f o) Responding`n`n"
+    if (!$noClient) { start-process -wait:$wait -filepath "$env:windir\system32\mstsc.exe" -argumentlist "/v:$server","/w:1400","/h:900" }
 }
 
 # 2019/07/29
 function Get-RandomCNG([object]$InputObject, [int]$Count=1) {
-	$rcsp = [Security.Cryptography.RNGCryptoServiceProvider]::Create()
-	$rb = new-object Byte[] 1
-	$f = $InputObject.Count
-	if ($f -le 1) { throw "Need collection" }
-	$sp = [Math]::Truncate([Byte]::MaxValue/($f))
-	$r = 0
-	#New-Object PSObject | select @{'n'='$sp';e={$sp}},@{'n'='$f';e={$f}} | ft
-	for ($i = 0; $i -lt $Count; ++$i) {
-		do {
-			$rcsp.GetBytes($rb)
-			$r = [Math]::Truncate($rb[0]/$sp)
-			#New-Object PSObject | select @{'n'='$r';e={$r}} | ft
-		} while ($r -ge $f)
-		$InputObject[$r]
-	}
-	$rcsp.Dispose()
+    $rcsp = [Security.Cryptography.RNGCryptoServiceProvider]::Create()
+    $rb = new-object Byte[] 1
+    $f = $InputObject.Count
+    if ($f -le 1) { throw "Need collection" }
+    $sp = [Math]::Truncate([Byte]::MaxValue/($f))
+    $r = 0
+    #New-Object PSObject | select @{'n'='$sp';e={$sp}},@{'n'='$f';e={$f}} | ft
+    for ($i = 0; $i -lt $Count; ++$i) {
+        do {
+            $rcsp.GetBytes($rb)
+            $r = [Math]::Truncate($rb[0]/$sp)
+            #New-Object PSObject | select @{'n'='$r';e={$r}} | ft
+        } while ($r -ge $f)
+        $InputObject[$r]
+    }
+    $rcsp.Dispose()
 }
 # Get-RandomCNG "abcdefg...".ToCharArray() 16 | Join-String # generating 16-char passwords from the string of password characters
 
@@ -908,37 +908,37 @@ Function Send-ToRecycleBin
     Begin{$shell = New-Object -ComObject 'Shell.Application'}
     Process{
         $Item = Get-Item $FilePath
-		$shell.namespace(0).ParseName($item.FullName).InvokeVerb('delete')
+        $shell.namespace(0).ParseName($item.FullName).InvokeVerb('delete')
     }
 }
 # dir foo.txt, foo | Send-ToRecycleBin
 
 # PowerShell parameter completion shim for the dotnet CLI (with added command check)
 if (gcm Register-ArgumentCompleter -ea SilentlyContinue) {
-	Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
-		param($commandName, $wordToComplete, $cursorPosition)
-			dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
-			[System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
-			}
-	}
+    Register-ArgumentCompleter -Native -CommandName dotnet -ScriptBlock {
+        param($commandName, $wordToComplete, $cursorPosition)
+            dotnet complete --position $cursorPosition "$wordToComplete" | ForEach-Object {
+            [System.Management.Automation.CompletionResult]::new($_, $_, 'ParameterValue', $_)
+            }
+    }
 }
 
-# 2022/05/04: run selected apps as adm_ account 
+# 2022/05/04: run selected apps as adm_ account
 if (test-path 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe') {
-	function adm_devenv ()
-	{
-		runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} /netonly 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe'
-	}
+    function adm_devenv ()
+    {
+        runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} /netonly 'C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\devenv.exe'
+    }
 }
 if (test-path 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe') {
-	function adm_ssms ([switch]$netonly)
-	{
-		if ($netonly) {
-			runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} /netonly 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
+    function adm_ssms ([switch]$netonly)
+    {
+        if ($netonly) {
+            runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} /netonly 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
 
-		} else {
-			runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
-		}
-	}
+        } else {
+            runas /u:${env:USERDOMAIN}\adm_${env:USERNAME} 'C:\Program Files (x86)\Microsoft SQL Server Management Studio 18\Common7\IDE\Ssms.exe'
+        }
+    }
 }
 #
