@@ -35,13 +35,13 @@
         - notepadplusplus: Settings > Preferences. Editing. Multi-select.
     - `choco upgrade clipx -pre -y`
     - `choco install NetFx3 IIS-WebServerRole Containers-DisposableClientVM --source windowsfeatures -y`
-    - `choco upgrade netfx-4.6.2-devpack netfx-4.7.2-devpack netfx-4.8-devpack dotnet-6.0-sdk dotnet-6.0-aspnetruntime dotnet-6.0-desktopruntime -y`
+    - `choco upgrade netfx-4.6.2-devpack netfx-4.7.2-devpack netfx-4.8-devpack -y`
         - list.exe from Windows Debugging Kit in Windows Settings > Apps > Windows SDK > Change (may need to use VS Installer; ${env:ProgramFilesX86}\Windows Kits)
         - `sqllocaldb v` failure on 13.1 (2016) needs `ren 'HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server Local DB\Installed Versions\13.0' 13.1`
         - `choco uninstall "vcredist140,KB2533623"` choose option 3's to allow NET(Core) upgrades with `all -y`
-    - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - s/community/enterprise/ ? `choco update dotnetcore-sdk dotnetcore-3.1-runtime dotnetcore-3.1-aspnetruntime  -y -r --no-progress --force --includeRecommended --includeOptional`
         - `choco uninstall dotnetcore-windowshosting dotnet-5.0-windowshosting dotnet-aspnetcoremodule-v2 -y; choco install  dotnet-aspnetcoremodule-v2 dotnetcore-3.1-runtime dotnetcore-3.1-aspnetruntime dotnet-5.0-runtime dotnet-5.0-aspnetruntime -y` per <https://github.com/dotnetcore-chocolatey/dotnetcore-chocolateypackages/issues/62>
+        - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - s/community/enterprise/ ? `choco install dotnet-6.0-sdk dotnet-6.0-runtime dotnet-6.0-aspnetruntime dotnet-6.0-windowsruntime visualstudio2022community visualstudio2022-workload-node visualstudio2022-workload-azure visualstudio2022-workload-python visualstudio2022-workload-visualstudioextension visualstudio2022-workload-nativecrossplat visualstudio2022-workload-manageddesktop visualstudio2022-workload-nativemobile visualstudio2022-workload-netcrossplat visualstudio2022-workload-netweb visualstudio2022-workload-universal visualstudio2022-workload-nativedesktop -y -r --no-progress --force --includeRecommended --includeOptional` # visualstudio2022-workload-azurebuildtools  visualstudio2022-workload-managedgame visualstudio2022-workload-nativegame
     - `choco install dotnet-7.0-sdk dotnet-7.0-runtime dotnet-7.0-aspnetruntime dotnet-7.0-desktopruntime -y` # not the `dotnet-*-windowshosting` metapackage!
     - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; choco upgrade docker-desktop -y`
