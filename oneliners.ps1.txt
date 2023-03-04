@@ -80,6 +80,8 @@ $stscert = new-object System.Security.Cryptography.X509Certificates.X509Certific
 $cred3 = (New-Object 'System.Management.Automation.PSCredential' @('\Administrator', (ConvertTo-SecureString -force -AsPlainText 'NovaFMXN!@'))); Invoke-Command -comp 10.3.0.53 -cred $cred3 -ScriptBlock { $env:computername } # must be '\Administrator', new-object not inline with command
 # 2020/03/19 export authentication cert in base-64 with PSCX to clipboard
 dir Cert:\LocalMachine\My | ? { $_.Subject.StartsWith('CN=acc753e7') } | %{ [Convert]::ToBase64String($_.Export([System.Security.Cryptography.X509Certificates.X509ContentType]::Pkcs12)) } | Write-Clipboard -NoNewLine
+# 2023/03/03 given a comma separated string of DnsName parts, list the certificates that contain a part in their DnsName in newest first order (derived from <https://stackoverflow.com/a/31620141>)
+$sns = "FieldglassDatabaseEncryption,proofme".Split(","); dir Cert:\LocalMachine\My\ | ? { $dns = $_.GetNameInfo([System.Security.Cryptography.X509Certificates.X509NameType]::DnsName, $false); $null -ne ($sns | ? { $dns.Contains($_)})  }  | sort NotBefore -desc
 
 $warnings = Get-OutlookInBox.ps1 | ? { $_.Subject.StartsWith('Azure Security Advisory') } # SenderName is 'friendly'
 $warnings |
