@@ -107,9 +107,9 @@ Set-ItemProperty 'HKCU:\Software\Microsoft\Terminal Server Client\' Authenticati
 start-process -wait -filepath "$env:windir\system32\mstsc.exe" -argumentlist "/v:$cn","/w:1440","/h:900"
 
 Set-Clipboard -Text ([Convert]::ToBase64String([Text.Encoding]::Default.GetBytes((Get-Clipboard))))
-Set-Clipboard -Text ([Text.Encoding]::Default.GetString([Convert]::FromBase64String(Get-Clipboard))
+Set-Clipboard -Text ([Text.Encoding]::Default.GetString([Convert]::FromBase64String(Get-Clipboard)))
 Set-Clipboard -Text ([Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes((Get-Clipboard))))
-Set-Clipboard -Text ([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String(Get-Clipboard))
+Set-Clipboard -Text ([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String(Get-Clipboard)))
 
 New-ItemProperty -Path 'HKCU:\Control Panel\Input Method' -Name EnableHexNumpad -PropertyType STRING -Value "1" # then reboot(pre-Vista)/logout and login to activate Unicode Alt-(NUMPAD+)-(Numpad-Hex){4}
 
