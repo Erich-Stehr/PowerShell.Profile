@@ -156,6 +156,6 @@ openssl x509 -in .\cardme.t-mobile.com.36f44d9a.pem -noout -fingerprint
 openssl x509 -in .\cardme.t-mobile.com.36f44d9a.pem -noout -serial
 openssl x509 -in .\cardme.t-mobile.com.36f44d9a.pem -noout -pubkey ##### https://www.baeldung.com/linux/openssl-extract-certificate-info
 openssl pkey -in public_key.pem -pubin -outform der -out public_key.der ##### https://security.stackexchange.com/questions/251343/converting-just-a-public-key-from-pem-to-der-using-openssl
-openssl pkcs12 -in cardme.t-mobile.com.p12 -info -nocerts # 2023/08/22 dump fingerprint as localKeyID, but expects an output password
+openssl pkcs12 -in cardme.t-mobile.com.p12 -info -nokey -clcerts # 2023/08/22 dump fingerprint as localKeyID, not dumping a cert hides the bag attributes
 
 #
