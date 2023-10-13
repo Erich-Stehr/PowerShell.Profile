@@ -1,4 +1,5 @@
-﻿[CmdletBinding()]
+﻿[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingCmdletAliases', '', Target='gcm|ft|dir|\?|select|\%|sort|copy|gp|gv|where|foreach|sleep', Justification="if you're changing standard aliases, folks...")]
+[CmdletBinding()]
 param([string] $path=("$PWD\app.config"),
  [switch]$Switch=$false,
  [switch]$TraceSource=$false,
