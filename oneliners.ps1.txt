@@ -152,10 +152,9 @@ Select-Xml -Path .\ProcessorDependencyConfig.xml -XPath "/autofac/components" | 
 "inigo", "montoya" | %{ [String]::Join("", ([System.Security.Cryptography.SHA512]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes(($_).ToLowerInvariant())) | %{ "{0:X2}" -f $_ }) )} # remember to salt!
 
 # 2023/03? openssl usages
-openssl x509 -in .\cardme.t-mobile.com.36f44d9a.pem -noout -fingerprint
-openssl x509 -in .\cardme.t-mobile.com.36f44d9a.pem -noout -serial
-openssl x509 -in .\cardme.t-mobile.com.36f44d9a.pem -noout -pubkey ##### https://www.baeldung.com/linux/openssl-extract-certificate-info
+openssl x509 -in .\cardme.t-mobile.com.36f44d9a.pem -noout -fingerprint -serial -pubkey ##### https://www.baeldung.com/linux/openssl-extract-certificate-info
 openssl pkey -in public_key.pem -pubin -outform der -out public_key.der ##### https://security.stackexchange.com/questions/251343/converting-just-a-public-key-from-pem-to-der-using-openssl
 openssl pkcs12 -in cardme.t-mobile.com.p12 -info -nokey -clcerts # 2023/08/22 dump fingerprint as localKeyID, not dumping a cert hides the bag attributes
+openssl pkcs7 -in .\_.apache.org.p7c -inform der -text -print -noout # 2023/10/16: interpret PKCS#7 certificate chain saved from Chromium Edge
 
 #
