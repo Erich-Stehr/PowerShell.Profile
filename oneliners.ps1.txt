@@ -157,4 +157,7 @@ openssl pkey -in public_key.pem -pubin -outform der -out public_key.der ##### ht
 openssl pkcs12 -in cardme.t-mobile.com.p12 -info -nokey -clcerts # 2023/08/22 dump fingerprint as localKeyID, not dumping a cert hides the bag attributes
 openssl pkcs7 -in .\_.apache.org.p7c -inform der -text -print -noout # 2023/10/16: interpret PKCS#7 certificate chain saved from Chromium Edge
 
+# 2023/11/28 get StatusCode from Invoke-RestMethod on error (keep trying to get both StatusCode and RawContent?) from docs
+try { Invoke-RestMethod -Method get -Uri http://localhost:7071/api/customers/0 } catch { $_.Exception.Response.StatusCode }
+
 #
