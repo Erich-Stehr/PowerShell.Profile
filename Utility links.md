@@ -95,6 +95,7 @@
     - Remote - Containers (after Docker Desktop install)
     - ? EditorConfig for VSCode
     - ? XML Tools
+    - Azure Resource Manager (ARM) Tools, Bicep
     - user settings (File > Preferences > Settings)
 
     ```json
