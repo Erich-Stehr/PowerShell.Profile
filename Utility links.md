@@ -55,6 +55,7 @@
     - `choco upgrade sql-server-management-studio azure-data-studio -y`
         - `choco install sql-server-express <# -o -ia "'/FEATURES=LocalDB'"#> -y; choco uninstall sql-server-express -n --skip-autouninstaller`
         - `choco install sqllocaldb`
+    - `choco install sqlitebrowser`
 
 - other VS extensions (choco isn't up to date)
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
