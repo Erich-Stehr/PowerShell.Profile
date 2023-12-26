@@ -45,17 +45,17 @@
     - s/community/enterprise/ ? `choco upgrade dotnetcore-sdk dotnetcore-3.1-runtime dotnetcore-3.1-aspnetruntime  -y -r --no-progress --force --includeRecommended --includeOptional`
         - `choco uninstall dotnetcore-windowshosting dotnet-5.0-windowshosting dotnet-aspnetcoremodule-v2 -y; choco install  dotnet-aspnetcoremodule-v2 dotnetcore-3.1-runtime dotnetcore-3.1-aspnetruntime dotnet-5.0-runtime dotnet-5.0-aspnetruntime -y` per <https://github.com/dotnetcore-chocolatey/dotnetcore-chocolateypackages/issues/62>
         - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
-    - s/community/enterprise/ ? `choco install dotnet-6.0-sdk dotnet-6.0-runtime dotnet-6.0-aspnetruntime dotnet-6.0-windowsruntime visualstudio2022community visualstudio2022-workload-node visualstudio2022-workload-azure visualstudio2022-workload-python visualstudio2022-workload-visualstudioextension visualstudio2022-workload-nativecrossplat visualstudio2022-workload-manageddesktop visualstudio2022-workload-nativemobile visualstudio2022-workload-netcrossplat visualstudio2022-workload-netweb visualstudio2022-workload-universal visualstudio2022-workload-nativedesktop -y -r --no-progress --force --includeRecommended --includeOptional` # visualstudio2022-workload-azurebuildtools  visualstudio2022-workload-managedgame visualstudio2022-workload-nativegame
+    - s/community/enterprise/ ? ` choco install dotnet-6.0-sdk dotnet-6.0-runtime dotnet-6.0-aspnetruntime dotnet-6.0-windowsruntime visualstudio2022community visualstudio2022-workload-node visualstudio2022-workload-azure visualstudio2022-workload-python visualstudio2022-workload-visualstudioextension visualstudio2022-workload-nativecrossplat visualstudio2022-workload-manageddesktop visualstudio2022-workload-nativemobile visualstudio2022-workload-netcrossplat visualstudio2022-workload-netweb visualstudio2022-workload-universal visualstudio2022-workload-nativedesktop visualstudio2022-workload-azurebuildtools -y -r --no-progress --force --includeRecommended --includeOptional ` # visualstudio2022-workload-managedgame visualstudio2022-workload-nativegame
     - `choco install dotnet-7.0-sdk dotnet-7.0-runtime dotnet-7.0-aspnetruntime dotnet-7.0-desktopruntime -y` # not the `dotnet-*-windowshosting` metapackage!
     - `choco install dotnet-8.0-sdk dotnet-8.0-runtime dotnet-8.0-aspnetruntime dotnet-8.0-desktopruntime -y` # not the `dotnet-*-windowshosting` metapackage!
-    - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; choco upgrade docker-desktop -y`
+    - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; choco install docker-desktop -y; choco uninstall docker-desktop -n --skipautouninstaller`
     - `choco upgrade wixtoolset -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity lame eac calibre ghostscript.app irfanview okular thunderbird musescore openshot freeciv sigil cobian-backup -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
     - `choco upgrade sql-server-management-studio azure-data-studio -y`
         - `choco install sql-server-express <# -o -ia "'/FEATURES=LocalDB'"#> -y; choco uninstall sql-server-express -n --skip-autouninstaller`
-        - `choco install sqllocaldb`
-    - `choco install sqlitebrowser`
+        - `choco install sqllocaldb -y`
+    - `choco install sqlitebrowser -y`
 
 - other VS extensions (choco isn't up to date)
     - [Editor Guidelines](https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines) - allows column guides in VS editors
