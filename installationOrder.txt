@@ -12,7 +12,7 @@ cd $ProfilePath; gc '.\Utility Links.md' | Out-GridView
 # Restart Windows
 
 <https://www.repairwin.com/enable-admin-shares-windows-10-8-7/>
-    - Enable Administrator
+    - Enable Administrator (lusrmgr.mmc or `Enable-LocalUser Administrator`)
     - Allow _File and Printer Sharing_ through firewall (by double-toggling if already set)
     - `New-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -Name LocalAccountTokenFilterPolicy -PropertyType DWORD -Value 1`
 
