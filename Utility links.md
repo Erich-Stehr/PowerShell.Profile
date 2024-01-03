@@ -87,15 +87,14 @@
 
 - VSCode extensions
     - markdownlint
-    - C#
+    - C# (or C# Dev Kit)
     - PowerShell
     - SQL Server (mssql)
-    - hexdump for VSCode
-    - HexEditor
+    - ~~hexdump for VSCode~~ HexEditor
     - Python / Pylance / Jupyter
     - Remote - Containers (after Docker Desktop install)
-    - ? EditorConfig for VSCode
-    - ? XML Tools
+    - EditorConfig for VSCode
+    - XML Tools
     - Azure Resource Manager (ARM) Tools, Bicep
     - user settings (File > Preferences > Settings)
 
