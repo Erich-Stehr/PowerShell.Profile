@@ -24,11 +24,11 @@
 - [LinqPad](http://www.linqpad.net) - .NET code scratchpad
 - [PowerShell Gallery](https://www.powershellgallery.com/) or [PsGet](https://psget.net/) for older versions
     - `Install-Module -Name PowerShellGet -Force` or the PsGet iex
-    - `Install-Module -Name Posh-Git -Force -AllowClobber`
+    - `Install-Module -Name Posh-Git -Force -AllowClobber -Scope CurrentUser`
     - `PowerShellGet\Install-Module posh-sshell -Scope CurrentUser -Force -AllowClobber`
-    - `Install-Module -Name PSCX -Force -AllowClobber`
+    - `Install-Module -Name PSCX -Force -AllowClobber -Scope CurrentUser`
     - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
-    - `Install-Module -Name ImportExcel -Force -AllowClobber`
+    - `Install-Module -Name ImportExcel -Force -AllowClobber -Scope CurrentUser`
     - after VS/dotnet/Chocolatey `dotnet tool (install|upgrade) --global powershell --ignore-failed-sources  --add-source https://api.nuget.org/v3/index.json`
     - Powershell background color #233c67 aka R:35 G:60 B:103
 - [Chocolatey](https://chocolatey.org/install) - Windows installer manager
