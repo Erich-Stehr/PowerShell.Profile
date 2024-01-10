@@ -28,6 +28,7 @@
     - `PowerShellGet\Install-Module posh-sshell -Scope CurrentUser -Force -AllowClobber`
     - `Install-Module -Name PSCX -Force -AllowClobber`
     - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
+    - `Install-Module -Name ImportExcel -Force -AllowClobber`
     - after VS/dotnet/Chocolatey `dotnet tool (install|upgrade) --global powershell --ignore-failed-sources  --add-source https://api.nuget.org/v3/index.json`
     - Powershell background color #233c67 aka R:35 G:60 B:103
 - [Chocolatey](https://chocolatey.org/install) - Windows installer manager
