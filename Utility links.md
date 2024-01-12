@@ -53,6 +53,7 @@
     - `choco install dotnet-7.0-sdk dotnet-7.0-runtime dotnet-7.0-aspnetruntime dotnet-7.0-desktopruntime -y` # not the `dotnet-*-windowshosting` metapackage!
     - `choco install dotnet-8.0-sdk dotnet-8.0-runtime dotnet-8.0-aspnetruntime dotnet-8.0-desktopruntime -y` # not the `dotnet-*-windowshosting` metapackage!
     - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; choco install docker-desktop -y; choco uninstall docker-desktop -n --skipautouninstaller`
+        - `choco install podman-cli podman-desktop -y` # instead of Docker Desktop; `podman machine init; podman machine start`
     - `choco upgrade wixtoolset -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity lame eac calibre ghostscript.app irfanview okular thunderbird musescore openshot freeciv sigil imgburn cobian-backup obs-studio.install -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
