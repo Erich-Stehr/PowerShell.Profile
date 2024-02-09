@@ -676,8 +676,8 @@ function PSUsing {
 # PSUsing ($sr = [IO.File]::AppendText($literalPath)) { $sr.WriteLine($logString) }
 
 # http://thepowershellguy.com/blogs/posh/archive/2010/11/14/powershell-get-easter-function.aspx
-# recorrected to use DateTime constructor 2013/04/05
-function get-Easter ($year) {
+# recorrected to use DateTime constructor 2013/04/05, current year 2024/02/09
+function get-Easter ($year=[DateTime]::Now.Year) {
 
     $a = $year % 19
     $b = [math]::floor($year/100)
