@@ -3,7 +3,7 @@
 Set-ExecutionPolicy RemoteSigned LocalMachine
 # install per chocolatey.org/install
 choco install git -y
-cd (split-path $PROFILE.CurrentUserCurrentHost)
+md (split-path $PROFILE.CurrentUserCurrentHost) | cd (resolve-path $_)
 git clone https://github.com/Erich-Stehr/PowerShell.Profile .
 # close and reopen PoSH as Administrator
 cd $ProfilePath; gc '.\Utility Links.md' | Out-GridView
