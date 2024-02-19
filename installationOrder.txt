@@ -16,3 +16,6 @@ cd $ProfilePath; gc '.\Utility Links.md' | Out-GridView
     - Allow _File and Printer Sharing_ through firewall (by double-toggling if already set)
     - `New-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -Name LocalAccountTokenFilterPolicy -PropertyType DWORD -Value 1`
 
+<https://windowsreport.com/change-power-button-action-windows-11/> - set Power button to shutdown for current power plan
+    - `powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 7648efa3-dd9c-4e3e-b566-50f929386280 3`
+    - `powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 7648efa3-dd9c-4e3e-b566-50f929386280 3`
