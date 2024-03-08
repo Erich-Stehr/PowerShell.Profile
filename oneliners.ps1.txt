@@ -110,6 +110,10 @@ Set-Clipboard -Text ([Convert]::ToBase64String([Text.Encoding]::Default.GetBytes
 Set-Clipboard -Text ([Text.Encoding]::Default.GetString([Convert]::FromBase64String(Get-Clipboard)))
 Set-Clipboard -Text ([Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes((Get-Clipboard))))
 Set-Clipboard -Text ([Text.Encoding]::UTF8.GetString([Convert]::FromBase64String(Get-Clipboard)))
+# 2024/03/08 BE Unicode byte sequence to UTF8
+[Text.Encoding]::UTF8.GetBytes([Text.Encoding]::BigEndianUnicode.GetString([byte[]]@(0x27, 0x14, 0xfe, 0x0f))) | Format-Hex # Heavy Check Mark, icon variation selector
+[Text.Encoding]::BigEndianUnicode.GetBytes([Text.Encoding]::UTF8.GetString([byte[]]@(0xF0,0x9f,0x92,0xA0))) | Format-Hex # :diamond_shape_with_a_dot_inside: (kawaii) from UTF8 into UTF-16 surrogate pair, UTF32::GetBytes returns LE-long
+
 
 New-ItemProperty -Path 'HKCU:\Control Panel\Input Method' -Name EnableHexNumpad -PropertyType STRING -Value "1" # then reboot(pre-Vista)/logout and login to activate Unicode Alt-(NUMPAD+)-(Numpad-Hex){4}
 
