@@ -164,4 +164,5 @@ openssl pkcs7 -in .\_.apache.org.p7c -inform der -text -print -noout # 2023/10/1
 # 2023/11/28 get StatusCode from Invoke-RestMethod on error (keep trying to get both StatusCode and RawContent?) from docs
 try { Invoke-RestMethod -Method get -Uri http://localhost:7071/api/customers/0 } catch { $_.Exception.Response.StatusCode }
 
-#
+# 2024/03/17 find owning process for TCP port 10250
+Get-Process -Id (Get-NetTCPConnection -LocalPort 10250).OwningProcess
