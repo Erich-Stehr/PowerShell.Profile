@@ -25,7 +25,7 @@
 - [PowerShell Gallery](https://www.powershellgallery.com/) or [PsGet](https://psget.net/) for older versions
     - `Install-Module -Name PowerShellGet -Force` or the PsGet iex
     - `Install-Module -Name Posh-Git -Force -AllowClobber -Scope CurrentUser`
-    - `PowerShellGet\Install-Module posh-sshell -Scope CurrentUser -Force -AllowClobber`
+    - `PowerShellGet\Install-Module posh-sshell -Scope CurrentUser -Force -AllowClobber` # SSH connection/server manager
     - `Install-Module -Name PSCX -Force -AllowClobber -Scope CurrentUser`
     - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
     - `Install-Module -Name ImportExcel -Force -AllowClobber -Scope CurrentUser`
