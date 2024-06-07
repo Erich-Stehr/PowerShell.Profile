@@ -33,7 +33,7 @@
     - Powershell background color #233c67 aka R:35 G:60 B:103
 - [Chocolatey](https://chocolatey.org/install) - Windows installer manager
     - `choco install python2 -y --forcex86`
-    - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable python papercut dependencywalker large-text-file-viewer winmerge microsoft-windows-terminal err drawio testdisk-photorec -y`
+    - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals babelmap firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable python papercut dependencywalker large-text-file-viewer winmerge microsoft-windows-terminal err drawio testdisk-photorec -y`
     - `choco install dotnet3.5 wget -y`
     - `choco install chromedriver selenium-gecko-driver selenium-chromium-edge-driver -y` ? /skip-shim ?
     - `choco upgrade OpenSSL.Light -y` # <https://adamtheautomator.com/openssl-windows-10/>
