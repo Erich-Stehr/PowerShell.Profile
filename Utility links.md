@@ -34,6 +34,7 @@
 - [Chocolatey](https://chocolatey.org/install) - Windows installer manager
     - `choco install python2 -y --forcex86`
     - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals babelmap firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable python papercut dependencywalker large-text-file-viewer winmerge microsoft-windows-terminal err drawio testdisk-photorec -y`
+        - `choco uninstall googlechrome firefox microsoft-windows-terminal thunderbird -n --skipautouninstaller` # auto-updating, so just need Chocolatey to install then not update
     - `choco install dotnet3.5 wget -y`
     - `choco install chromedriver selenium-gecko-driver selenium-chromium-edge-driver -y` ? /skip-shim ?
     - `choco upgrade OpenSSL.Light -y` # <https://adamtheautomator.com/openssl-windows-10/>
@@ -45,12 +46,11 @@
         - list.exe from Windows Debugging Kit in Windows Settings > Apps > Windows SDK > Change (may need to use VS Installer; ${env:ProgramFilesX86}\Windows Kits)
         - `sqllocaldb v` failure on 13.1 (2016) needs `ren 'HKLM:\SOFTWARE\Microsoft\Microsoft SQL Server Local DB\Installed Versions\13.0' 13.1`
         - `choco uninstall "vcredist140,KB2533623"` choose option 3's to allow NET(Core) upgrades with `all -y`
-    - s/community/enterprise/ ? `choco upgrade dotnetcore-sdk dotnetcore-3.1-runtime dotnetcore-3.1-aspnetruntime  -y -r --no-progress --force --includeRecommended --includeOptional`
+    - ? `choco upgrade dotnetcore-sdk dotnetcore-3.1-runtime dotnetcore-3.1-aspnetruntime  -y -r --no-progress --force --includeRecommended --includeOptional`
         - `choco uninstall dotnetcore-windowshosting dotnet-5.0-windowshosting dotnet-aspnetcoremodule-v2 -y; choco install dotnet-aspnetcoremodule-v2 dotnetcore-3.1-runtime dotnetcore-3.1-aspnetruntime dotnet-5.0-runtime dotnet-5.0-aspnetruntime -y` per <https://github.com/dotnetcore-chocolatey/dotnetcore-chocolateypackages/issues/62>
         - `choco install dotnetcore-sdk -y --allowmultiple --version "$(choco list dotnetcore-sdk -a | sls '2\.1\.' | sort | select -l 1 | % { $_.Line.Split(' ', [StringSplitOptions]::RemoveEmptyEntries)[1]})"`
     - `choco install dotnet-aspnetcoremodule-v2 -y` # for multi-version aspnetcore
     - s/community/enterprise/ ? ` choco install dotnet-6.0-sdk dotnet-6.0-runtime dotnet-6.0-aspnetruntime dotnet-6.0-windowsruntime visualstudio2022community visualstudio2022-workload-node visualstudio2022-workload-azure visualstudio2022-workload-python visualstudio2022-workload-visualstudioextension visualstudio2022-workload-nativecrossplat visualstudio2022-workload-manageddesktop visualstudio2022-workload-nativemobile visualstudio2022-workload-netcrossplat visualstudio2022-workload-netweb visualstudio2022-workload-universal visualstudio2022-workload-nativedesktop visualstudio2022-workload-azurebuildtools -y -r --no-progress --force --includeRecommended --includeOptional ` # visualstudio2022-workload-managedgame visualstudio2022-workload-nativegame
-    - `choco install dotnet-7.0-sdk dotnet-7.0-runtime dotnet-7.0-aspnetruntime dotnet-7.0-desktopruntime -y` # not the `dotnet-*-windowshosting` metapackage!
     - `choco install dotnet-8.0-sdk dotnet-8.0-runtime dotnet-8.0-aspnetruntime dotnet-8.0-desktopruntime -y` # not the `dotnet-*-windowshosting` metapackage!
     - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; choco install docker-desktop -y; choco uninstall docker-desktop -n --skipautouninstaller`
         - `choco install podman-cli podman-desktop -y` # instead of Docker Desktop; `podman machine init; podman machine start`
