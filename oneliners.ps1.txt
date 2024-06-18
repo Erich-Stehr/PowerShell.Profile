@@ -14,6 +14,7 @@ dir | %{ $_.Attributes = $_.Attributes -band -bnot [System.IO.FileAttributes]::R
 Start-Job -Name pester { cd $using:PWD ; . Use-AzDevSubscription.ps1; Invoke-Pester -Strict $using:testfile } | Receive-Job -Wait -AutoRemoveJob
 # $using:, -AutoRemoveJob, -Wait are PoSH3 # Start-Job -Name pester -ArgumentList @($PWD, $testfile) { param($p, $testfile); Import-Module Pester; cd $P ; . Use-AzDevSubscription.ps1; Invoke-Pester -Strict $testfile } | Wait-Job | Receive-Job ; Remove-Job -Name pester
 robocopy /zb /j /e /nooffload
+[DateTimeOffset]::FromUnixTimeMilliseconds(0).ToString(); [DateTimeOffset]::Now.ToUnixTimeMilliseconds() // <https://stackoverflow.com/questions/4192971/in-powershell-how-do-i-convert-datetime-to-unix-time> also $unixEpochStart = new-object DateTime 1970,1,1,0,0,0,([DateTimeKind]::Utc); [int]([DateTime]::UtcNow - $unixEpochStart).TotalSeconds
 
 [System.Reflection.Assembly]::LoadWithPartialName("Microsoft.SharePoint.Publishing")
 
