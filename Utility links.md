@@ -27,7 +27,7 @@
     - `Install-Module -Name Posh-Git -Force -AllowClobber -Scope CurrentUser`
     - `PowerShellGet\Install-Module posh-sshell -Scope CurrentUser -Force -AllowClobber` # SSH connection/server manager
     - `Install-Module -Name PSCX -Force -AllowClobber -Scope CurrentUser`
-    - `Uninstall-Module AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
+    - `Uninstall-AzureRm; Install-Module -Name Az -AllowClobber -Scope AllUsers`
     - `Install-Module -Name ImportExcel -Force -AllowClobber -Scope CurrentUser`
     - after VS/dotnet/Chocolatey `dotnet tool (install|upgrade) --global powershell --ignore-failed-sources  --add-source https://api.nuget.org/v3/index.json`
     - Powershell background color #233c67 aka R:35 G:60 B:103
