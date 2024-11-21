@@ -115,7 +115,7 @@
     },
     "editor.wordWrap": "on",
     "editor.renderControlCharacters": true,
-    "editor.renderWhitespace": "boundary",
+    "editor.renderWhitespace": "boundary", // "all"
     "editor.rulers": [
         72,80,120,132
     ]
