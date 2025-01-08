@@ -1,0 +1,179 @@
+# <https://blog.netnerds.net/2015/02/working-with-basic-net-datasets-in-powershell/>
+##### Create Basic Datatable
+
+$dt = New-Object System.Data.Datatable
+[void]$dt.Columns.Add("First")
+[void]$dt.Columns.Add("Second")
+[void]$dt.Columns.Add("Third")
+
+# Add a row manually
+[void]$dt.Rows.Add("1","2","3")
+
+# Or add an array
+$me = "computername","userdomain","username"
+$array = (Get-Childitem env: | Where-Object { $me -contains $_.Name }).Value
+[void]$dt.Rows.Add($array)
+
+### From photo
+## PS C:\Scripts> $dt
+##
+## First       Second Third
+## -----       ------ -----
+## 1           2      3
+## WORKSTATION BASE   administrator
+
+##### Create Basic DataSet (Collection of Tables)
+
+# Continuing from above
+$dt.TableName = "Me"
+$ds = New-Object System.Data.DataSet
+$ds.Tables.Add($dt)
+
+$dt2 = New-Object System.Data.Datatable "AnotherTable"
+[void]$dt2.Columns.Add("MyColumn")
+[void]$dt2.Rows.Add("MyRow")
+$ds.Tables.Add($dt2)
+
+$ds.tables["Me"]
+$ds.tables["AnotherTable"]
+
+
+##### Selecting
+
+$dt = New-Object System.Data.Datatable
+[void]$dt.Columns.Add("Artist")
+[void]$dt.Columns.Add("Genre")
+[void]$dt.Columns.Add("Album")
+[void]$dt.Columns.Add("ReleaseYear")
+
+# Change ReleaseYear to an int, if you want.
+$dt.Columns["ReleaseYear"].DataType = [int]
+
+# Add an array
+$array = "Tim Smooth","Southern Rap","I Gotsta' Have It",1991
+[void]$dt.Rows.Add($array)
+
+# Or add rows manually
+[void]$dt.Rows.Add("Poison","Glam Metal","Open Up and Say... Ahh!",1988)
+[void]$dt.Rows.Add("Cinderella","Night Songs","Flesh & Blood",1986)
+[void]$dt.Rows.Add("Eazy-E","Gangsta Rap","Eazy-Duz-It",1988)
+
+# Uses SQL syntax
+$dt.Select("Genre like '%Rap'")
+$dt.Select("ReleaseYear > 1988")
+$dt.Select("Artist = 'Poison'")
+
+# Change Eazy-E's genre
+$eazy = ($dt.Select("Artist = 'Eazy-E'"))
+$eazy[0]["Genre"] = "West Coast Rap"
+
+# Find this new genre
+$dt.Select("Genre like '%Coast%'")
+
+
+##### Create Datatable from CSV
+####  Using this method, you can add 140k rows a second.
+
+# CSV variables
+$csvfile = "C:\perf\100krow.tsv"
+$csvdelimiter = "`t"
+$firstRowColumns = $false
+
+# Do it
+$dt = New-Object System.Data.Datatable
+$reader = New-Object System.IO.StreamReader $csvfile
+$columns = (Get-Content $csvfile -First 1).Split($csvdelimiter)
+
+foreach ($column in $columns) {
+	if ($firstRowColumns -eq $true) { 
+		[void]$dt.Columns.Add($column)
+		$reader.ReadLine()
+	} else { [void]$dt.Columns.Add() }
+}
+
+# Read in the data, line by line
+while (($line = $reader.ReadLine()) -ne $null)  {
+	[void]$dt.Rows.Add($line.Split($csvdelimiter))
+} 
+
+$dt.rows.count
+
+##### Managing Duplicates
+
+$columns = "Second","Third"
+
+$distinct = New-Object "System.Data.DataTable" 
+$onlydupes = New-Object "System.Data.DataTable" 
+$hash = new-object "System.Collections.Generic.HashSet[string]"
+
+foreach ($column in $dt.Columns) {
+	[void]$distinct.Columns.Add($column.ToString())
+	[void]$onlydupes.Columns.Add($column.ToString())
+}
+
+foreach ($row in $dt.rows) {
+	$columnsToCheck = [string]($row | Select-Object $columns)
+	$result = $hash.Add($columnsToCheck)
+
+	if ($result -eq $false) { 
+		[void]$distinct.Rows.Add($row.ItemArray) 
+	} else {
+		# This works about as fast as $all.DefaultView.ToTable($true,"Column2","Column3")
+		[void]$onlydupes.Rows.Add($row.ItemArray) }
+}
+
+$dt.rows.count
+$distinct.rows.count
+$onlydupes.rows.count
+
+##### Create new table using another datatable's schema
+
+$dupetable = $dt.Clone()
+foreach ($row in $select) { $dupetable.ImportRow($row) }
+#or
+$dupetable = $dt.Copy()
+
+#### Filling DataTables and DataSets with data from SQL Server
+
+# Set variables
+$sqlserver = "sqlserver"
+$database = "master"
+$connstring = "Server=$sqlserver;Database=$database;Integrated Security=True"
+$query = "select SERVERPROPERTY('InstanceDefaultDataPath') as data, SERVERPROPERTY('InstanceDefaultLogPath') as log"
+ 
+ 
+# You can use SQL Connection/ SQL Command
+$sqlconn = New-Object System.Data.SqlClient.SqlConnection
+$sqlconn.ConnectionString = $connstring
+$sqlconn.Open()
+
+$sqlcmd = New-Object System.Data.SqlClient.SqlCommand
+$sqlcmd.Connection = $sqlconn
+$sqlcmd.CommandText = $query
+
+# load it right into a DataTable
+$dt = New-Object System.Data.DataTable
+$dt.Load($sqlcmd.ExecuteReader())
+$dt.data
+$dt.log
+
+# Or alternatively, load a table into a DataSet
+$sqladapter = New-Object System.Data.SqlClient.SqlDataAdapter
+$sqladapter.SelectCommand = $sqlcmd
+$ds = New-Object System.Data.DataSet
+[void]$sqladapter.Fill($ds)
+
+# Close connection
+$sqlconn.Close()
+ 
+$defaultdata = $ds.Tables[0].rows[0].data
+$defaultlog = $ds.Tables[0].rows[0].log
+ 
+# Or you can use SMO
+[void][Reflection.Assembly]::LoadWithPartialName("Microsoft.SqlServer.SMO") 
+$server = New-Object Microsoft.SqlServer.Management.Smo.Server "sqlserver"
+$ds = $server.ConnectionContext.ExecuteWithResults($query)
+$ds.Tables[0]
+ 
+$defaultdata = $ds.Tables[0].rows[0].data
+$defaultlog = $ds.Tables[0].rows[0].log
