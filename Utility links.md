@@ -38,7 +38,7 @@
     - `choco install dotnet3.5 wget -y`
     - `choco install chromedriver selenium-gecko-driver selenium-chromium-edge-driver -y` ? /skip-shim ?
     - `choco upgrade OpenSSL.Light -y` # <https://adamtheautomator.com/openssl-windows-10/>
-    - \# git.portable notepadplusplus.commandline silverlight insomnia-rest-api-client conemu kdiff3 pencil
+    - \# git.portable notepadplusplus.commandline silverlight insomnia-rest-api-client conemu kdiff3 pencil krita
         - notepadplusplus: Settings > Preferences. Editing. Multi-select.
     - `choco upgrade clipx -pre -y`
     - `choco install NetFx3 IIS-WebServerRole Containers-DisposableClientVM --source windowsfeatures -y`
