@@ -59,7 +59,7 @@
     - `choco upgrade powertoys -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity lame eac calibre ghostscript.app irfanview okular thunderbird musescore openshot freeciv sigil imgburn cobian-backup obs-studio.install -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
-    - `choco upgrade sql-server-management-studio azure-data-studio -y`
+    - `choco upgrade sql-server-management-studio -y`
         - `choco install sql-server-express <# -o -ia "'/FEATURES=LocalDB'"#> -y; choco uninstall sql-server-express -n --skip-autouninstaller`
         - `choco install sqllocaldb -y`
     - `choco install sqlitebrowser -y`
