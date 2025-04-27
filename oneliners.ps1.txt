@@ -40,8 +40,10 @@ Get-Clipboard | % { $_.Split("`n") } | % { if ($_ -match '\d*[.:] (.*$)') { $mat
 [appdomain]::currentdomain.GetAssemblies() | Foreach-Object {$_.gettypes()} | sort BaseType
 [appdomain]::currentdomain.GetAssemblies() | where {!($_.globalassemblycache)}
 Get-WmiObject win32_groupuser | ? { $_.partcomponent -match 'name="erich"'} | % {[wmi]$_.groupcomponent} # 2012/12/16 technet heyscriptingguy
+    Get-CimInstance win32_groupuser | ? { $_.partcomponent.name -eq 'erich' } | % { gcim $_.groupcomponent } # translated to CIM 2025/04/27
 Get-wmiobject win32_service -Filter "startmode = 'auto' AND state != 'running' AND Exitcode !=0 " -ComputerName . | select name, startname, exitcode # 2012/12/18 technet heyscriptingguy
 gwmi Win32_Process -Filter "Name='powershell.exe'" | ft -auto -wrap __PATH,CommandLine #2015/06/18
+    gcim Win32_Process -Filter "Name='powershell.exe'" | ft -auto -wrap ProcessID,CommandLine # 2025/04/27
 
 # merge lines from console Select All, Copy at 120 column output
 ( (Get-Clipboard).Split([Environment]::NewLine[1]) | & { begin { $s = "" } process { if ($_.Length -eq 121) { $s += $_ } elseif ($_.Length -eq 120) { $s += $_ + ' ' } else { "$s$_"; $s = "" } } end { if ($s -ne "") { $s } } } )
