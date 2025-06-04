@@ -169,3 +169,10 @@ try { Invoke-RestMethod -Method get -Uri http://localhost:7071/api/customers/0 }
 
 # 2024/03/17 find owning process for TCP port 10250
 Get-Process -Id (Get-NetTCPConnection -LocalPort 10250).OwningProcess
+
+# 2025/05/18 find installed likely OFL fonts (those not copyrighted by either Microsoft or a foundry supplying Microsoft or another major non-OFL foundry)
+Add-Type -AssemblyName PresentationCore
+$sff = [Windows.Media.Fonts]::SystemFontFamilies
+$foundryRegEx = "Adobe|Font Bureau|TRW|Monotype|SoftMaker|Microsoft|International Typeface Corporation|RICOH|URW|Bigelow \& Holmes|Galapagos Design Group|Design Science|Ascender Corporation|DynaComware Corp|ZHONGYI Electronic Co|JIYUKOBO Ltd|Dubai|Hewlett-Packard|Dalton Maag"
+$gf = $null ; $sff | % { @($_.GetTypefaces()) } | % { if ($_.TryGetGlyphTypeface([ref]$gf)) { $gf } } | select FontUri,@{n='Family';e={$_.FamilyNames["en-US"]}},@{n='Face';e={$_.FaceNames["en-US"]}},@{n='Manufacturer';e={$_.ManufacturerNames["en-US"]}},@{n='Copyright';e={$_.Copyrights["en-US"]}},@{n='Trademark';e={$_.Trademarks["en-US"]}} | ? { $_.Copyright -notmatch $foundryRegEx } | select -expand FontUri | sort | unique | % {$_ -replace "^file:///",""} | copy -whatif -destination $targetFontFolder
+
