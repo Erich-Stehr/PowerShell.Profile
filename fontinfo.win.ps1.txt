@@ -1,4 +1,4 @@
-[System.Reflection.Assembly]::LoadFile("C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\PresentationCore.dll")
+Add-Type -AssemblyName PresentationCore
 [Windows.Media.Fonts]::SystemFontFamilies | Select-Object -Property Source
 $sff = [Windows.Media.Fonts]::SystemFontFamilies
 $ftf = @($sff[0].GetTypefaces()) # # Gaaah! Need the array subexpression operator to resolve the iterator correctly
@@ -7,7 +7,7 @@ $gf | select FontUri,FamilyNames,FaceNames,ManufacturerNames,Copyrights,Trademar
 $gf.Trademarks | get-typename -full # System.Generic.KeyValuePair`2[[System.Globalization.CultureInfo, ...],[System.String, ...]]
 $gf.Trademarks["en-US"]
 
-$foundryRegEx = "Adobe|Font Bureau|TRW|Monotype|SoftMaker|Microsoft|International Typeface Corporation|RICOH|URW|Bigelow \& Holmes|Galapagos Design Group|Design Science|Ascender Corporation|DynaComware Corp|ZHONGYI Electronic Co|JIYUKOBO Ltd"
+$foundryRegEx = "Adobe|Font Bureau|TRW|Monotype|SoftMaker|Microsoft|International Typeface Corporation|RICOH|URW|Bigelow \& Holmes|Galapagos Design Group|Design Science|Ascender Corporation|DynaComware Corp|ZHONGYI Electronic Co|JIYUKOBO Ltd|Dubai|Hewlett-Packard|Dalton Maag"
 
 $gf = $null ; $sff | % { @($_.GetTypefaces()) } | % { if ($_.TryGetGlyphTypeface([ref]$gf)) { $gf } } | select FontUri,@{n='Family';e={$_.FamilyNames["en-US"]}},@{n='Face';e={$_.FaceNames["en-US"]}},@{n='Manufacturer';e={$_.ManufacturerNames["en-US"]}},@{n='Copyright';e={$_.Copyrights["en-US"]}},@{n='Trademark';e={$_.Trademarks["en-US"]}} | ? { $_.Copyright -notmatch $foundryRegEx }
 
