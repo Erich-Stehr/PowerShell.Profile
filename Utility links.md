@@ -54,7 +54,7 @@
     - `choco install dotnet-9.0-sdk dotnet-9.0-runtime dotnet-9.0-aspnetruntime dotnet-9.0-desktopruntime -y` # not the `dotnet-*-windowshosting` metapackage!
     - s/community/enterprise/ ? ` choco install visualstudio2022community visualstudio2022-workload-node visualstudio2022-workload-azure visualstudio2022-workload-python visualstudio2022-workload-visualstudioextension visualstudio2022-workload-nativecrossplat visualstudio2022-workload-manageddesktop visualstudio2022-workload-nativemobile visualstudio2022-workload-netcrossplat visualstudio2022-workload-netweb visualstudio2022-workload-universal visualstudio2022-workload-nativedesktop visualstudio2022-workload-azurebuildtools -y -r --no-progress --force --includeRecommended --includeOptional ` # visualstudio2022-workload-managedgame visualstudio2022-workload-nativegame
     - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; choco install docker-desktop -y; choco uninstall docker-desktop -n --skipautouninstaller`
-        - `choco install podman-cli podman-desktop -y` # instead of Docker Desktop; `podman machine init; podman machine start`
+        - `choco install podman-cli podman-desktop docker-cli -y` # instead of Docker Desktop; `podman machine init; podman machine start`
     - `choco upgrade wixtoolset -y`
     - `choco upgrade powertoys -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity lame eac calibre ghostscript.app irfanview okular thunderbird musescore openshot freeciv sigil imgburn cobian-backup obs-studio.install -y`
@@ -86,7 +86,7 @@
     - Productivity Power Tools
         - Time Stamp Margin
         - Solution Error Visualizer
-    - VSDebrix
+    - VSDebrix (up to VS2019)
     - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) up to VS2017 or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
     - [XPath Tools](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation)
     - WiX Toolset Visual Studio * Extension, Wax (3rd party WiX editor)
