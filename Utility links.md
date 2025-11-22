@@ -33,7 +33,7 @@
     - Powershell background color #233c67 aka R:35 G:60 B:103
 - [Chocolatey](https://chocolatey.org/install) - Windows installer manager
     - `choco install python2 -y --forcex86`
-    - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals babelmap firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable python papercut dependencywalker large-text-file-viewer winmerge microsoft-windows-terminal err drawio testdisk-photorec -y`
+    - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals babelmap firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable python papercut dependencywalker large-text-file-viewer winmerge microsoft-windows-terminal err drawio testdisk-photorec filezilla -y`
         - `choco uninstall googlechrome firefox microsoft-windows-terminal thunderbird -n --skipautouninstaller` # auto-updating, so just need Chocolatey to install then not update
     - `choco install dotnet3.5 wget -y`
     - `choco install chromedriver selenium-gecko-driver selenium-chromium-edge-driver -y` ? /skip-shim ?
@@ -56,11 +56,12 @@
     - s/community/enterprise/ ? ` choco install visualstudio2022community visualstudio2022-workload-node visualstudio2022-workload-azure visualstudio2022-workload-python visualstudio2022-workload-visualstudioextension visualstudio2022-workload-nativecrossplat visualstudio2022-workload-manageddesktop visualstudio2022-workload-nativemobile visualstudio2022-workload-netcrossplat visualstudio2022-workload-netweb visualstudio2022-workload-universal visualstudio2022-workload-nativedesktop visualstudio2022-workload-azurebuildtools -y -r --no-progress --force --includeRecommended --includeOptional ` # visualstudio2022-workload-managedgame visualstudio2022-workload-nativegame
     - s/community/enterprise/ ? ` choco install visualstudio2026community visualstudio2026-workload-azure visualstudio2026-workload-data visualstudio2026-workload-manageddesktop visualstudio2026-workload-nativecrossplat visualstudio2026-workload-nativedesktop visualstudio2026-workload-nativemobile visualstudio2026-workload-netcrossplat visualstudio2026-workload-netweb visualstudio2026-workload-node visualstudio2026-workload-python visualstudio2026-workload-universal visualstudio2026-workload-visualstudioextension -y -r --no-progress --force ` # visualstudio2026-workload-datascience visualstudio2026-workload-managedgame visualstudio2026-workload-nativegame visualstudio2026-workload-office visualstudio2026-workload-azurebuildtools? --package-parameters "--includeRecommended --includeOptional"
     - `choco install Microsoft-Windows-Subsystem-Linux VirtualMachinePlatform --source windowsfeatures -y ; choco install docker-desktop -y; choco uninstall docker-desktop -n --skipautouninstaller`
-        - `choco install podman-cli podman-desktop -y` # instead of Docker Desktop; `podman machine init; podman machine start`
+        - `choco install podman-cli podman-desktop docker-cli -y` # instead of Docker Desktop; `podman machine init; podman machine start`
     - `choco upgrade wixtoolset -y`
     - `choco upgrade powertoys -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity lame eac calibre ghostscript.app irfanview okular thunderbird musescore openshot freeciv sigil imgburn cobian-backup obs-studio.install -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
+    - `choco upgrade opentofu -y` # OpenTofu is MPL licensed Terraform fork/replacement (BUSL since 2023/10)
     - `choco upgrade sql-server-management-studio -y`
         - `choco install sql-server-express <# -o -ia "'/FEATURES=LocalDB'"#> -y; choco uninstall sql-server-express -n --skip-autouninstaller`
         - `choco install sqllocaldb -y`
@@ -87,8 +88,8 @@
     - Productivity Power Tools
         - Time Stamp Margin
         - Solution Error Visualizer
-    - VSDebrix
-    - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
+    - VSDebrix (up to VS2019)
+    - [Regular Expression Tester Extension](https://marketplace.visualstudio.com/items?itemName=AndreasAndersen.RegularExpressionTesterExtension) up to VS2017 or [Regex Editor](https://marketplace.visualstudio.com/items?itemName=GeorgyLosenkov.RegexEditorLite)
     - [XPath Tools](https://marketplace.visualstudio.com/items?itemName=UliWeltersbach.XPathInformation)
     - WiX Toolset Visual Studio * Extension, Wax (3rd party WiX editor)
     - SpecFlow for Visual Studio 20** (Cucumber/Gherkin/Given-When-Then; <https://specflow.org>)
