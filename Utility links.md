@@ -59,6 +59,7 @@
         - `choco install podman-cli podman-desktop docker-cli -y` # instead of Docker Desktop; `podman machine init; podman machine start`
     - `choco upgrade wixtoolset -y`
     - `choco upgrade powertoys -y`
+    - `choco upgrade golang -y`
     - `choco upgrade vlc audacity-lame audacity-ffmpeg audacity lame eac calibre ghostscript.app irfanview okular thunderbird musescore openshot freeciv sigil imgburn cobian-backup obs-studio.install -y`
     - `choco upgrade azure-cli microsoftazurestorageexplorer azcopy azcopy10 -y`
     - `choco upgrade opentofu -y` # OpenTofu is MPL licensed Terraform fork/replacement (BUSL since 2023/10)
