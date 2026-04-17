@@ -32,6 +32,7 @@
     - after VS/dotnet/Chocolatey `dotnet tool (install|update) --global powershell --ignore-failed-sources  --add-source https://api.nuget.org/v3/index.json`
     - Powershell background color #233c67 aka R:35 G:60 B:103
 - [Chocolatey](https://chocolatey.org/install) - Windows installer manager
+    - `choco install cleanup-desktop-shortcuts.hook --pre` # hooks Chocolatey install to take out removed desktop shortcuts
     - `choco install python2 -y --forcex86`
     - `choco upgrade git 7zip zip unzip vscode nodejs-lts notepadplusplus googlechrome sysinternals babelmap firefox ilspy Linqpad5.AnyCPU.install InkScape paint.net nuget.commandline ruby.portable python papercut dependencywalker large-text-file-viewer winmerge microsoft-windows-terminal err drawio testdisk-photorec filezilla -y`
         - `choco uninstall googlechrome firefox microsoft-windows-terminal thunderbird -n --skipautouninstaller` # auto-updating, so just need Chocolatey to install then not update
