@@ -22,6 +22,24 @@ Begin {
 	$nsmgr = new-object System.Xml.XmlNamespaceManager $xdoc.NameTable
 	$yesToAll = $false
 	$noToAll = $false
+	function CreateNsElementAtNode($node, $tag, $nsUrl) {
+		trap {break;}
+		$node.AppendChild($node.OwnerDocument.CreateElement($tag, $nsUrl))
+	}
+
+	function VerifyNsElementExists($node, $tag, $nsUrl) {
+		$n = $node.SelectSingleNode($tag, $nsmgr)
+		if ($null -eq $n) {
+			CreateNsElementAtNode $node $tag $nsUrl
+		} else {
+			$n
+		}
+	}
+	function VerifyNsAttributeExists($elem, $name, $nsUrl, $defaultValue) {
+		if (!$elem.HasAttribute($name, $nsUrl)) {
+			$elem.SetAttribute($name, $nsUrl, $defaultValue)
+		}
+	}
 }
 Process {
  	try {
@@ -50,7 +68,7 @@ Process {
 			$Changes.Keys | %{
 				$key = $_
 				$block = $Changes[$key];
-				$xdoc.SelectNodes($key, $nsmgr) | % $block
+				@($xdoc.SelectNodes($key, $nsmgr)) | % $block
 			}
 		   if ($pscmdlet.ShouldProcess($file.FullName)) {
 				if ($force -or $pscmdlet.ShouldContinue("Edit?", $file.Name, [ref]$yesToAll, [ref]$noToAll)) {
@@ -87,4 +105,14 @@ End {
 	PS> dir .\testobjects.xml | Edit-XmlByXpath.ps1 -IncludeXPath "/Objects/Object[1][not(@*)]" -Changes @{"/Objects/Object[3]"={$_.set_InnerText("second")}}
 
 	Creates a testobjects.xml, edits only if the first object has no attributes ($null), and after confirming makes the third object (text 2) now have text "second". An alternate change key would be "/Objects/Object[@Type='System.Int32'][2]", the second Int32 Object of the collection
+
+	PS> $inkNsUrl = "http://www.inkscape.org/namespaces/inkscape"
+	PS> $svgNsUrl = "http://www.w3.org/2000/svg"
+	PS> cd $env:APPDATA\Inkscape\templates ; [Environment]::CurrentDirectory=$pwd
+	PS> copy ${ExampleTemplate}.svg icons\${ExampleTemplate}.svg
+	PS> dir icons\${ExampleTemplate}.svg | Edit-XmlByXpath.ps1 -IncludeXPath "/svg:svg" -Changes @{"/svg:svg"={$_.SetAttribute("width", $svgNsUrl, "64"); $_.SetAttribute("height", $svgNsUrl, "64"); $_.SetAttribute("viewBox", $svgNsUrl, "0 0 63 63"); }} -force
+	PS> dir ${ExampleTemplate}.svg | Edit-XmlByXpath.ps1 -IncludeXPath "/svg:svg/inkscape:templateinfo" -Changes @{"/svg:svg/inkscape:templateinfo"={$icon=VerifyNsElementExists $_ "inkscape:icon" $inkNsUrl; $icon.set_InnerText(${ExampleTemplate})}} -force
+
+	sets up namespace urls, copies an example template into the icons subdirectory, clips the new icon width, height, and viewBox to a 64x64 icon from the upper corner (though not changing the viewBox scales the whole image to the width/height), and verifies the template will use the new icon file in the 'New from Template...' dialog box in Inkscape.
+	Reminder: an empty inkscape:icon element may break 'New from Template...'.
 #>
