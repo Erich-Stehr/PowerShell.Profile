@@ -108,9 +108,10 @@ End {
 
 	PS> $inkNsUrl = "http://www.inkscape.org/namespaces/inkscape"
 	PS> $svgNsUrl = "http://www.w3.org/2000/svg"
+	PS> $defNsUrl = $null # default namespace for element, usual MSFT namespace and SVG root element
 	PS> cd $env:APPDATA\Inkscape\templates ; [Environment]::CurrentDirectory=$pwd
 	PS> copy ${ExampleTemplate}.svg icons\${ExampleTemplate}.svg
-	PS> dir icons\${ExampleTemplate}.svg | Edit-XmlByXpath.ps1 -IncludeXPath "/svg:svg" -Changes @{"/svg:svg"={$_.SetAttribute("width", $svgNsUrl, "64"); $_.SetAttribute("height", $svgNsUrl, "64"); $_.SetAttribute("viewBox", $svgNsUrl, "0 0 63 63"); }} -force
+	PS> dir icons\${ExampleTemplate}.svg | Edit-XmlByXpath.ps1 -IncludeXPath "/svg:svg" -Changes @{"/svg:svg"={$_.SetAttribute("width", $defNsUrl, "64"); $_.SetAttribute("height", $defNsUrl, "64"); $_.SetAttribute("viewBox", $defNsUrl, "0 0 63 63"); }} -force
 	PS> dir ${ExampleTemplate}.svg | Edit-XmlByXpath.ps1 -IncludeXPath "/svg:svg/inkscape:templateinfo" -Changes @{"/svg:svg/inkscape:templateinfo"={$icon=VerifyNsElementExists $_ "inkscape:icon" $inkNsUrl; $icon.set_InnerText(${ExampleTemplate})}} -force
 
 	sets up namespace urls, copies an example template into the icons subdirectory, clips the new icon width, height, and viewBox to a 64x64 icon from the upper corner (though not changing the viewBox scales the whole image to the width/height), and verifies the template will use the new icon file in the 'New from Template...' dialog box in Inkscape.
